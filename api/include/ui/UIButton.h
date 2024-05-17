@@ -10,15 +10,22 @@
 
 class UiButton : public sf::Drawable, sf::Transformable
 {
+	sf::Color buttonPressedColor_;
+	sf::Vector2f buttonPressedSize_;
+	sf::Vector2f buttonPressedSizeText_;
+
 	sf::Font font_;
 	sf::Text buttonText_;
-	sf::Color colorButton_ = sf::Color::Black;
+	sf::Color colorButton_;
+	sf::Color originalColor_;
+	sf::Vector2f originalSize_;
+	sf::Vector2f originalSizeText_;
 	std::unique_ptr<sf::Shape> background_;
 
 public:
 	
-	UiButton(float pos_x, float pos_y, float size_x, float size_y, sf::Color _color, std::string text, int character_size, sf::Color _color_text);
-	UiButton(float pos_x, float pos_y, float radius, sf::Color _color, std::string text, int character_size, sf::Color _color_text);
+	UiButton(sf::Vector2f pos, sf::Vector2f size, sf::Color color, sf::Vector2f pressed_size, sf::Color pressed_color, std::string text, int character_size, sf::Color _color_text, sf::Vector2f pressed_Character_size);
+	UiButton(sf::Vector2f pos, float radius, sf::Color _color, sf::Vector2f pressed_size,sf::Color pressed_color, std::string text, int character_size, sf::Color _color_text, sf::Vector2f pressed_Character_size);
 
 
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;

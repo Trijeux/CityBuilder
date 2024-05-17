@@ -5,11 +5,13 @@
 #include <ui/UIButton.h>
 
 
-UiButton::UiButton(float pos_x, float pos_y, float size_x, float size_y, sf::Color _color, std::string text, int character_size, sf::Color _color_text)
+UiButton::UiButton(sf::Vector2f pos, sf::Vector2f size, sf::Color color, sf::Vector2f pressed_size, 
+	sf::Color pressed_color, std::string text, int character_size, sf::Color _color_text, sf::Vector2f pressed_Character_size)
 {
-	background_ = std::make_unique<sf::RectangleShape>(sf::Vector2f(size_x, size_y));
-	background_->setFillColor(_color);
-	background_->setPosition(pos_x, pos_y);
+	background_ = std::make_unique<sf::RectangleShape>(size);
+	background_->setFillColor(color);
+	background_->setPosition(pos);
+	background_->setOrigin(background_->getGlobalBounds().width / 2.0f, background_->getGlobalBounds().height / 2.0f);
 
 	if (!font_.loadFromFile("C:/Users/Anthony Barman/Desktop/Jeux en dev/VirtualStudio/C++/CityBuilder/font/light-arial.ttf")) {
 		// Gérer l'erreur : impossible de charger la police
@@ -23,13 +25,21 @@ UiButton::UiButton(float pos_x, float pos_y, float size_x, float size_y, sf::Col
 	sf::FloatRect shapeRect = background_->getGlobalBounds();
 	buttonText_.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
 	buttonText_.setPosition(shapeRect.left + shapeRect.width / 2.0f, shapeRect.top + shapeRect.height / 2.0f);
+	buttonPressedColor_ = pressed_color;
+	originalColor_ = background_->getFillColor();
+	buttonPressedSize_ = pressed_size;
+	originalSize_ = background_->getScale();
+	buttonPressedSizeText_ = pressed_Character_size;
+	originalSizeText_ = buttonText_.getScale();
 }
 
-UiButton::UiButton(float pos_x, float pos_y, float radius, sf::Color _color, std::string text, int character_size, sf::Color _color_text)
+UiButton::UiButton(sf::Vector2f pos, float radius, sf::Color _color, sf::Vector2f pressed_size, 
+	sf::Color pressed_color, std::string text, int character_size, sf::Color _color_text, sf::Vector2f pressed_Character_size)
 {
 	background_ = std::make_unique<sf::CircleShape>(radius);
 	background_->setFillColor(_color);
-	background_->setPosition(pos_x, pos_y);
+	background_->setPosition(pos);
+	background_->setOrigin(background_->getGlobalBounds().width / 2.0f, background_->getGlobalBounds().height / 2.0f);
 
 	if (!font_.loadFromFile("C:/Users/Anthony Barman/Desktop/Jeux en dev/VirtualStudio/C++/CityBuilder/font/light-arial.ttf")) {
 		// Gérer l'erreur : impossible de charger la police
@@ -43,6 +53,13 @@ UiButton::UiButton(float pos_x, float pos_y, float radius, sf::Color _color, std
 	sf::FloatRect shapeRect = background_->getGlobalBounds();
 	buttonText_.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
 	buttonText_.setPosition(shapeRect.left + shapeRect.width / 2.0f, shapeRect.top + shapeRect.height / 2.0f);
+	buttonPressedColor_ = pressed_color;
+	buttonPressedColor_ = pressed_color;
+	originalColor_ = background_->getFillColor();
+	buttonPressedSize_ = pressed_size;
+	originalSize_ = background_->getScale();
+	buttonPressedSizeText_ = pressed_Character_size;
+	originalSizeText_ = buttonText_.getScale();
 }
 
 void UiButton::draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -55,7 +72,7 @@ void UiButton::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 void const UiButton::handleEvent(const sf::Event& event)
 {
-	if (event.type == sf::Event::MouseButtonReleased)
+	if (event.type == sf::Event::MouseButtonPressed)
 	{
 		if (event.mouseButton.button == sf::Mouse::Left)
 		{
@@ -65,8 +82,18 @@ void const UiButton::handleEvent(const sf::Event& event)
 			if (background_->getGlobalBounds().contains(mouseX, mouseY))
 			{
 				std::cout << "Start" << std::endl;
+				background_->setFillColor(buttonPressedColor_);
+				background_->setScale(buttonPressedSize_);
+				buttonText_.setScale(buttonPressedSizeText_);
 			}
 		}
+	}
+	else
+	{
+		background_->setFillColor(originalColor_);
+		background_->setScale(originalSize_);
+		buttonText_.setScale(originalSizeText_);
+
 	}
 }
 
