@@ -13,5 +13,7 @@ find_package(SFML COMPONENTS system window graphics audio CONFIG REQUIRED)
 add_subdirectory(core/)
 add_subdirectory(api/)
 
+file(COPY ${CMAKE_SOURCE_DIR}/ressources DESTINATION ${CMAKE_BINARY_DIR})
+
 add_executable(main main.cc)
 target_link_libraries(main PRIVATE core api sfml-system sfml-network sfml-graphics sfml-window sfml-audio)

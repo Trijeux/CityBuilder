@@ -8,7 +8,8 @@ int main()
 
 	sf::RenderWindow window(sf::VideoMode(800, 600), "SFML works!");
 
-	UiButton startButton(sf::Vector2f(100, 50), sf::Vector2f(100, 50), sf::Color::Red, sf::Vector2f(0.8f, 0.8f), sf::Color::Yellow, "Test", 50, sf::Color::Blue, sf::Vector2f(0.8f, 0.8f));
+	UiButton startButton(sf::Vector2f(100, 50), sf::Vector2f(100, 50), sf::Color::Red, sf::Vector2f(0.8f, 0.8f),
+		sf::Color::Yellow, "Test", 50, sf::Color::Blue, sf::Vector2f(0.8f, 0.8f));
 
 	while (window.isOpen())
 	{
