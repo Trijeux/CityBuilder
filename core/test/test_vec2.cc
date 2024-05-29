@@ -201,6 +201,8 @@ TEST_P(Vec2fOperationFixture, SquMagnitude)
 TEST_P(Vec2fOperationFixture, Normalize)
 {
 	auto [v1, v2] = GetParam();
+	auto result = v1.Normalize();
+	std::cout << result.x << "////" << result.y << std::endl;
 	EXPECT_EQ(v1.Normalize(), 1);
 }
 
