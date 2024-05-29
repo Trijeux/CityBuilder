@@ -39,13 +39,22 @@ TEST_P(Vec2iOperationFixture, Dot)
 	EXPECT_EQ(result, v1.x * v2.x + v1.y * v2.y);
 }
 
+TEST_P(Vec2iOperationFixture, Multi)
+{
+	auto [v1, v2] = GetParam();
+	const auto result = v1 * v2.x;
+	EXPECT_FLOAT_EQ(result.x, v1.x * v2.x);
+	EXPECT_FLOAT_EQ(result.y, v1.y * v2.x);
+}
+
 TEST_P(Vec2iOperationFixture, Div)
 {
 	auto [v1, v2] = GetParam();
 	if (v2.x != 0 || v2.y != 0)
 	{
-		const auto result = core::Vec2i::Div(v1, v2);
-		EXPECT_FLOAT_EQ(result, v1.x / v2.x + v1.y / v2.y);
+		const auto result = v1 / v2.x;
+		EXPECT_FLOAT_EQ(result.x, v1.x / v2.x);
+		EXPECT_FLOAT_EQ(result.y, v1.y / v2.x);
 	}
 	else
 	{
@@ -74,20 +83,6 @@ TEST_P(Vec2iOperationFixture, Lerp)
 	EXPECT_FLOAT_EQ(result, v1.x * (1 - t.x) + v1.y * t.x);
 }
 
-TEST_P(Vec2iOperationFixture, Magnitude)
-{
-	auto [v1, v2] = GetParam();
-	if (v1.x != NULL || v1.y != NULL || v2.x != NULL || v2.y != NULL)
-	{
-		const auto result = core::Vec2i::Magnitude(v1, v2);
-		EXPECT_FLOAT_EQ(result, std::sqrt(v1.x * v2.x + v1.y * v2.y));
-	}
-	else
-	{
-		std::cout << "Rien" << std::endl;
-	}
-}
-
 INSTANTIATE_TEST_SUITE_P(AllNumbers,
 	Vec2iOperationFixture,
 	testing::Values(
@@ -100,6 +95,7 @@ INSTANTIATE_TEST_SUITE_P(AllNumbers,
 	)
 );
 
+////////////////////////////////////////////////////////////////////////////////////////////////
 
 struct Vec2fOperationFixture :
 	public ::testing::TestWithParam<std::pair<core::Vec2f, core::Vec2f>>
@@ -137,13 +133,23 @@ TEST_P(Vec2fOperationFixture, Dot)
 	EXPECT_FLOAT_EQ(result, v1.x * v2.x + v1.y * v2.y);
 }
 
+TEST_P(Vec2fOperationFixture, Multi)
+{
+	auto [v1, v2] = GetParam();
+	const auto result = v1 * v2.x;
+	EXPECT_FLOAT_EQ(result.x, v1.x * v2.x);
+	EXPECT_FLOAT_EQ(result.y, v1.y * v2.x);
+
+}
+
 TEST_P(Vec2fOperationFixture, Div)
 {
 	auto [v1, v2] = GetParam();
 	if (v2.x != 0 || v2.y != 0)
 	{
-		const auto result = core::Vec2f::Div(v1, v2);
-		EXPECT_FLOAT_EQ(result, v1.x / v2.x + v1.y / v2.y);
+		const auto result = v1 / v2.x;
+		EXPECT_FLOAT_EQ(result.x, v1.x / v2.x);
+		EXPECT_FLOAT_EQ(result.y, v1.y / v2.x);
 	}
 	else
 	{
@@ -175,15 +181,15 @@ TEST_P(Vec2fOperationFixture, Lerp)
 TEST_P(Vec2fOperationFixture, Magnitude)
 {
 	auto [v1, v2] = GetParam();
-	if (v1.x != NULL || v1.y != NULL || v2.x != NULL || v2.y != NULL)
-	{
-		const auto result = core::Vec2f::Magnitude(v1, v2);
-		EXPECT_FLOAT_EQ(result, std::sqrt(v1.x * v2.x + v1.y * v2.y));
-	}
-	else
-	{
-		std::cout << "Rein" << std::endl;
-	}
+	const auto result = v1.Magnitude();
+	EXPECT_FLOAT_EQ(result, std::sqrt(v1.x * v2.x + v1.y * v2.y));
+}
+
+TEST_P(Vec2fOperationFixture, Normalize)
+{
+	auto [v1, v2] = GetParam();
+	const auto result = v1.Normalise();
+	EXPECT_EQ(result, 1);
 }
 
 INSTANTIATE_TEST_SUITE_P(AllNumbers,

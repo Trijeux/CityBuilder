@@ -32,20 +32,14 @@ namespace core
 			return v1.x * v2.x + v1.y * v2.y;
 		}
 
-		//static constexpr float DotSca(Vec2f v1, Vec2f v2)
-		//{
-		//	//demander au prof
-		//}
-
-		static constexpr float Div(Vec2f v1, Vec2f v2)
+		constexpr Vec2f operator*(float t)
 		{
-				return v1.x / v2.x + v1.y / v2.y;
+			return { x * t,y * t };
 		}
-
-		//static constexpr float DivSca(Vec2f v1, Vec2f v2)
-		//{
-		//	//demander au prof
-		//}
+		constexpr Vec2f operator/(float t)
+		{
+			return { x / t,y / t };
+		}
 
 		constexpr Vec2f Perpendicular() const
 		{
@@ -59,18 +53,35 @@ namespace core
 		{
 			return v1.x * (1 - t) + v1.y * t;
 		}
-		static float Magnitude(Vec2f v1, Vec2f v2) 
+		float Magnitude() const
 		{
-			float result = std::sqrt(v1.x * v2.x + v1.y * v2.y);
+			const float result = std::sqrt(x * x + y * y);
 			return result;
 		}
 
-		//static constexpr float normalise()
-		//{
-		//	//Demander au prof
-		//}
+		float MagnitudeSqu() const
+		{
+			const float result = x * x + y * y;
+			return result;
+		}
+
+		Vec2f Normalise()
+		{
+			const float man = Magnitude();
+			if (man == 0)
+			{
+				std::cout << "Imposible" << std::endl;
+				return Vec2f(0, 0);
+			}
+			return *this / man;
+		}
 
 	}; // struct Vec2i
+
+	/*constexpr Vec2f operator/(Vec2f v1, float t)
+	{
+		return { t / v1.x,t / v1.y };
+	}*/
 
 } // namespace core
 
