@@ -32,20 +32,30 @@ namespace core
 			return v1.x * v2.x + v1.y * v2.y;
 		}
 
-		constexpr Vec2f operator*(float t)
+		constexpr Vec2f operator*(float t) const
 		{
 			return { x * t,y * t };
 		}
-		constexpr Vec2f operator/(float t)
+
+		friend constexpr Vec2f operator*(float t, const Vec2f& vec) {
+			return { t * vec.x, t * vec.y };
+		}
+
+		constexpr Vec2f operator/(float t) const
 		{
 			return { x / t,y / t };
 		}
 
-		constexpr Vec2f Perpendicular() const
+		constexpr bool operator==(const float& other) const {
+			return this->x == other && this->y == other;
+		}
+
+		[[nodiscard]] constexpr Vec2f Perpendicular() const
 		{
 			return { -y, x };
 		}
-		constexpr Vec2f Perpendicular2() const
+
+		[[nodiscard]] constexpr Vec2f Perpendicular2() const
 		{
 			return { y, -x };
 		}
@@ -53,35 +63,29 @@ namespace core
 		{
 			return v1.x * (1 - t) + v1.y * t;
 		}
-		float Magnitude() const
+
+		[[nodiscard]] float MagnitudeSqu() const
 		{
-			const float result = std::sqrt(x * x + y * y);
-			return result;
+			return  x * x + y * y;
 		}
 
-		float MagnitudeSqu() const
+		[[nodiscard]] float Magnitude() const
 		{
-			const float result = x * x + y * y;
-			return result;
+			return std::sqrt(MagnitudeSqu());
 		}
 
-		Vec2f Normalise()
+		Vec2f Normalize()
 		{
 			const float man = Magnitude();
-			if (man == 0)
+			if (operator==(man))
 			{
 				std::cout << "Imposible" << std::endl;
-				return Vec2f(0, 0);
+				return Vec2f(1, 1);
 			}
 			return *this / man;
 		}
 
 	}; // struct Vec2i
-
-	/*constexpr Vec2f operator/(Vec2f v1, float t)
-	{
-		return { t / v1.x,t / v1.y };
-	}*/
 
 } // namespace core
 

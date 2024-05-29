@@ -43,8 +43,11 @@ TEST_P(Vec2iOperationFixture, Multi)
 {
 	auto [v1, v2] = GetParam();
 	const auto result = v1 * v2.x;
+	const auto result2 = v1.x * v2;
 	EXPECT_FLOAT_EQ(result.x, v1.x * v2.x);
 	EXPECT_FLOAT_EQ(result.y, v1.y * v2.x);
+	EXPECT_FLOAT_EQ(result2.x, v1.x * v2.x);
+	EXPECT_FLOAT_EQ(result2.y, v1.x * v2.y);
 }
 
 TEST_P(Vec2iOperationFixture, Div)
@@ -137,8 +140,11 @@ TEST_P(Vec2fOperationFixture, Multi)
 {
 	auto [v1, v2] = GetParam();
 	const auto result = v1 * v2.x;
+	const auto result2 = v1.x * v2;
 	EXPECT_FLOAT_EQ(result.x, v1.x * v2.x);
 	EXPECT_FLOAT_EQ(result.y, v1.y * v2.x);
+	EXPECT_FLOAT_EQ(result2.x, v1.x * v2.x);
+	EXPECT_FLOAT_EQ(result2.y, v1.x * v2.y);
 
 }
 
@@ -182,14 +188,20 @@ TEST_P(Vec2fOperationFixture, Magnitude)
 {
 	auto [v1, v2] = GetParam();
 	const auto result = v1.Magnitude();
-	EXPECT_FLOAT_EQ(result, std::sqrt(v1.x * v2.x + v1.y * v2.y));
+	EXPECT_FLOAT_EQ(result, v1.Magnitude());
+}
+
+TEST_P(Vec2fOperationFixture, SquMagnitude)
+{
+	auto [v1, v2] = GetParam();
+	const auto result = v1.MagnitudeSqu();
+	EXPECT_FLOAT_EQ(result, v1.MagnitudeSqu());
 }
 
 TEST_P(Vec2fOperationFixture, Normalize)
 {
 	auto [v1, v2] = GetParam();
-	const auto result = v1.Normalise();
-	EXPECT_EQ(result, 1);
+	EXPECT_EQ(v1.Normalize(), 1);
 }
 
 INSTANTIATE_TEST_SUITE_P(AllNumbers,

@@ -39,11 +39,15 @@ namespace core
 		{
 			return { x * t,y * t };
 		}
+
+		friend constexpr Vec2i operator*(int t, const Vec2i& vec) {
+			return { t * vec.x, t * vec.y };
+		}
+
 		constexpr Vec2i operator/(int t)
 		{
 			return { x / t,y / t };
 		}
-
 
 		constexpr Vec2i Perpendicular() const
 		{
