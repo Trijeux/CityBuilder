@@ -2,6 +2,12 @@
 #include <maths/vec2i.h>
 #include <ui/UIButton.h>
 
+
+void mainCallBack()
+{
+	std::cout << "Callback" << std::endl;
+}
+
 int main()
 {
 	core::Vec2i v;
@@ -9,7 +15,12 @@ int main()
 	sf::RenderWindow window(sf::VideoMode(800, 600), "SFML works!");
 
 	UiButton startButton(sf::Vector2f(200, 100), "Test", 25, sf::Color::Blue);
-	//startButton.setScale(0.5, 0.5);
+	startButton.setScale(0.8f, 0.8f);
+	//First Exemple
+	startButton.callback_ = mainCallBack;
+
+	//Second Exemple
+	startButton.callback_ = [] { std::cout << "Callback" << std::endl; };
 
 	while (window.isOpen())
 	{

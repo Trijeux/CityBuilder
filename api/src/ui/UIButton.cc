@@ -69,7 +69,11 @@ void UiButton::HandleEvent(const sf::Event& event)
 			// Check if the left mouse button is pressed
 			if (event.mouseButton.button == sf::Mouse::Left) {
 
-				std::cout << "Start" << std::endl;
+				//std::cout << "Start" << std::endl;
+				//Code ? faire pour le boutton
+				if (callback_) { callback_(); }
+				else{ std::cout << "No Callback !!!" << std::endl; }
+
 			}
 		}
 	}
