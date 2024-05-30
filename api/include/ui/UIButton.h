@@ -3,34 +3,26 @@
 
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
-#include <SFML/Graphics/Shape.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/Graphics/Transformable.hpp>
 #include <SFML/Window/Event.hpp>
 
-class UiButton : public sf::Drawable, sf::Transformable
+class UiButton : public sf::Drawable, public sf::Transformable
 {
-	sf::Color buttonPressedColor_;
-	sf::Vector2f buttonPressedSize_;
-	sf::Vector2f buttonPressedSizeText_;
-
 	sf::Font font_;
+	sf::Sprite sprite_;
 	sf::Text buttonText_;
-	sf::Color colorButton_;
-	sf::Color originalColor_;
-	sf::Vector2f originalSize_;
-	sf::Vector2f originalSizeText_;
-	sf::RectangleShape background_;
+	sf::Texture texture;
+	//sf::Vector2f initialScale_;
+	bool ContainsMouse(const sf::Event& event);
 
 public:
 
-	UiButton(sf::Vector2f pos, sf::Vector2f size, sf::Color color, 
-		sf::Vector2f pressed_size, sf::Color pressed_color, 
-		std::string text, int character_size, sf::Color color_text, 
-		sf::Vector2f pressed_Character_size);
+	UiButton(sf::Vector2f pos, /*sf::Vector2f scale_Origin,*/ std::string text, int character_size, sf::Color color_text);
 
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
-	void const handleEvent(const sf::Event& event);
+	void HandleEvent(const sf::Event& event);
 
 };
 

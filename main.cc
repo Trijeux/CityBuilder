@@ -8,8 +8,8 @@ int main()
 
 	sf::RenderWindow window(sf::VideoMode(800, 600), "SFML works!");
 
-	UiButton startButton(sf::Vector2f(100, 50), sf::Vector2f(100, 50), sf::Color::Red, sf::Vector2f(0.8f, 0.8f),
-		sf::Color::Yellow, "Test", 50, sf::Color::Blue, sf::Vector2f(0.8f, 0.8f));
+	UiButton startButton(sf::Vector2f(200, 100), "Test", 25, sf::Color::Blue);
+	//startButton.setScale(0.5, 0.5);
 
 	while (window.isOpen())
 	{
@@ -18,7 +18,7 @@ int main()
 		{
 			if (event.type == sf::Event::Closed)
 				window.close();
-			startButton.handleEvent(event);
+			startButton.HandleEvent(event);
 		}
 
 

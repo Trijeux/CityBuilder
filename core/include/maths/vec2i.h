@@ -64,9 +64,11 @@ namespace core
 
 	}; // struct Vec2i
 
-	/*constexpr Vec2i operator/(Vec2i v1, float t)
+	//Other Solve
+	//Operator overload for multiplication
+	/*constexpr Vec2i operator*(int scalar, const Vec2i& vec)
 	{
-		return { t / v1.x,t / v1.y };
+		return { scalar * vec.x, scalar * vec.y };
 	}*/
 
 } // namespace core

@@ -87,6 +87,13 @@ namespace core
 
 	}; // struct Vec2i
 
+	//Other Solve
+	//Operator overload for multiplication
+	/*constexpr Vec2f operator*(float scalar, const Vec2f& vec)
+	{
+		return { scalar * vec.x, scalar * vec.y };
+	}*/
+
 } // namespace core
 
 
