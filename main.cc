@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <maths/vec2i.h>
 #include <ui/UIButton.h>
+#include <graphics/Tilemap.h>
 
 
 void mainCallBack()
@@ -10,17 +11,18 @@ void mainCallBack()
 
 int main()
 {
-	core::Vec2i v;
-
 	sf::RenderWindow window(sf::VideoMode(800, 600), "SFML works!");
 
-	UiButton startButton(sf::Vector2f(200, 100), "Test", 25, sf::Color::Blue);
-	startButton.setScale(0.8f, 0.8f);
-	//First Exemple
-	startButton.callback_ = mainCallBack;
+	//UiButton startButton(sf::Vector2f(200, 100), "Test", 25, sf::Color::Blue);
+	//startButton.setScale(0.8f, 0.8f);
+	////First Exemple
+	//startButton.callBack_ = mainCallBack;
 
-	//Second Exemple
-	startButton.callback_ = [] { std::cout << "Callback" << std::endl; };
+	////Second Exemple
+	//startButton.callBack_ = [] { std::cout << "Callback" << std::endl; };
+
+	Tilemap test;
+
 
 	while (window.isOpen())
 	{
@@ -29,13 +31,14 @@ int main()
 		{
 			if (event.type == sf::Event::Closed)
 				window.close();
-			startButton.HandleEvent(event);
+			//startButton.HandleEvent(event);
 		}
 
 
 
 		window.clear();
-		window.draw(startButton);
+		//window.draw(startButton);
+		test.DrawMap(window);
 		window.display();
 	}
 

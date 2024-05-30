@@ -71,7 +71,7 @@ void UiButton::HandleEvent(const sf::Event& event)
 
 				//std::cout << "Start" << std::endl;
 				//Code ? faire pour le boutton
-				if (callback_) { callback_(); }
+				if (callBack_) { callBack_(); }
 				else{ std::cout << "No Callback !!!" << std::endl; }
 
 			}

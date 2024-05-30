@@ -23,7 +23,7 @@ public:
 
 	UiButton(sf::Vector2f pos, /*sf::Vector2f scale_Origin,*/ std::string text, int character_size, sf::Color color_text);
 	void HandleEvent(const sf::Event& event);
-	std::function<void()> callback_;
+	std::function<void()> callBack_;
 };
 
 #endif // API_UI_UIBUTTON_H_
