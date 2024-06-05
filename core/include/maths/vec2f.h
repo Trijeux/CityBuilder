@@ -1,5 +1,7 @@
 #ifndef CORE_MATHS_VEC2F_H_
 #define CORE_MATHS_VEC2F_H_
+#include <complex>
+#include <iostream>
 
 namespace core
 {
@@ -46,9 +48,6 @@ namespace core
 			return { x / t,y / t };
 		}
 
-		constexpr bool operator==(const float& other) const {
-			return this->x == other && this->y == other;
-		}
 
 		[[nodiscard]] constexpr Vec2f Perpendicular() const
 		{
@@ -74,13 +73,12 @@ namespace core
 			return std::sqrt(MagnitudeSqu());
 		}
 
-		Vec2f Normalize()
+		Vec2f Normalize() const
 		{
 			const float man = Magnitude();
-			if (operator==(man))
+			if (man == 0.0f)
 			{
-				std::cout << "Imposible" << std::endl;
-				return Vec2f(1, 1);
+				return Vec2f(0, 0);
 			}
 			return *this / man;
 		}

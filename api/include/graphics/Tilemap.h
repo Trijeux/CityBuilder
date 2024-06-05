@@ -12,9 +12,8 @@ class GameText;
 class Tilemap
 {
 public:
-	Tilemap() = default;
 
-	sf::RectangleShape test;
+	sf::RectangleShape test_;
 
 	void DrawMap(sf::RenderWindow& window);
 
