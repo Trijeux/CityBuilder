@@ -63,7 +63,7 @@ void UiButton::HandleEvent(const sf::Event& event)
 void UiButton::CreatButton(sf::Vector2f pos, std::string text, int character_size, sf::Color color_text)
 {
 	if (!font_.loadFromFile("ressources/fonts/kenvector_future.ttf")) {
-		// Gérer l'erreur : impossible de charger la police
+		// GÃ©rer l'erreur : impossible de charger la police
 	}
 
 	button_text_.setFont(font_);
