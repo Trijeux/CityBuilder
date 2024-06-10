@@ -14,9 +14,13 @@ private:
 public:
     FixedStack() : top_(0) {}
 
-    auto capacity()
+    std::size_t Capacity()
     {
         return data_.size();
+    }
+
+    [[nodiscard]] std::size_t Size() const {
+        return top_;
     }
 
     void push(const T& value) {
@@ -46,7 +50,16 @@ public:
         }
     }
 
-    bool isEmpty() const {
+    [[nodiscard]] const T& top() const {
+        if (top_ > 0) {
+            return data_[top_ - 1];
+        }
+        else {
+            throw std::out_of_range("Stack is empty");
+        }
+    }
+
+    [[nodiscard]] bool IsEmpty() const {
         return top_ == 0;
     }
 

@@ -13,12 +13,12 @@ namespace core
 	public:
 		FixedQueue() : front_(0), rear_(N - 1), size_(0) {}
 
-		auto capacity() const
+		std::size_t Capacity() const
 		{
 			return data_.size();
 		}
 
-		auto size() const
+		auto Size() const
 		{
 			return size_;
 		}
@@ -54,7 +54,7 @@ namespace core
 		}
 
 
-		const T& front() const
+		[[nodiscard]] const T& front() const
 		{
 			if (size_ > 0) {
 				return data_[front_];
@@ -64,7 +64,7 @@ namespace core
 			}
 		}
 
-		bool isEmpty() const {
+		[[nodiscard]] bool IsEmpty() const {
 			return size_ == 0;
 		}
 

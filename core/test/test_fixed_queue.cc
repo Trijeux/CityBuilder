@@ -2,17 +2,42 @@
 
 #include "maths/fixed_queue.h"
 
-TEST(FixedQueue, Test)
+TEST(FixedQueue, Constructor)
 {
 	core::FixedQueue<int, 10> FQ;
-	EXPECT_EQ(FQ.capacity(), 10);
-	EXPECT_TRUE(FQ.isEmpty());
-	EXPECT_EQ(FQ.size(), 0);
+	EXPECT_TRUE(FQ.IsEmpty());
+	EXPECT_EQ(FQ.Capacity(), 10);
+	EXPECT_EQ(FQ.Size(), 0);
+}
+
+TEST(FixedStack, Enqueue)
+{
+	core::FixedQueue<int, 10> FQ;
+	FQ.enqueue(1);
+	EXPECT_EQ(FQ.Capacity(), 10);
+	EXPECT_EQ(FQ.Size(), 1);
+}
+
+TEST(FixedStack, Dequeue)
+{
+	core::FixedQueue<int, 10> FQ;
+	FQ.enqueue(1);
+	EXPECT_EQ(FQ.Capacity(), 10);
+	EXPECT_EQ(FQ.Size(), 1);
+	FQ.dequeue();
+	EXPECT_EQ(FQ.Capacity(), 10);
+	EXPECT_EQ(FQ.Size(), 0);
+}
+
+TEST(FixedStack, Front)
+{
+	core::FixedQueue<int, 10> FQ;
 	FQ.enqueue(1);
 	FQ.enqueue(2);
-	EXPECT_EQ(FQ.size(), 2);
-	EXPECT_FALSE(FQ.isEmpty());
+	FQ.enqueue(3);
 	EXPECT_EQ(FQ.front(), 1);
 	FQ.dequeue();
 	EXPECT_EQ(FQ.front(), 2);
+	FQ.dequeue();
+	EXPECT_EQ(FQ.front(), 3);
 }
