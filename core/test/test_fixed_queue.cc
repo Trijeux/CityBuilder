@@ -10,7 +10,7 @@ TEST(FixedQueue, Constructor)
 	EXPECT_EQ(FQ.Size(), 0);
 }
 
-TEST(FixedStack, Enqueue)
+TEST(FixedQueue, Enqueue)
 {
 	core::FixedQueue<int, 10> FQ;
 	FQ.enqueue(1);
@@ -18,7 +18,7 @@ TEST(FixedStack, Enqueue)
 	EXPECT_EQ(FQ.Size(), 1);
 }
 
-TEST(FixedStack, Dequeue)
+TEST(FixedQueue, Dequeue)
 {
 	core::FixedQueue<int, 10> FQ;
 	FQ.enqueue(1);
@@ -29,7 +29,7 @@ TEST(FixedStack, Dequeue)
 	EXPECT_EQ(FQ.Size(), 0);
 }
 
-TEST(FixedStack, Front)
+TEST(FixedQueue, Front)
 {
 	core::FixedQueue<int, 10> FQ;
 	FQ.enqueue(1);

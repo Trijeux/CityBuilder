@@ -54,9 +54,46 @@ TEST_P(Vec2fOperationFixture, Div)
 	auto [v1, v2] = GetParam();
 	if (v2.x != 0 || v2.y != 0)
 	{
-		const auto result = v1 / v2.x;
-		EXPECT_FLOAT_EQ(result.x, v1.x / v2.x);
-		EXPECT_FLOAT_EQ(result.y, v1.y / v2.x);
+		const auto result1 = v1 / v2.x;
+		const auto result2 = v1 / v2.y;
+		const auto result3 = v2 / v2.x;
+		const auto result4 = v2 / v2.y;
+		
+										 
+		EXPECT_FLOAT_EQ(result1.x, v1.x / v2.x);
+		EXPECT_FLOAT_EQ(result1.y, v1.y / v2.x);
+
+		EXPECT_FLOAT_EQ(result2.x, v1.x / v2.y);
+		EXPECT_FLOAT_EQ(result2.y, v1.y / v2.y);
+
+		EXPECT_FLOAT_EQ(result3.x, v2.x / v2.x);
+		EXPECT_FLOAT_EQ(result3.y, v2.y / v2.x);
+
+		EXPECT_FLOAT_EQ(result4.x, v2.x / v2.y);
+		EXPECT_FLOAT_EQ(result4.y, v2.y / v2.y);
+	}
+	else
+	{
+		std::cout << "Impossible" << std::endl;
+	}
+	if (v1.x != 0 || v1.y != 0)
+	{
+		const auto result1 = v2 / v1.x;
+		const auto result2 = v2 / v1.y;
+		const auto result3 = v1 / v1.x;
+		const auto result4 = v1 / v1.y;
+
+		EXPECT_FLOAT_EQ(result1.x, v2.x / v1.x);
+		EXPECT_FLOAT_EQ(result1.y, v2.y / v1.x);
+
+		EXPECT_FLOAT_EQ(result2.x, v2.x / v1.y);
+		EXPECT_FLOAT_EQ(result2.y, v2.y / v1.y);
+
+		EXPECT_FLOAT_EQ(result3.x, v1.x / v1.x);
+		EXPECT_FLOAT_EQ(result3.y, v1.y / v1.x);
+
+		EXPECT_FLOAT_EQ(result4.x, v1.x / v1.y);
+		EXPECT_FLOAT_EQ(result4.y, v1.y / v1.y);
 	}
 	else
 	{
@@ -80,36 +117,56 @@ TEST_P(Vec2fOperationFixture, Perpendicular)
 
 TEST_P(Vec2fOperationFixture, Lerp)
 {
-	auto [v1, t] = GetParam();
-	const auto result = core::Vec2f::Lerp(v1, t.x);
-	EXPECT_FLOAT_EQ(result, v1.x * (1 - t.x) + v1.y * t.x);
+	auto [v1, v2] = GetParam();
+	const auto result1 = core::Vec2f::Lerp(v1, v2.x);
+	const auto result2 = core::Vec2f::Lerp(v1, v2.y);
+	const auto result3 = core::Vec2f::Lerp(v2, v1.x);
+	const auto result4 = core::Vec2f::Lerp(v2, v1.y);
+	EXPECT_FLOAT_EQ(result1, v1.x * (1 - v2.x) + v1.y * v2.x);
+	EXPECT_FLOAT_EQ(result2, v1.x * (1 - v2.y) + v1.y * v2.y);
+	EXPECT_FLOAT_EQ(result3, v2.x * (1 - v1.x) + v2.y * v1.x);
+	EXPECT_FLOAT_EQ(result4, v2.x * (1 - v1.y) + v2.y * v1.y);
+	
 }
 
 TEST_P(Vec2fOperationFixture, Magnitude)
 {
 	auto [v1, v2] = GetParam();
-	const auto result = v1.Magnitude();
-	EXPECT_FLOAT_EQ(result, v1.Magnitude());
+	const auto resultv1 = v1.Magnitude();
+	const auto resultv2 = v2.Magnitude();
+	EXPECT_FLOAT_EQ(resultv1, v1.Magnitude());
+	EXPECT_FLOAT_EQ(resultv2, v2.Magnitude());
 }
 
 TEST_P(Vec2fOperationFixture, SquMagnitude)
 {
 	auto [v1, v2] = GetParam();
-	const auto result = v1.MagnitudeSqu();
-	EXPECT_FLOAT_EQ(result, v1.MagnitudeSqu());
+	const auto resultv1 = v1.MagnitudeSqu();
+	const auto resultv2 = v2.MagnitudeSqu();
+	EXPECT_FLOAT_EQ(resultv1, v1.MagnitudeSqu());
+	EXPECT_FLOAT_EQ(resultv2, v2.MagnitudeSqu());
 }
 
 TEST_P(Vec2fOperationFixture, Normalize)
 {
 	auto [v1, v2] = GetParam();
-	auto result = v1.Normalize();
+	auto resultv1 = v1.Normalize();
+	auto resultv2 = v2.Normalize();
 	if (v1.MagnitudeSqu() == 0)
 	{
-		EXPECT_FLOAT_EQ(result.MagnitudeSqu(), 0);
+		EXPECT_FLOAT_EQ(resultv1.MagnitudeSqu(), 0);
 	}
 	else
 	{
-		EXPECT_FLOAT_EQ(result.MagnitudeSqu(), 1);
+		EXPECT_FLOAT_EQ(resultv1.MagnitudeSqu(), 1);
+	}
+	if (v2.MagnitudeSqu() == 0)
+	{
+		EXPECT_FLOAT_EQ(resultv2.MagnitudeSqu(), 0);
+	}
+	else
+	{
+		EXPECT_FLOAT_EQ(resultv2.MagnitudeSqu(), 1);
 	}
 }
 
