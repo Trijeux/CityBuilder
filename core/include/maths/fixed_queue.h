@@ -1,5 +1,5 @@
 #ifndef CORE_MATHS_FIXEDQUEUE_H_
-#define CORE_MATHS_VEC2F_H_
+#define CORE_MATHS_FIXEDQUEUE_H_
 #include <array>
 
 namespace core

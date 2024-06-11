@@ -12,6 +12,9 @@ test/test_dynamic_queue.cc
 test/test_dynamic_stack.cc 
 test/test_fixed_queue.cc 
 test/test_fixed_stack.cc
+test/test_basic_vector.cc
+test/test_small_vector.cc
+test/test_vector.cc
 )
 
 

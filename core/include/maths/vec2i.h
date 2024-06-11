@@ -1,8 +1,6 @@
 #ifndef CORE_MATHS_VEC2I_H_
 #define CORE_MATHS_VEC2I_H_
 #include <complex>
-#include <gtest/gtest.h>
-#include <SFML/System/Vector2.hpp>
 
 namespace core
 {

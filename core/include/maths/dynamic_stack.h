@@ -1,5 +1,5 @@
 #ifndef CORE_MATHS_DYNAMICSTACK_H_
-#define CORE_MATHS_VEC2F_H_
+#define CORE_MATHS_DYNAMICSTACK_H_
 
 #include <vector>
 
