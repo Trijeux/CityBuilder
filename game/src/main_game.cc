@@ -10,43 +10,48 @@ void mainCallBack()
 
 MainGame::MainGame()
 {
-	window_.create(sf::VideoMode(800, 600), "SFML works!");
+	window_.create(sf::VideoMode(1600, 900), "SFML works!");
 
 	sceneBounds = sf::FloatRect(0.f, 0.f, gridWidth * spriteSizeX, gridHeight * spriteSizeY);
 
-	//button_.CreatButton(sf::Vector2f(200, 100), "Test", 25, sf::Color::Blue);
-	//button_.setScale(0.8f, 0.8f);
+	cursor_.BasicCursor(window_);
 
-	//First Exemple
-	//button_.call_back_ = mainCallBack;
+	tilemap_.Setup(sf::Vector2u(800 / tilemap_.SpritSize().x, 600 / tilemap_.SpritSize().y));
 
-	//Second Exemple
-	//button_.callBack_ = [] { std::cout << "Callback" << std::endl; };
+	tilemap_.InitMap(building_manager_);
+
+	tilemap_.ClickedTile = std::bind(&BuildingManager::AddBuilding, &building_manager_, std::placeholders::_1);
+
+	
+	btn_generate.CreatButton(sf::Vector2f(50, 710), "Generate", 20, sf::Color::Yellow);
+	btn_generate.setScale(0.5f, 0.5f);
+	btn_generate.call_back_ = [this]()
+		{
+			tilemap_.InitMap(building_manager_);
+		};
+
+	btn_activate_building.CreatButton(sf::Vector2f(200, 710), "Build", 20, sf::Color::Yellow);
+	btn_activate_building.setScale(0.5f, 0.5f);
+	btn_activate_building.call_back_ = [this]()
+		{
+			building_manager_.build(window_);
+		};
+
+	//building_manager_.build(window_);
+
 }
 
 //void MainGame::Zoom(sf::Event event)
 //{
 //	if (event.type == sf::Event::MouseWheelScrolled)
 //	{
-//		float oldZoomFactor = zoomFactor;
-//
-//		if (event.mouseWheelScroll.delta > 0)
+//		if (event.mouseWheelScroll.delta > 0 /*&& zoomFactor >= 0.5f*/)
 //		{
-//			zoomFactor *= 0.9f; // Zoom avant
+//			zoomFactor *= 0.95f; // Zoom avant
 //		}
-//		else if (event.mouseWheelScroll.delta < 0)
+//		else if (event.mouseWheelScroll.delta < 0 /*&& zoomFactor <= 1.0f*/)
 //		{
-//			zoomFactor *= 1.1f; // Zoom arrière
-//		}
-//
-//		// Limiter le zoom
-//		sf::Vector2f newSize = window_.getDefaultView().getSize();
-//		newSize.x *= zoomFactor;
-//		newSize.y *= zoomFactor;
-//
-//		if (newSize.x < minViewSize.x || newSize.y < minViewSize.y)
-//		{
-//			zoomFactor = oldZoomFactor; // Annuler le zoom s'il dépasse la limite
+//			zoomFactor *= 1.05f; // Zoom arrière
 //		}
 //
 //		view.setSize(window_.getDefaultView().getSize());
@@ -106,34 +111,37 @@ void MainGame::ContrainteView()
 
 void MainGame::GameLoop()
 {
-
 	while (window_.isOpen())
 	{
-		auto start = std::chrono::high_resolution_clock::now();
+		//auto start = std::chrono::high_resolution_clock::now();
 		sf::Event event;
 		while (window_.pollEvent(event))
 		{
 			if (event.type == sf::Event::Closed)
 				window_.close();
-			//button_.HandleEvent(event);
-			/*Zoom(event);*/
 
-			MoveCame(event);
+			btn_generate.HandleEvent(event);
+			btn_activate_building.HandleEvent(event);
+			//tilemap_.Size_Offset(zoomFactor);
+			tilemap_.HandleEvent(event);
 
-			ContrainteView();
+			//Zoom(event);
+
+			//MoveCame(event);
+
+			//ContrainteView();
 		}
 
 
-		window_.setView(view);
+		//window_.setView(view);
 		window_.clear();
-		//window_.draw(button_);
-		tilemap_.DrawMap(window_);
+		window_.draw(tilemap_);
+		window_.draw(building_manager_);
+		window_.draw(btn_generate);
+		window_.draw(btn_activate_building);
 		window_.display();
 
-
-		auto end = std::chrono::high_resolution_clock::now();
-		std::chrono::duration<double> totalDuration = end - start;
-		std::cout << "Temps total d'exécution : " << totalDuration.count() << " secondes." << std::endl;
+		//auto end = std::chrono::high_resolution_clock::now();
+		//std::chrono::duration<double> totalDuration = end - start;
 	}
 }
-

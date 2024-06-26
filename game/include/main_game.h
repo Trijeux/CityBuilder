@@ -4,31 +4,40 @@
 #include <graphics/Tilemap.h>
 #include <ui/UIButton.h>
 
+#include "gameplay/building_manager.h"
+#include "gameplay/change_cursor.h"
+
 class MainGame
 {
-	sf::RenderWindow window_;
+	BuildingManager building_manager_;
+
+	ChangeCursor cursor_;
 
 	Tilemap tilemap_;
 
-	UiButton button_;
+	UiButton btn_generate;
+
+	UiButton btn_activate_building;
+
+	sf::RenderWindow window_;
 
 	sf::View view = window_.getDefaultView();
 
-	float zoomFactor = 1.0f;
+	//float zoomFactor = 1.0f;
 	bool isPanning = false;
 	sf::Vector2f oldPos;
 	sf::Vector2f newPos;
 
-	const int gridWidth = TILEMAP_WIDTH;
-	const int gridHeight = TILEMAP_HEIGHT;
-	const int spriteSizeX = tilemap_.SizeSprite().x;
-	const int spriteSizeY = tilemap_.SizeSprite().y;
+	const int gridWidth = tilemap_.playground_size_u_.x;
+	const int gridHeight = tilemap_.playground_size_u_.y;
+	const int spriteSizeX = tilemap_.SpritSize().x;
+	const int spriteSizeY = tilemap_.SpritSize().y;
 
 	sf::FloatRect sceneBounds;
 
-	/*sf::Vector2f minViewSize = {
+	sf::Vector2f minViewSize = {
 		std::min(window_.getDefaultView().getSize().x, sceneBounds.width),
-		std::min(window_.getDefaultView().getSize().y, sceneBounds.height) };*/
+		std::min(window_.getDefaultView().getSize().y, sceneBounds.height) };
 
 public:
 
@@ -39,7 +48,7 @@ public:
 
 	void GameLoop();
 
-
+	void GameTemp();
 };
 
 

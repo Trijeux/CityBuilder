@@ -5,3 +5,8 @@ add_library(game ${SRC_FILES} ${HEADER_FILES})
 target_include_directories(game PUBLIC include/)
 
 target_link_libraries(game PRIVATE api core sfml-system sfml-network sfml-graphics sfml-window sfml-audio)
+
+if(ENABLE_PROFILING)
+  target_link_libraries(game PRIVATE Tracy::TracyClient)
+  target_compile_definitions(game PRIVATE TRACY_ENABLE=1)
+endif(ENABLE_PROFILING)

@@ -21,4 +21,9 @@ test/test_vector.cc
 target_link_libraries(core_test PRIVATE core 
 GTest::gtest GTest::gtest_main)
 
+if(ENABLE_PROFILING)
+  target_link_libraries(core PRIVATE Tracy::TracyClient)
+  target_compile_definitions(core PRIVATE TRACY_ENABLE=1)
+endif(ENABLE_PROFILING)
+
 add_test(Core core_test)

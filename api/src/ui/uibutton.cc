@@ -35,17 +35,23 @@ void UiButton::HandleEvent(const sf::Event& event)
 	// Check for mouse button pressed event
 	if (event.type == sf::Event::MouseButtonReleased) {
 
-		setScale(getScale().x / 0.9f, getScale().y / 0.9f);
-
 		if (ContainsMouse(event))
 		{
+			setScale(getScale().x / 0.9f, getScale().y / 0.9f);
+
 			// Check if the left mouse button is pressed
 			if (event.mouseButton.button == sf::Mouse::Left) {
 
 				//std::cout << "Start" << std::endl;
 				//Code ? faire pour le boutton
-				if (call_back_) { call_back_(); }
-				else { std::cout << "No Callback !!!" << std::endl; }
+				if (call_back_)
+				{
+					call_back_();
+				}
+				else
+				{
+					std::cout << "No callback defined...";
+				}
 
 			}
 		}

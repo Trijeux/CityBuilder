@@ -2,32 +2,44 @@
 #ifndef API_GRAPHICS_TILEMAP_H_
 #define API_GRAPHICS_TILEMAP_H_
 
+#include <functional>
 #include <SFML/Graphics.hpp>
 
-#define TILEMAP_WIDTH 150
-#define TILEMAP_HEIGHT 100
+#include "gameplay/building_manager.h"
+#include "graphics/tile.h"
 
 class Player;
 class GameText;
 
-class Tilemap
+class Tilemap final : public sf::Drawable
 {
-public:
 
+public:
 	Tilemap();
-	void InitMap();
-	void DrawMap(sf::RenderWindow& window);
-	sf::Vector2u SizeSprite();
+
+	sf::Vector2u playground_size_u_;
+	sf::Vector2u playground_tile_offset_u_;
+
+	void Setup(sf::Vector2u playground_size_u);
+
+	void HandleEvent(const sf::Event&);
+	
+	//void Size_Offset(float);
+
+	void InitMap(BuildingManager&);
+
+	std::function<void(Tile&)> ClickedTile;
+
+	sf::Vector2u SpritSize();
 
 private:
+	std::vector<Tile> tiles_;
+	Tile* tileSelected_;
+	sf::Vector2u size_sprit_;
+	
 
-	sf::Texture texture_;
-	sf::Sprite sprite_;
-	sf::Sprite sprite_test_;
-
-	std::vector<sf::Sprite> sprites_;
+protected:
+	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 };
-
-
 
 #endif // API_GRAPHICS_TILEMAP_H_
