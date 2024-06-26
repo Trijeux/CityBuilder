@@ -28,7 +28,7 @@ public:
 
 	void InitMap(BuildingManager&);
 
-	std::function<void(Tile&)> ClickedTile;
+	std::function<void(Tile&)> ClickedTile_;
 
 	sf::Vector2u SpritSize();
 

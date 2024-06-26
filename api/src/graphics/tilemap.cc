@@ -54,8 +54,8 @@ void Tilemap::HandleEvent(const sf::Event& event)
 
 		if (event.mouseButton.button == sf::Mouse::Left) {
 
-			if (ClickedTile && tileSelected_ != nullptr) {
-				ClickedTile(*tileSelected_);
+			if (ClickedTile_ && tileSelected_ != nullptr) {
+				ClickedTile_(*tileSelected_);
 			}
 			else
 			{

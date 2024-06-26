@@ -20,7 +20,7 @@ MainGame::MainGame()
 
 	tilemap_.InitMap(building_manager_);
 
-	tilemap_.ClickedTile = std::bind(&BuildingManager::AddBuilding, &building_manager_, std::placeholders::_1);
+	tilemap_.ClickedTile_ = std::bind(&BuildingManager::AddBuilding, &building_manager_, std::placeholders::_1);
 
 	
 	btn_generate.CreatButton(sf::Vector2f(50, 710), "Generate", 20, sf::Color::Yellow);
