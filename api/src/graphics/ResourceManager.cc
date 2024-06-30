@@ -11,6 +11,9 @@ void ResourceManager::LoadAllTextures()
 	textures_.at(static_cast<int>(Texture::Stone)).loadFromFile("ressources/tile/Stone.png");
 	textures_.at(static_cast<int>(Texture::Wood)).loadFromFile("ressources/tile/Wood.png");
 	textures_.at(static_cast<int>(Texture::Home)).loadFromFile("ressources/tile/home.png");
+	textures_.at(static_cast<int>(Texture::Ferme)).loadFromFile("ressources/tile/ferme.png");
+	textures_.at(static_cast<int>(Texture::Carriere)).loadFromFile("ressources/tile/carriere.png");
+	textures_.at(static_cast<int>(Texture::Menuiserie)).loadFromFile("ressources/tile/menuiserie.png");
 
 }
 

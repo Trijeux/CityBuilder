@@ -4,6 +4,8 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <ui/UIButton.h>
 
+#include "gameplay/Building.h"
+
 void UiButton::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	states.transform *= getTransform();
@@ -62,6 +64,7 @@ void UiButton::HandleEvent(const sf::Event& event)
 		if (ContainsMouse(event))
 		{
 			setScale(0.9f * getScale().x, 0.9f * getScale().y);
+			build_on_ = true;
 		}
 	}
 }
@@ -89,6 +92,8 @@ void UiButton::CreatButton(sf::Vector2f pos, std::string text, int character_siz
 	sprite_.setColor(sf::Color::White);
 
 	setScale(1, 1);
+
+	build_on_ = false;
 }
 
 

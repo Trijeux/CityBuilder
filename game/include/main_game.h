@@ -17,7 +17,13 @@ class MainGame
 
 	UiButton btn_generate;
 
-	UiButton btn_activate_building;
+	UiButton btn_activate_building_Home;
+
+	UiButton btn_activate_building_Menuiserie;
+
+	UiButton btn_activate_building_Ferme;
+
+	UiButton btn_activate_building_Carriere;
 
 	sf::RenderWindow window_;
 
@@ -27,6 +33,7 @@ class MainGame
 	bool isPanning = false;
 	sf::Vector2f oldPos;
 	sf::Vector2f newPos;
+	Build build_ = Build::Home;
 
 	const int gridWidth = tilemap_.playground_size_u_.x;
 	const int gridHeight = tilemap_.playground_size_u_.y;

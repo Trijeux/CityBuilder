@@ -2,11 +2,18 @@
 #define BUILDING_H
 #include <SFML/Graphics/Sprite.hpp>
 
+enum class Build
+{
+	Home,
+	Carriere,
+	Menuiserie,
+	Ferme
+}; 
 
 class Building : public sf::Drawable{
 
 public:
-	Building(float x, float y);
+	Building(float x, float y, Build build);
 
 protected:
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;

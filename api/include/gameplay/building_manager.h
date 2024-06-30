@@ -2,8 +2,7 @@
 #define BUILDING_MANAGER_H_
 
 #include <graphics/Tile.h>
-
-#include "building.h"
+#include "Building.h"
 
 
 class BuildingManager : public sf::Drawable
@@ -17,7 +16,7 @@ private:
 	bool GetActive() const;
 
 public :
-	void AddBuilding(const Tile& tile);
+	void AddBuilding(const Tile& tile, Build build);
 
 	void ForceBuilding(const Tile& tile);
 

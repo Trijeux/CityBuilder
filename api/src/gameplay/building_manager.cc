@@ -30,7 +30,7 @@ void BuildingManager::build(sf::RenderWindow& window)
 
 void BuildingManager::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	for(const auto& b : buildings_)
+	for (const auto& b : buildings_)
 	{
 		target.draw(b, states);
 	}
@@ -38,22 +38,43 @@ void BuildingManager::draw(sf::RenderTarget& target, sf::RenderStates states) co
 
 void BuildingManager::ForceBuilding(const Tile& tile)
 {
-	buildings_.emplace_back(tile.Position().x, tile.Position().y);
+	buildings_.emplace_back(tile.Position().x, tile.Position().y, Build::Home);
 }
 
-void BuildingManager::AddBuilding(const Tile& tile)
+void BuildingManager::AddBuilding(const Tile& tile, Build building)
 {
-	if(!is_active_)
+	if (!is_active_)
 	{
 		return;
 	}
 
 	std::cout << "Tile clicked, can we finally add a house ? [" << tile.Position().x << ":" << tile.Position().y << "]" << std::endl;
 
-	if(tile.Type() == Tile::TileType::Ground)
+	if (tile.Type() == Tile::TileType::Ground)
 	{
-		buildings_.emplace_back(tile.Position().x, tile.Position().y);
+		switch (building)
+		{
+		case Build::Home:
+		{
+			buildings_.emplace_back(tile.Position().x, tile.Position().y, Build::Home);
+		}
+			break;
+		case Build::Ferme:
+		{
+			buildings_.emplace_back(tile.Position().x, tile.Position().y, Build::Ferme);
+		}
+		break;
+		case Build::Carriere:
+		{
+			buildings_.emplace_back(tile.Position().x, tile.Position().y, Build::Carriere);
+		}
+		break;
+		case Build::Menuiserie:
+		{
+			buildings_.emplace_back(tile.Position().x, tile.Position().y, Build::Menuiserie);
+		}
+		break;
+		}
 	}
-
 }
 

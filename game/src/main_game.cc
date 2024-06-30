@@ -3,11 +3,6 @@
 #include <iostream>
 
 
-void mainCallBack()
-{
-	std::cout << "Callback" << std::endl;
-}
-
 MainGame::MainGame()
 {
 	window_.create(sf::VideoMode(1600, 900), "SFML works!");
@@ -20,8 +15,7 @@ MainGame::MainGame()
 
 	tilemap_.InitMap(building_manager_);
 
-	tilemap_.ClickedTile_ = std::bind(&BuildingManager::AddBuilding, &building_manager_, std::placeholders::_1);
-
+	tilemap_.ClickedTile_ = std::bind(&BuildingManager::AddBuilding, &building_manager_, std::placeholders::_1, build_);
 	
 	btn_generate.CreatButton(sf::Vector2f(50, 710), "Generate", 20, sf::Color::Yellow);
 	btn_generate.setScale(0.5f, 0.5f);
@@ -30,9 +24,30 @@ MainGame::MainGame()
 			tilemap_.InitMap(building_manager_);
 		};
 
-	btn_activate_building.CreatButton(sf::Vector2f(200, 710), "Build", 20, sf::Color::Yellow);
-	btn_activate_building.setScale(0.5f, 0.5f);
-	btn_activate_building.call_back_ = [this]()
+	btn_activate_building_Home.CreatButton(sf::Vector2f(200, 710), "Home", 20, sf::Color::Yellow);
+	btn_activate_building_Home.setScale(0.5f, 0.5f);
+	btn_activate_building_Home.call_back_ = [this]()
+		{
+			building_manager_.build(window_);
+		};
+
+	btn_activate_building_Ferme.CreatButton(sf::Vector2f(350, 710), "Ferme", 20, sf::Color::Yellow);
+	btn_activate_building_Ferme.setScale(0.5f, 0.5f);
+	btn_activate_building_Ferme.call_back_ = [this]()
+		{
+			building_manager_.build(window_);
+		};
+
+	btn_activate_building_Carriere.CreatButton(sf::Vector2f(500, 710), "Carriere", 20, sf::Color::Yellow);
+	btn_activate_building_Carriere.setScale(0.5f, 0.5f);
+	btn_activate_building_Carriere.call_back_ = [this]()
+		{
+			building_manager_.build(window_);
+		};
+
+	btn_activate_building_Menuiserie.CreatButton(sf::Vector2f(650, 710), "Menuiserie", 20, sf::Color::Yellow);
+	btn_activate_building_Menuiserie.setScale(0.5f, 0.5f);
+	btn_activate_building_Menuiserie.call_back_ = [this]()
 		{
 			building_manager_.build(window_);
 		};
@@ -121,7 +136,43 @@ void MainGame::GameLoop()
 				window_.close();
 
 			btn_generate.HandleEvent(event);
-			btn_activate_building.HandleEvent(event);
+
+			btn_activate_building_Home.HandleEvent(event);
+			btn_activate_building_Ferme.HandleEvent(event);
+			btn_activate_building_Menuiserie.HandleEvent(event);
+			btn_activate_building_Carriere.HandleEvent(event);
+
+			if (build_ != Build::Home && btn_activate_building_Home.build_on_)
+			{
+				build_ = Build::Home;
+				btn_activate_building_Ferme.build_on_ = false;
+				btn_activate_building_Menuiserie.build_on_ = false;
+				btn_activate_building_Carriere.build_on_ = false;
+			}
+			else if (build_ != Build::Ferme && btn_activate_building_Ferme.build_on_)
+			{
+				build_ = Build::Ferme;
+				btn_activate_building_Home.build_on_ = false;
+				btn_activate_building_Menuiserie.build_on_ = false;
+				btn_activate_building_Carriere.build_on_ = false;
+			}
+			else if (build_ != Build::Menuiserie && btn_activate_building_Menuiserie.build_on_)
+			{
+				build_ = Build::Menuiserie;
+				btn_activate_building_Home.build_on_ = false;
+				btn_activate_building_Ferme.build_on_ = false;
+				btn_activate_building_Carriere.build_on_ = false;
+			}
+			else if (build_ != Build::Carriere && btn_activate_building_Carriere.build_on_)
+			{
+				build_ = Build::Carriere;
+				btn_activate_building_Home.build_on_ = false;
+				btn_activate_building_Menuiserie.build_on_ = false;
+				btn_activate_building_Ferme.build_on_ = false;
+			}
+
+			tilemap_.ClickedTile_ = std::bind(&BuildingManager::AddBuilding, &building_manager_, std::placeholders::_1, build_);
+
 			//tilemap_.Size_Offset(zoomFactor);
 			tilemap_.HandleEvent(event);
 
@@ -138,7 +189,10 @@ void MainGame::GameLoop()
 		window_.draw(tilemap_);
 		window_.draw(building_manager_);
 		window_.draw(btn_generate);
-		window_.draw(btn_activate_building);
+		window_.draw(btn_activate_building_Home);
+		window_.draw(btn_activate_building_Ferme);
+		window_.draw(btn_activate_building_Carriere);
+		window_.draw(btn_activate_building_Menuiserie);
 		window_.display();
 
 		//auto end = std::chrono::high_resolution_clock::now();

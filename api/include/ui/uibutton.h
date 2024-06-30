@@ -10,12 +10,15 @@
 #include <SFML/Graphics/Transformable.hpp>
 #include <SFML/Window/Event.hpp>
 
+enum class Build;
+
 class UiButton : public sf::Drawable, public sf::Transformable
 {
 	sf::Font font_;
 	sf::Sprite sprite_;
 	sf::Text button_text_;
 	sf::Texture texture_;
+	
 
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 	bool ContainsMouse(const sf::Event& event) const;
@@ -24,6 +27,8 @@ public:
 
 	void HandleEvent(const sf::Event& event);
 	void CreatButton(sf::Vector2f pos, std::string text, int character_size, sf::Color color_text);
+
+	bool build_on_;
 
 	std::function<void()> call_back_;
 };

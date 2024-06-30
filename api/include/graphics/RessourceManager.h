@@ -14,9 +14,9 @@ public:
 		Stone,
 		Wood,
 		Home,
-
-
-
+		Menuiserie,
+		Carriere,
+		Ferme,
 
 		Max
 	};
