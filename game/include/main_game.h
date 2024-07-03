@@ -15,7 +15,7 @@ class MainGame
 
 	Tilemap tilemap_;
 
-	UiButton btn_generate;
+	//UiButton btn_generate;
 
 	UiButton btn_activate_building_Home;
 

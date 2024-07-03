@@ -1,6 +1,5 @@
 #include <chrono>
 #include <main_game.h>
-#include <iostream>
 
 
 MainGame::MainGame()
@@ -11,41 +10,41 @@ MainGame::MainGame()
 
 	cursor_.BasicCursor(window_);
 
-	tilemap_.Setup(sf::Vector2u(800 / tilemap_.SpritSize().x, 600 / tilemap_.SpritSize().y));
+	tilemap_.Setup(sf::Vector2u(window_.getSize().x / tilemap_.SpritSize().x, window_.getSize().y / tilemap_.SpritSize().y));
 
 	tilemap_.InitMap(building_manager_);
 
 	tilemap_.ClickedTile_ = std::bind(&BuildingManager::AddBuilding, &building_manager_, std::placeholders::_1, build_);
 	
-	btn_generate.CreatButton(sf::Vector2f(50, 710), "Generate", 20, sf::Color::Yellow);
-	btn_generate.setScale(0.5f, 0.5f);
-	btn_generate.call_back_ = [this]()
-		{
-			tilemap_.InitMap(building_manager_);
-		};
+	//btn_generate.CreatButton(sf::Vector2f(50, 710), "Generate", 20, sf::Color::Yellow);
+	//btn_generate.setScale(0.5f, 0.5f);
+	//btn_generate.call_back_ = [this]()
+	//	{
+	//		tilemap_.InitMap(building_manager_);
+	//	};
 
-	btn_activate_building_Home.CreatButton(sf::Vector2f(200, 710), "Home", 20, sf::Color::Yellow);
+	btn_activate_building_Home.CreatButton(sf::Vector2f(50, 710), "Home", 20, sf::Color::Yellow);
 	btn_activate_building_Home.setScale(0.5f, 0.5f);
 	btn_activate_building_Home.call_back_ = [this]()
 		{
 			building_manager_.build(window_);
 		};
 
-	btn_activate_building_Ferme.CreatButton(sf::Vector2f(350, 710), "Ferme", 20, sf::Color::Yellow);
+	btn_activate_building_Ferme.CreatButton(sf::Vector2f(200, 710), "Ferme", 20, sf::Color::Yellow);
 	btn_activate_building_Ferme.setScale(0.5f, 0.5f);
 	btn_activate_building_Ferme.call_back_ = [this]()
 		{
 			building_manager_.build(window_);
 		};
 
-	btn_activate_building_Carriere.CreatButton(sf::Vector2f(500, 710), "Carriere", 20, sf::Color::Yellow);
+	btn_activate_building_Carriere.CreatButton(sf::Vector2f(350, 710), "Carriere", 20, sf::Color::Yellow);
 	btn_activate_building_Carriere.setScale(0.5f, 0.5f);
 	btn_activate_building_Carriere.call_back_ = [this]()
 		{
 			building_manager_.build(window_);
 		};
 
-	btn_activate_building_Menuiserie.CreatButton(sf::Vector2f(650, 710), "Menuiserie", 20, sf::Color::Yellow);
+	btn_activate_building_Menuiserie.CreatButton(sf::Vector2f(500, 710), "Menuiserie", 20, sf::Color::Yellow);
 	btn_activate_building_Menuiserie.setScale(0.5f, 0.5f);
 	btn_activate_building_Menuiserie.call_back_ = [this]()
 		{
@@ -135,7 +134,7 @@ void MainGame::GameLoop()
 			if (event.type == sf::Event::Closed)
 				window_.close();
 
-			btn_generate.HandleEvent(event);
+			//btn_generate.HandleEvent(event);
 
 			btn_activate_building_Home.HandleEvent(event);
 			btn_activate_building_Ferme.HandleEvent(event);
@@ -188,7 +187,7 @@ void MainGame::GameLoop()
 		window_.clear();
 		window_.draw(tilemap_);
 		window_.draw(building_manager_);
-		window_.draw(btn_generate);
+		//window_.draw(btn_generate);
 		window_.draw(btn_activate_building_Home);
 		window_.draw(btn_activate_building_Ferme);
 		window_.draw(btn_activate_building_Carriere);
