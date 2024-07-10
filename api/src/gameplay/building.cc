@@ -8,24 +8,24 @@ Building::Building(float x, float y, Build build)
 {
 	switch (build)
 	{
-	case Build::Home:
+	case Build::kHome:
 	{
-		shape_.setTexture(ResourceManager::Get().GetTexture(ResourceManager::Texture::Home));
+		shape_.setTexture(ResourceManager::Get().GetTexture(ResourceManager::Texture::kHome));
 	}
 	break;
-	case Build::Carriere:
+	case Build::kCarriere:
 	{
-		shape_.setTexture(ResourceManager::Get().GetTexture(ResourceManager::Texture::Carriere));
+		shape_.setTexture(ResourceManager::Get().GetTexture(ResourceManager::Texture::kCarriere));
 	}
 	break;
-	case Build::Menuiserie:
+	case Build::kMenuiserie:
 	{
-		shape_.setTexture(ResourceManager::Get().GetTexture(ResourceManager::Texture::Menuiserie));
+		shape_.setTexture(ResourceManager::Get().GetTexture(ResourceManager::Texture::kMenuiserie));
 	}
 	break;
-	case Build::Ferme:
+	case Build::kFerme:
 	{
-		shape_.setTexture(ResourceManager::Get().GetTexture(ResourceManager::Texture::Ferme));
+		shape_.setTexture(ResourceManager::Get().GetTexture(ResourceManager::Texture::kFerme));
 	}
 	break;
 	}

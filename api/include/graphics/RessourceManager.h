@@ -1,47 +1,53 @@
 #ifndef API_GRAPHICS_RESOURCEMANAGER_H
 #define API_GRAPHICS_RESOURCEMANAGER_H
 
+#include <array>
 #include <SFML/Graphics.hpp>
 #include <unordered_map>
-#include <string>
 
 class ResourceManager {
 
 public:
 	enum class Texture
 	{
-		Ground,
-		Stone,
-		Wood,
-		Home,
-		Menuiserie,
-		Carriere,
-		Ferme,
+		kGround,
+		kStone,
+		kWood,
+		kHome,
+		kMenuiserie,
+		kCarriere,
+		kFerme,
+		kGroundOcup,
 
-		Max
+		kMax
 	};
 
 	enum class CursorImage
 	{
-		Basic,
-		Build,
+		kBasic,
+		kBuild,
 
 		// Last value of enum used to get the number of resources
-		Max
+		kMax
 	};
 
 private:
-	std::vector<sf::Texture> textures_;
-	std::vector<sf::Image> cursor_images_;
+	std::array<sf::Texture, static_cast<int>(Texture::kMax)> textures_;
+	std::array<sf::Image, static_cast<int>(CursorImage::kMax)> cursor_images_;
 
 	sf::Texture blankTexture_;
 	sf::Image blank_cursor_image_;
 
-	ResourceManager();
-	void LoadAllTextures();
+	
 	void LoadCursors();
+	//void LoadTexture();
 
 public:
+	ResourceManager();
+	///~ResourceManager();
+
+	void LoadAllTextures();
+
 	static ResourceManager& Get();
 
 

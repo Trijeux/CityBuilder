@@ -1,9 +1,15 @@
 #include <chrono>
+#include <iostream>
 #include <main_game.h>
-
+#ifdef TRACY_ENABLE
+#include <Tracy/Tracy.hpp>
+#endif
 
 MainGame::MainGame()
 {
+#ifdef TRACY_ENABLE
+	ZoneScoped;
+#endif
 	window_.create(sf::VideoMode(1600, 900), "SFML works!");
 
 	sceneBounds = sf::FloatRect(0.f, 0.f, gridWidth * spriteSizeX, gridHeight * spriteSizeY);
@@ -12,66 +18,135 @@ MainGame::MainGame()
 
 	tilemap_.Setup(sf::Vector2u(window_.getSize().x / tilemap_.SpritSize().x, window_.getSize().y / tilemap_.SpritSize().y));
 
-	tilemap_.InitMap(building_manager_);
+	tilemap_.InitMap();
+
+	building_manager_.CreatFirstBuildingHome(tilemap_.tiles());
 
 	tilemap_.ClickedTile_ = std::bind(&BuildingManager::AddBuilding, &building_manager_, std::placeholders::_1, build_);
-	
-	//btn_generate.CreatButton(sf::Vector2f(50, 710), "Generate", 20, sf::Color::Yellow);
-	//btn_generate.setScale(0.5f, 0.5f);
-	//btn_generate.call_back_ = [this]()
-	//	{
-	//		tilemap_.InitMap(building_manager_);
-	//	};
 
-	btn_activate_building_Home.CreatButton(sf::Vector2f(50, 710), "Home", 20, sf::Color::Yellow);
-	btn_activate_building_Home.setScale(0.5f, 0.5f);
-	btn_activate_building_Home.call_back_ = [this]()
+	btn_generate.CreatButton(sf::Vector2f(50, 760), "Generate", 20, sf::Color::Yellow);
+	btn_generate.setScale(0.5f, 0.5f);
+	btn_generate.call_back_ = [this]()
 		{
-			building_manager_.build(window_);
+			tilemap_.InitMap();
+			building_manager_.ClearMap();
+			building_manager_.CreatFirstBuildingHome(tilemap_.tiles());
 		};
 
-	btn_activate_building_Ferme.CreatButton(sf::Vector2f(200, 710), "Ferme", 20, sf::Color::Yellow);
-	btn_activate_building_Ferme.setScale(0.5f, 0.5f);
-	btn_activate_building_Ferme.call_back_ = [this]()
+	btn_activate_building.CreatButton(sf::Vector2f(200, 760), "Build", 20, sf::Color::Yellow);
+	btn_activate_building.setScale(0.5f, 0.5f);
+	btn_activate_building.call_back_ = [this]()
 		{
 			building_manager_.build(window_);
+			if (build_active_ == false)
+			{
+				build_active_ = true;
+			}
+			else if (build_active_ == true)
+			{
+				build_active_ = false;
+			}
 		};
 
-	btn_activate_building_Carriere.CreatButton(sf::Vector2f(350, 710), "Carriere", 20, sf::Color::Yellow);
-	btn_activate_building_Carriere.setScale(0.5f, 0.5f);
-	btn_activate_building_Carriere.call_back_ = [this]()
+	btn_building_Home.CreatButton(sf::Vector2f(100, 810), "Home", 20, sf::Color::Yellow);
+	btn_building_Home.setScale(0.8f, 0.8f);
+	btn_building_Home.call_back_ = [this]()
 		{
-			building_manager_.build(window_);
+			btn_building_Home.setScale(0.8f, 0.8f);
+			build_ = Build::kHome;
+			btn_building_Ferme.build_on_ = false;
+			btn_building_Ferme.setScale(0.5f, 0.5f);
+			btn_building_Menuiserie.build_on_ = false;
+			btn_building_Menuiserie.setScale(0.5f, 0.5f);
+			btn_building_Carriere.build_on_ = false;
+			btn_building_Carriere.setScale(0.5f, 0.5f);
 		};
 
-	btn_activate_building_Menuiserie.CreatButton(sf::Vector2f(500, 710), "Menuiserie", 20, sf::Color::Yellow);
-	btn_activate_building_Menuiserie.setScale(0.5f, 0.5f);
-	btn_activate_building_Menuiserie.call_back_ = [this]()
+	btn_building_Ferme.CreatButton(sf::Vector2f(250, 810), "Ferme", 20, sf::Color::Yellow);
+	btn_building_Ferme.setScale(0.5f, 0.5f);
+	btn_building_Ferme.call_back_ = [this]()
 		{
-			building_manager_.build(window_);
+			btn_building_Ferme.setScale(0.8f, 0.8f);
+			build_ = Build::kFerme;
+			btn_building_Home.build_on_ = false;
+			btn_building_Home.setScale(0.5f, 0.5f);
+			btn_building_Menuiserie.build_on_ = false;
+			btn_building_Menuiserie.setScale(0.5f, 0.5f);
+			btn_building_Carriere.build_on_ = false;
+			btn_building_Carriere.setScale(0.5f, 0.5f);
 		};
+
+	btn_building_Carriere.CreatButton(sf::Vector2f(400, 810), "Carriere", 20, sf::Color::Yellow);
+	btn_building_Carriere.setScale(0.5f, 0.5f);
+	btn_building_Carriere.call_back_ = [this]()
+		{
+			btn_building_Carriere.setScale(0.8f, 0.8f);
+			build_ = Build::kCarriere;
+			btn_building_Home.build_on_ = false;
+			btn_building_Home.setScale(0.5f, 0.5f);
+			btn_building_Menuiserie.build_on_ = false;
+			btn_building_Menuiserie.setScale(0.5f, 0.5f);
+			btn_building_Ferme.build_on_ = false;
+			btn_building_Ferme.setScale(0.5f, 0.5f);
+		};
+
+	btn_building_Menuiserie.CreatButton(sf::Vector2f(550, 810), "Menuiserie", 20, sf::Color::Yellow);
+	btn_building_Menuiserie.setScale(0.5f, 0.5f);
+	btn_building_Menuiserie.call_back_ = [this]()
+		{
+			btn_building_Menuiserie.setScale(0.8f, 0.8f);
+			build_ = Build::kMenuiserie;
+			btn_building_Home.build_on_ = false;
+			btn_building_Home.setScale(0.5f, 0.5f);
+			btn_building_Ferme.build_on_ = false;
+			btn_building_Ferme.setScale(0.5f, 0.5f);
+			btn_building_Carriere.build_on_ = false;
+			btn_building_Carriere.setScale(0.5f, 0.5f);
+		};
+
+	view_ = window_.getDefaultView();
+	viewUi_ = window_.getDefaultView();
+
+	sceneBounds = sf::FloatRect(0, 0, window_.getSize().x, window_.getSize().y);
 
 	//building_manager_.build(window_);
 
 }
 
-//void MainGame::Zoom(sf::Event event)
-//{
-//	if (event.type == sf::Event::MouseWheelScrolled)
-//	{
-//		if (event.mouseWheelScroll.delta > 0 /*&& zoomFactor >= 0.5f*/)
-//		{
-//			zoomFactor *= 0.95f; // Zoom avant
-//		}
-//		else if (event.mouseWheelScroll.delta < 0 /*&& zoomFactor <= 1.0f*/)
-//		{
-//			zoomFactor *= 1.05f; // Zoom arrière
-//		}
-//
-//		view.setSize(window_.getDefaultView().getSize());
-//		view.zoom(zoomFactor);
-//	}
-//}
+void MainGame::Zoom(sf::Event event)
+{
+	if (event.type == sf::Event::MouseWheelScrolled)
+	{
+		if (event.mouseWheelScroll.delta > 0)
+		{
+			zoomFactor *= 0.95f; // Zoom avant
+		}
+		else if (event.mouseWheelScroll.delta < 0)
+		{
+			zoomFactor *= 1.05f; // Zoom arrière
+		}
+
+		// Clamping zoomFactor between 0.5 and 1.0
+		if (zoomFactor > 1.0f)
+		{
+			zoomFactor = 1.0f;
+		}
+		else if (zoomFactor < 0.5f)
+		{
+			zoomFactor = 0.5f;
+		}
+
+		view_.setSize(window_.getDefaultView().getSize()); // Reset view size
+		view_.zoom(zoomFactor); // Apply zoom factor
+
+		//// Print the zoom factor and view for debugging
+		//std::cout << "Zoom Factor: " << zoomFactor << std::endl;
+		//std::cout << "View Center: (" << view_.getCenter().x << ", " << view_.getCenter().y << ")\n";
+		//std::cout << "View Size: (" << view_.getSize().x << ", " << view_.getSize().y << ")\n";
+	}
+}
+
+
 
 void MainGame::MoveCame(sf::Event event)
 {
@@ -92,7 +167,7 @@ void MainGame::MoveCame(sf::Event event)
 		{
 			newPos = window_.mapPixelToCoords(sf::Mouse::getPosition(window_));
 			sf::Vector2f deltaPos = oldPos - newPos;
-			view.move(deltaPos);
+			view_.move(deltaPos);
 			oldPos = window_.mapPixelToCoords(sf::Mouse::getPosition(window_));
 		}
 	}
@@ -100,8 +175,8 @@ void MainGame::MoveCame(sf::Event event)
 
 void MainGame::ContrainteView()
 {
-	sf::Vector2f viewSize = view.getSize();
-	sf::Vector2f viewCenter = view.getCenter();
+	sf::Vector2f viewSize = view_.getSize();
+	sf::Vector2f viewCenter = view_.getCenter();
 
 	if (viewCenter.x - viewSize.x / 2 < sceneBounds.left)
 	{
@@ -120,13 +195,16 @@ void MainGame::ContrainteView()
 		viewCenter.y = sceneBounds.top + sceneBounds.height - viewSize.y / 2;
 	}
 
-	view.setCenter(viewCenter);
+	view_.setCenter(viewCenter);
 }
 
 void MainGame::GameLoop()
 {
 	while (window_.isOpen())
 	{
+#ifdef TRACY_ENABLE
+		ZoneNamedN(GameLoop, "GameLoop", true);
+#endif
 		//auto start = std::chrono::high_resolution_clock::now();
 		sf::Event event;
 		while (window_.pollEvent(event))
@@ -134,66 +212,81 @@ void MainGame::GameLoop()
 			if (event.type == sf::Event::Closed)
 				window_.close();
 
-			//btn_generate.HandleEvent(event);
+			mouse_on_btn = false;
 
-			btn_activate_building_Home.HandleEvent(event);
-			btn_activate_building_Ferme.HandleEvent(event);
-			btn_activate_building_Menuiserie.HandleEvent(event);
-			btn_activate_building_Carriere.HandleEvent(event);
+			if (!build_active_)
+			{
+				mouse_on_btn = btn_generate.HandleEvent(event);
+			}
 
-			if (build_ != Build::Home && btn_activate_building_Home.build_on_)
+			mouse_on_btn = btn_activate_building.HandleEvent(event);
+			if (!mouse_on_btn && build_active_)
 			{
-				build_ = Build::Home;
-				btn_activate_building_Ferme.build_on_ = false;
-				btn_activate_building_Menuiserie.build_on_ = false;
-				btn_activate_building_Carriere.build_on_ = false;
+				mouse_on_btn = btn_building_Home.HandleEvent(event);
+				if (!mouse_on_btn)
+				{
+					mouse_on_btn = btn_building_Ferme.HandleEvent(event);
+					if (!mouse_on_btn)
+					{
+						mouse_on_btn = btn_building_Menuiserie.HandleEvent(event);
+						if (!mouse_on_btn)
+						{
+							mouse_on_btn = btn_building_Carriere.HandleEvent(event);
+						}
+					}
+				}
 			}
-			else if (build_ != Build::Ferme && btn_activate_building_Ferme.build_on_)
-			{
-				build_ = Build::Ferme;
-				btn_activate_building_Home.build_on_ = false;
-				btn_activate_building_Menuiserie.build_on_ = false;
-				btn_activate_building_Carriere.build_on_ = false;
-			}
-			else if (build_ != Build::Menuiserie && btn_activate_building_Menuiserie.build_on_)
-			{
-				build_ = Build::Menuiserie;
-				btn_activate_building_Home.build_on_ = false;
-				btn_activate_building_Ferme.build_on_ = false;
-				btn_activate_building_Carriere.build_on_ = false;
-			}
-			else if (build_ != Build::Carriere && btn_activate_building_Carriere.build_on_)
-			{
-				build_ = Build::Carriere;
-				btn_activate_building_Home.build_on_ = false;
-				btn_activate_building_Menuiserie.build_on_ = false;
-				btn_activate_building_Ferme.build_on_ = false;
-			}
+
 
 			tilemap_.ClickedTile_ = std::bind(&BuildingManager::AddBuilding, &building_manager_, std::placeholders::_1, build_);
 
+			if (!mouse_on_btn)
+			{
+				tilemap_.HandleEvent(event, window_, view_);
+			}
+
 			//tilemap_.Size_Offset(zoomFactor);
-			tilemap_.HandleEvent(event);
 
-			//Zoom(event);
 
-			//MoveCame(event);
+			Zoom(event);
 
-			//ContrainteView();
+			MoveCame(event);
 		}
 
+		ContrainteView();
 
-		//window_.setView(view);
+		//// Débogage des informations de vue et de tilemap
+		//sf::Vector2f viewCenter = view_.getCenter();
+		//sf::Vector2f viewSize = view_.getSize();
+		//std::cout << "View Center: (" << viewCenter.x << ", " << viewCenter.y << ")\n";
+		//std::cout << "View Size: (" << viewSize.x << ", " << viewSize.y << ")\n";
+		//std::cout << "Scene Bounds: Left=" << sceneBounds.left << ", Top=" << sceneBounds.top
+		//	<< ", Width=" << sceneBounds.width << ", Height=" << sceneBounds.height << "\n";
+
+
 		window_.clear();
+		window_.setView(view_); // Set updated view
 		window_.draw(tilemap_);
 		window_.draw(building_manager_);
 		//window_.draw(btn_generate);
-		window_.draw(btn_activate_building_Home);
-		window_.draw(btn_activate_building_Ferme);
-		window_.draw(btn_activate_building_Carriere);
-		window_.draw(btn_activate_building_Menuiserie);
+		window_.setView(viewUi_);
+		window_.draw(btn_activate_building);
+		if (!build_active_)
+		{
+			window_.draw(btn_generate);
+		}
+		if (build_active_)
+		{
+			window_.draw(btn_building_Home);
+			window_.draw(btn_building_Ferme);
+			window_.draw(btn_building_Carriere);
+			window_.draw(btn_building_Menuiserie);
+		}
 		window_.display();
 
+#ifdef TRACY_ENABLE
+		FrameMark;
+#endif
 		//auto end = std::chrono::high_resolution_clock::now();
 		//std::chrono::duration<double> totalDuration = end - start;
 	}

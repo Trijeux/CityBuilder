@@ -22,15 +22,17 @@ public:
 
 	void Setup(sf::Vector2u playground_size_u);
 
-	void HandleEvent(const sf::Event&);
+	void HandleEvent(const sf::Event& event, const sf::RenderWindow& window, sf::View& view);
 	
 	//void Size_Offset(float);
 
-	void InitMap(BuildingManager&);
+	void InitMap();
 
 	std::function<void(Tile&)> ClickedTile_;
 
 	sf::Vector2u SpritSize();
+
+	const std::vector<Tile>& tiles();
 
 private:
 	std::vector<Tile> tiles_;

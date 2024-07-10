@@ -13,7 +13,7 @@ class ChangeCursor
 public:
 	static void BasicCursor(sf::Window& window)
 	{
-		const sf::Image image = ResourceManager::Get().GetCursor(ResourceManager::CursorImage::Basic);
+		const sf::Image image = ResourceManager::Get().GetCursor(ResourceManager::CursorImage::kBasic);
 		sf::Cursor cursor;
 		cursor.loadFromPixels(image.getPixelsPtr(), image.getSize(), sf::Vector2u(0, 0));
 
@@ -23,7 +23,7 @@ public:
 
 	static void BuildingCursor(sf::Window& window)
 	{
-		const sf::Image image = ResourceManager::Get().GetCursor(ResourceManager::CursorImage::Build);
+		const sf::Image image = ResourceManager::Get().GetCursor(ResourceManager::CursorImage::kBuild);
 		sf::Cursor cursor;
 		cursor.loadFromPixels(image.getPixelsPtr(), image.getSize(), sf::Vector2u(0, 0));
 

@@ -1,5 +1,6 @@
 #ifndef GAME_MAINGAME_H_
 #define GAME_MAINGAME_H_
+#include <codecvt>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <graphics/Tilemap.h>
 #include <ui/UIButton.h>
@@ -15,25 +16,30 @@ class MainGame
 
 	Tilemap tilemap_;
 
-	//UiButton btn_generate;
+	UiButton btn_generate;
 
-	UiButton btn_activate_building_Home;
+	UiButton btn_activate_building;
 
-	UiButton btn_activate_building_Menuiserie;
+	UiButton btn_building_Home;
 
-	UiButton btn_activate_building_Ferme;
+	UiButton btn_building_Menuiserie;
 
-	UiButton btn_activate_building_Carriere;
+	UiButton btn_building_Ferme;
+
+	UiButton btn_building_Carriere;
 
 	sf::RenderWindow window_;
 
-	sf::View view = window_.getDefaultView();
+	sf::View view_;
+	sf::View viewUi_;
 
-	//float zoomFactor = 1.0f;
+	float zoomFactor = 1.0f;
 	bool isPanning = false;
 	sf::Vector2f oldPos;
 	sf::Vector2f newPos;
-	Build build_ = Build::Home;
+	Build build_ = Build::kHome;
+	bool build_active_ = false;
+	bool mouse_on_btn;
 
 	const int gridWidth = tilemap_.playground_size_u_.x;
 	const int gridHeight = tilemap_.playground_size_u_.y;
@@ -49,7 +55,7 @@ class MainGame
 public:
 
 	MainGame();
-	//void Zoom(sf::Event event);
+	void Zoom(sf::Event event);
 	void MoveCame(sf::Event event);
 	void ContrainteView();
 

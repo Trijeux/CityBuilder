@@ -31,9 +31,8 @@ bool UiButton::ContainsMouse(const sf::Event& event) const
 	}
 }
 
-void UiButton::HandleEvent(const sf::Event& event)
+bool UiButton::HandleEvent(const sf::Event& event)
 {
-
 	// Check for mouse button pressed event
 	if (event.type == sf::Event::MouseButtonReleased) {
 
@@ -67,6 +66,11 @@ void UiButton::HandleEvent(const sf::Event& event)
 			build_on_ = true;
 		}
 	}
+
+	if (ContainsMouse(event))
+	{
+		return true;
+	}
 }
 
 void UiButton::CreatButton(sf::Vector2f pos, std::string text, int character_size, sf::Color color_text)
@@ -95,6 +99,8 @@ void UiButton::CreatButton(sf::Vector2f pos, std::string text, int character_siz
 
 	build_on_ = false;
 }
+
+
 
 
 

@@ -2,45 +2,62 @@
 
 void ResourceManager::LoadAllTextures()
 {
-	textures_.clear();
-	textures_.resize(static_cast<int>(Texture::Max));
+	//textures_.clear();
+	//textures_.resize(static_cast<int>(Texture::kMax));
 
 	// Textures -----------------
 	blankTexture_ = sf::Texture();
-	textures_.at(static_cast<int>(Texture::Ground)).loadFromFile("ressources/tile/Ground.png");
-	textures_.at(static_cast<int>(Texture::Stone)).loadFromFile("ressources/tile/Stone.png");
-	textures_.at(static_cast<int>(Texture::Wood)).loadFromFile("ressources/tile/Wood.png");
-	textures_.at(static_cast<int>(Texture::Home)).loadFromFile("ressources/tile/home.png");
-	textures_.at(static_cast<int>(Texture::Ferme)).loadFromFile("ressources/tile/ferme.png");
-	textures_.at(static_cast<int>(Texture::Carriere)).loadFromFile("ressources/tile/carriere.png");
-	textures_.at(static_cast<int>(Texture::Menuiserie)).loadFromFile("ressources/tile/menuiserie.png");
-
+	textures_.at(static_cast<int>(Texture::kGround)).loadFromFile("ressources/tile/Ground.png");
+	textures_.at(static_cast<int>(Texture::kStone)).loadFromFile("ressources/tile/Stone.png");
+	textures_.at(static_cast<int>(Texture::kWood)).loadFromFile("ressources/tile/Wood.png");
+	textures_.at(static_cast<int>(Texture::kHome)).loadFromFile("ressources/tile/home.png");
+	textures_.at(static_cast<int>(Texture::kFerme)).loadFromFile("ressources/tile/ferme.png");
+	textures_.at(static_cast<int>(Texture::kCarriere)).loadFromFile("ressources/tile/carriere.png");
+	textures_.at(static_cast<int>(Texture::kMenuiserie)).loadFromFile("ressources/tile/menuiserie.png");
+	textures_.at(static_cast<int>(Texture::kGroundOcup)).loadFromFile("ressources/tile/Ground_Ocupper.png");
+	
 }
 
 void ResourceManager::LoadCursors()
 {
 
-	cursor_images_.clear();
-	cursor_images_.resize(static_cast<int>(CursorImage::Max));
+	//cursor_images_.clear();
+	//cursor_images_.resize(static_cast<int>(CursorImage::kMax));
 
 	//cursors_.emplace_back();
-	cursor_images_.at(static_cast<int>(CursorImage::Basic)).loadFromFile("ressources/cursore/PNG/Outline/Default/pointer_toon_b.png");
-	cursor_images_.at(static_cast<int>(CursorImage::Build)).loadFromFile("ressources/cursore/PNG/Outline/Default/tool_hammer.png");
+	cursor_images_.at(static_cast<int>(CursorImage::kBasic)).loadFromFile("ressources/cursore/PNG/Outline/Default/pointer_toon_b.png");
+	cursor_images_.at(static_cast<int>(CursorImage::kBuild)).loadFromFile("ressources/cursore/PNG/Outline/Default/tool_hammer.png");
 
 }
+
+//void ResourceManager::LoadTexture(std::string filename, )
+//{
+//	sf::Image image;
+//	image.loadFromFile(filename);
+//	texture.loadFromImage(image, area);
+//}
+
+
+//static ResourceManager* instance = nullptr;
+ResourceManager::ResourceManager()
+{
+	//instance = this;
+	LoadAllTextures();
+	LoadCursors();
+}
+
+//ResourceManager::~ResourceManager()
+//{
+//	instance = nullptr;
+//}
 
 ResourceManager& ResourceManager::Get()
 {
 
 	static ResourceManager instance_;
 	return instance_;
+	//return *instance_;
 
-}
-
-ResourceManager::ResourceManager()
-{
-	LoadAllTextures();
-	LoadCursors();
 }
 
 sf::Texture& ResourceManager::GetTexture(Texture resourceId) {

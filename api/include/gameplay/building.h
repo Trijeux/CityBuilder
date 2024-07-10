@@ -4,10 +4,10 @@
 
 enum class Build
 {
-	Home,
-	Carriere,
-	Menuiserie,
-	Ferme
+	kHome,
+	kCarriere,
+	kMenuiserie,
+	kFerme
 }; 
 
 class Building : public sf::Drawable{

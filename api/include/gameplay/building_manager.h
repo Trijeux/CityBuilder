@@ -18,9 +18,12 @@ private:
 public :
 	void AddBuilding(const Tile& tile, Build build);
 
-	void ForceBuilding(const Tile& tile);
+	void ClearMap();
+
+	void CreatFirstBuildingHome(const std::vector<Tile>& tiles);
 
 	void build(sf::RenderWindow& window);
+
 protected:
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 };

@@ -1,6 +1,7 @@
 // ReSharper disable IdentifierTypo
 #include <iostream>
 #include <random>
+
 #include "FastNoiseLite.h"
 #include "graphics/Tilemap.h"
 #include "graphics/RessourceManager.h"
@@ -8,7 +9,7 @@
 
 Tilemap::Tilemap()
 {
-	size_sprit_ = ResourceManager::Get().GetTexture(ResourceManager::Texture::Ground).getSize();
+	size_sprit_ = ResourceManager::Get().GetTexture(ResourceManager::Texture::kGround).getSize();
 }
 
 void Tilemap::Setup(sf::Vector2u playground_size_u)
@@ -25,27 +26,36 @@ void Tilemap::Setup(sf::Vector2u playground_size_u)
 //	//playground_tile_offset_u_.y = playground_size_u_.y / (size_sprit_.y * size_zoom);
 //}
 
-void Tilemap::HandleEvent(const sf::Event& event)
+void Tilemap::HandleEvent(const sf::Event& event, const sf::RenderWindow& window, sf::View& view)
 {
-	if (event.type == sf::Event::MouseMoved) {
+	if (event.type == sf::Event::MouseMoved)
+	{
+		// Convertir la position de la souris en coordonnées du monde
+		sf::Vector2f mouseWorldPosition = window.mapPixelToCoords(sf::Mouse::getPosition(window), view);
 
-		sf::Vector2f mousePosition = sf::Vector2f(
-			event.mouseMove.x - event.mouseMove.x % playground_tile_offset_u_.x,
-			event.mouseMove.y - event.mouseMove.y % playground_tile_offset_u_.y 
+		// Ajuster la position de la souris en fonction de la taille des tuiles
+		sf::Vector2f adjustedMousePosition = sf::Vector2f(
+			std::round(mouseWorldPosition.x / playground_tile_offset_u_.x) * playground_tile_offset_u_.x,
+			std::round(mouseWorldPosition.y / playground_tile_offset_u_.y) * playground_tile_offset_u_.y
 		);
 
+		/*std::cout << "Mouse Window Position: (" << sf::Mouse::getPosition(window).x << ", " << sf::Mouse::getPosition(window).y << ")\n";
+		std::cout << "Mouse World Position: (" << mouseWorldPosition.x << ", " << mouseWorldPosition.y << ")\n";
+		std::cout << "Adjusted Mouse Position: (" << adjustedMousePosition.x << ", " << adjustedMousePosition.y << ")\n";*/
 
-		if (tileSelected_ != nullptr) {
+		if (tileSelected_ != nullptr)
+		{
 			tileSelected_->Unselect();
 		}
 
-
-		auto tileFound = std::find_if(tiles_.begin(), tiles_.end(), [&mousePosition](Tile& t) {return t.Position() == mousePosition; });
-		if (tileFound != tiles_.end()) {
+		auto tileFound = std::find_if(tiles_.begin(), tiles_.end(), [&adjustedMousePosition](Tile& t) {
+			return t.Position() == adjustedMousePosition;
+			});
+		if (tileFound != tiles_.end())
+		{
 			tileSelected_ = &(*tileFound);
 			tileSelected_->Select();
 		}
-
 	}
 
 
@@ -66,7 +76,7 @@ void Tilemap::HandleEvent(const sf::Event& event)
 }
 
 
-void Tilemap::InitMap(BuildingManager& building)
+void Tilemap::InitMap()
 {
 	tiles_.clear();
 
@@ -75,8 +85,20 @@ void Tilemap::InitMap(BuildingManager& building)
 	noise.SetNoiseType(FastNoiseLite::NoiseType_Perlin);
 
 	// Échelles pour le bruit
-	const float scaleX = 15.0f;
-	const float scaleY = 15.0f;
+	
+	int mean;
+	int mean2;
+
+	std::random_device r;
+	std::default_random_engine e1(r());
+	std::uniform_int_distribution<int> uniform_dist(8.0f, 20.0f);
+	mean = uniform_dist(e1);
+	std::uniform_int_distribution<int> uniform_dist2(8.0f, 20.0f);
+	mean2 = uniform_dist2(e1);
+	
+
+	const float scaleX = mean;
+	const float scaleY = mean2;
 
 	for (int x = 0; x < playground_size_u_.x; x++)
 	{
@@ -85,6 +107,7 @@ void Tilemap::InitMap(BuildingManager& building)
 			const int idx = x * playground_size_u_.y + y;
 
 			// Générer une valeur de bruit
+			
 			const float noiseValue = noise.GetNoise(x * scaleX, y * scaleY);
 
 			sf::Sprite sprite;
@@ -95,20 +118,20 @@ void Tilemap::InitMap(BuildingManager& building)
 			{
 				if (noiseValue > 0.6f)
 				{
-					tiles_.emplace_back(Tile::TileType::Stone,
+					tiles_.emplace_back(Tile::TileType::kStone,
 						x * SpritSize().x, y * SpritSize().y, false);
 
 				}
 				else
 				{
-					tiles_.emplace_back(Tile::TileType::Wood,
+					tiles_.emplace_back(Tile::TileType::kWood,
 						x * SpritSize().x, y * SpritSize().y, false);
 
 				}
 			}
 			else
 			{
-				tiles_.emplace_back(Tile::TileType::Ground,
+				tiles_.emplace_back(Tile::TileType::kGround,
 					x * SpritSize().x, y * SpritSize().y, true);
 			}
 		}
@@ -116,22 +139,6 @@ void Tilemap::InitMap(BuildingManager& building)
 
 	//std::cout << sprites_.size() / 4 << " /// " << sprites_.size() / 1.2 << std::endl;
 
-	std::random_device r;
-	int mean;
-	do
-	{
-		std::default_random_engine e1(r());
-		std::uniform_int_distribution<int> uniform_dist(tiles_.size() / 4, tiles_.size() / 1.2);
-		mean = uniform_dist(e1);
-
-
-		if (tiles_[mean].get_TileType() == Tile::TileType::Ground)
-		{
-			std::cout << tiles_[mean].Position().x << "//" << tiles_[mean].Position().y;
-			
-			building.ForceBuilding(tiles_[mean]);
-		}
-	} while (tiles_[mean].get_TileType() != Tile::TileType::Ground);
 
 	tileSelected_ = nullptr;
 
@@ -142,6 +149,12 @@ sf::Vector2u Tilemap::SpritSize()
 	return size_sprit_;
 }
 
+const std::vector<Tile>& Tilemap::tiles()
+{
+	return tiles_;
+}
+
+
 void Tilemap::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	//std::cout << tiles_.size() << "//" << tiles_.capacity() << std::endl;
@@ -149,4 +162,19 @@ void Tilemap::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
 		target.draw(tile, states);
 	}
+
+	//for (auto& tile : tiles_)
+	//{
+	//	target.draw(tile, states);
+
+	//	// Dessiner les positions de débogage
+	//	sf::RectangleShape debugRect;
+	//	debugRect.setSize(sf::Vector2f(playground_tile_offset_u_.x, playground_tile_offset_u_.y));
+	//	debugRect.setPosition(tile.Position());
+	//	debugRect.setFillColor(sf::Color::Transparent);
+	//	debugRect.setOutlineColor(sf::Color::Red);
+	//	debugRect.setOutlineThickness(1.0f);
+
+	//	target.draw(debugRect, states);
+	//}
 }

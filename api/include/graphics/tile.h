@@ -11,10 +11,11 @@ class Tile : public sf::Drawable
 public:
 	enum class TileType
 	{
-		Ground,
-		Wood,
-		Stone,
-		Home
+		kGround,
+		kWood,
+		kStone,
+		kHome,
+		kGroundOcup
 	};
 
 
@@ -29,7 +30,7 @@ public:
 	sf::Texture& GetFromType();
 
 	void set_TileType(TileType);
-	TileType get_TileType();
+	TileType type() const;
 
 protected:
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;

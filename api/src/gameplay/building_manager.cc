@@ -1,5 +1,6 @@
 
 #include <iostream>
+#include <random>
 
 #include <gameplay/building_manager.h>
 
@@ -28,6 +29,7 @@ void BuildingManager::build(sf::RenderWindow& window)
 	}
 }
 
+
 void BuildingManager::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	for (const auto& b : buildings_)
@@ -36,9 +38,22 @@ void BuildingManager::draw(sf::RenderTarget& target, sf::RenderStates states) co
 	}
 }
 
-void BuildingManager::ForceBuilding(const Tile& tile)
+void BuildingManager::CreatFirstBuildingHome(const std::vector<Tile>& tiles)
 {
-	buildings_.emplace_back(tile.Position().x, tile.Position().y, Build::Home);
+
+	std::random_device r;
+	std::default_random_engine e1(r());
+	int mean;
+	do
+	{
+		std::uniform_int_distribution<int> uniform_dist(tiles.size() / 4, tiles.size() / 1.2);
+		mean = uniform_dist(e1);
+
+		if (tiles[mean].type() == Tile::TileType::kGround)
+		{
+			buildings_.emplace_back(tiles[mean].Position().x, tiles[mean].Position().y, Build::kHome);
+		}
+	} while (tiles[mean].type() != Tile::TileType::kGround);
 }
 
 void BuildingManager::AddBuilding(const Tile& tile, Build building)
@@ -50,31 +65,36 @@ void BuildingManager::AddBuilding(const Tile& tile, Build building)
 
 	std::cout << "Tile clicked, can we finally add a house ? [" << tile.Position().x << ":" << tile.Position().y << "]" << std::endl;
 
-	if (tile.Type() == Tile::TileType::Ground)
+	if (tile.Type() == Tile::TileType::kGround)
 	{
 		switch (building)
 		{
-		case Build::Home:
+		case Build::kHome:
 		{
-			buildings_.emplace_back(tile.Position().x, tile.Position().y, Build::Home);
+			buildings_.emplace_back(tile.Position().x, tile.Position().y, Build::kHome);
 		}
 			break;
-		case Build::Ferme:
+		case Build::kFerme:
 		{
-			buildings_.emplace_back(tile.Position().x, tile.Position().y, Build::Ferme);
+			buildings_.emplace_back(tile.Position().x, tile.Position().y, Build::kFerme);
 		}
 		break;
-		case Build::Carriere:
+		case Build::kCarriere:
 		{
-			buildings_.emplace_back(tile.Position().x, tile.Position().y, Build::Carriere);
+			buildings_.emplace_back(tile.Position().x, tile.Position().y, Build::kCarriere);
 		}
 		break;
-		case Build::Menuiserie:
+		case Build::kMenuiserie:
 		{
-			buildings_.emplace_back(tile.Position().x, tile.Position().y, Build::Menuiserie);
+			buildings_.emplace_back(tile.Position().x, tile.Position().y, Build::kMenuiserie);
 		}
 		break;
 		}
 	}
+}
+
+void BuildingManager::ClearMap()
+{
+	buildings_.clear();
 }
 

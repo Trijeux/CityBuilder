@@ -41,20 +41,20 @@ sf::Texture& Tile::GetFromType()
 {
 	switch (type_)
 	{
-	case TileType::Wood:
-		return ResourceManager::Get().GetTexture(ResourceManager::Texture::Wood);
+	case TileType::kWood:
+		return ResourceManager::Get().GetTexture(ResourceManager::Texture::kWood);
 		break;
 
-	case TileType::Ground:
-		return ResourceManager::Get().GetTexture(ResourceManager::Texture::Ground);
+	case TileType::kGround:
+		return ResourceManager::Get().GetTexture(ResourceManager::Texture::kGround);
 		break;
 
-	case TileType::Stone:
-		return ResourceManager::Get().GetTexture(ResourceManager::Texture::Stone);
+	case TileType::kStone:
+		return ResourceManager::Get().GetTexture(ResourceManager::Texture::kStone);
 		break;
 
-	case TileType::Home:
-		return ResourceManager::Get().GetTexture(ResourceManager::Texture::Home);
+	case TileType::kHome:
+		return ResourceManager::Get().GetTexture(ResourceManager::Texture::kHome);
 		break;
 	}
 
@@ -67,7 +67,7 @@ void Tile::set_TileType(TileType type)
 	type_ = type;
 }
 
-Tile::TileType Tile::get_TileType()
+Tile::TileType Tile::type() const
 {
 	return type_;
 }
