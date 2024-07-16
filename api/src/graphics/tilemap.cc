@@ -149,7 +149,7 @@ sf::Vector2u Tilemap::SpritSize()
 	return size_sprit_;
 }
 
-const std::vector<Tile>& Tilemap::tiles()
+std::vector<Tile>& Tilemap::tiles()
 {
 	return tiles_;
 }

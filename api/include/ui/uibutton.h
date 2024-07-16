@@ -25,6 +25,8 @@ class UiButton : public sf::Drawable, public sf::Transformable
 
 public:
 
+	void Set_Color_Sprite(sf::Color color) { sprite_.setColor(color); }
+
 	bool HandleEvent(const sf::Event& event);
 	void CreatButton(sf::Vector2f pos, std::string text, int character_size, sf::Color color_text);
 	

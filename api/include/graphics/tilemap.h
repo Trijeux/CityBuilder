@@ -32,7 +32,9 @@ public:
 
 	sf::Vector2u SpritSize();
 
-	const std::vector<Tile>& tiles();
+	std::vector<Tile>& tiles();
+
+	sf::Vector2u sizeU() { return playground_size_u_; };
 
 private:
 	std::vector<Tile> tiles_;

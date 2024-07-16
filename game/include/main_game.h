@@ -1,6 +1,5 @@
 #ifndef GAME_MAINGAME_H_
 #define GAME_MAINGAME_H_
-#include <codecvt>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <graphics/Tilemap.h>
 #include <ui/UIButton.h>
@@ -20,6 +19,8 @@ class MainGame
 
 	UiButton btn_activate_building;
 
+	UiButton btn_activate_Destroyer;
+
 	UiButton btn_building_Home;
 
 	UiButton btn_building_Menuiserie;
@@ -28,7 +29,11 @@ class MainGame
 
 	UiButton btn_building_Carriere;
 
+	UiButton btn_building_Chateau;
+
 	sf::RenderWindow window_;
+
+	ResourceGame resource_;
 
 	sf::View view_;
 	sf::View viewUi_;
@@ -39,7 +44,9 @@ class MainGame
 	sf::Vector2f newPos;
 	Build build_ = Build::kHome;
 	bool build_active_ = false;
+	bool destroy_active_ = false;
 	bool mouse_on_btn;
+	bool full_ressource_ = false;
 
 	const int gridWidth = tilemap_.playground_size_u_.x;
 	const int gridHeight = tilemap_.playground_size_u_.y;

@@ -13,8 +13,9 @@ void ResourceManager::LoadAllTextures()
 	textures_.at(static_cast<int>(Texture::kHome)).loadFromFile("ressources/tile/home.png");
 	textures_.at(static_cast<int>(Texture::kFerme)).loadFromFile("ressources/tile/ferme.png");
 	textures_.at(static_cast<int>(Texture::kCarriere)).loadFromFile("ressources/tile/carriere.png");
-	textures_.at(static_cast<int>(Texture::kMenuiserie)).loadFromFile("ressources/tile/menuiserie.png");
+	textures_.at(static_cast<int>(Texture::kVerger)).loadFromFile("ressources/tile/menuiserie.png");
 	textures_.at(static_cast<int>(Texture::kGroundOcup)).loadFromFile("ressources/tile/Ground_Ocupper.png");
+	textures_.at(static_cast<int>(Texture::kChateau)).loadFromFile("ressources/tile/King_Castle.png");
 	
 }
 

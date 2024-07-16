@@ -15,7 +15,10 @@ public:
 		kWood,
 		kStone,
 		kHome,
-		kGroundOcup
+		kFerme,
+		kVerger,
+		kCarriere,
+		kChateau,
 	};
 
 
@@ -30,6 +33,7 @@ public:
 	sf::Texture& GetFromType();
 
 	void set_TileType(TileType);
+	void set_TileSprite();
 	TileType type() const;
 
 protected:

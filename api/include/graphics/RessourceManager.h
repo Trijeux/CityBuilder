@@ -14,10 +14,11 @@ public:
 		kStone,
 		kWood,
 		kHome,
-		kMenuiserie,
+		kVerger,
 		kCarriere,
 		kFerme,
 		kGroundOcup,
+		kChateau,
 
 		kMax
 	};

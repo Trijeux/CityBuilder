@@ -1,6 +1,7 @@
 #include <chrono>
 #include <iostream>
 #include <main_game.h>
+#include <threads.h>
 #ifdef TRACY_ENABLE
 #include <Tracy/Tracy.hpp>
 #endif
@@ -20,9 +21,11 @@ MainGame::MainGame()
 
 	tilemap_.InitMap();
 
-	building_manager_.CreatFirstBuildingHome(tilemap_.tiles());
+	building_manager_.CreatFirstBuildingHome(tilemap_.tiles(), &resource_);
 
-	tilemap_.ClickedTile_ = std::bind(&BuildingManager::AddBuilding, &building_manager_, std::placeholders::_1, build_);
+	resource_.setUiPosistion(window_);
+
+	tilemap_.ClickedTile_ = std::bind(&BuildingManager::AddBuilding, &building_manager_, std::placeholders::_1, build_, &resource_);
 
 	btn_generate.CreatButton(sf::Vector2f(50, 760), "Generate", 20, sf::Color::Yellow);
 	btn_generate.setScale(0.5f, 0.5f);
@@ -30,7 +33,8 @@ MainGame::MainGame()
 		{
 			tilemap_.InitMap();
 			building_manager_.ClearMap();
-			building_manager_.CreatFirstBuildingHome(tilemap_.tiles());
+			building_manager_.CreatFirstBuildingHome(tilemap_.tiles(), &resource_);
+
 		};
 
 	btn_activate_building.CreatButton(sf::Vector2f(200, 760), "Build", 20, sf::Color::Yellow);
@@ -60,6 +64,8 @@ MainGame::MainGame()
 			btn_building_Menuiserie.setScale(0.5f, 0.5f);
 			btn_building_Carriere.build_on_ = false;
 			btn_building_Carriere.setScale(0.5f, 0.5f);
+			btn_building_Chateau.build_on_ = false;
+			btn_building_Chateau.setScale(0.5f, 0.5f);
 		};
 
 	btn_building_Ferme.CreatButton(sf::Vector2f(250, 810), "Ferme", 20, sf::Color::Yellow);
@@ -74,9 +80,27 @@ MainGame::MainGame()
 			btn_building_Menuiserie.setScale(0.5f, 0.5f);
 			btn_building_Carriere.build_on_ = false;
 			btn_building_Carriere.setScale(0.5f, 0.5f);
+			btn_building_Chateau.build_on_ = false;
+			btn_building_Chateau.setScale(0.5f, 0.5f);
 		};
 
-	btn_building_Carriere.CreatButton(sf::Vector2f(400, 810), "Carriere", 20, sf::Color::Yellow);
+	btn_building_Menuiserie.CreatButton(sf::Vector2f(400, 810), "Verger", 20, sf::Color::Yellow);
+	btn_building_Menuiserie.setScale(0.5f, 0.5f);
+	btn_building_Menuiserie.call_back_ = [this]()
+		{
+			btn_building_Menuiserie.setScale(0.8f, 0.8f);
+			build_ = Build::kVerger;
+			btn_building_Home.build_on_ = false;
+			btn_building_Home.setScale(0.5f, 0.5f);
+			btn_building_Ferme.build_on_ = false;
+			btn_building_Ferme.setScale(0.5f, 0.5f);
+			btn_building_Carriere.build_on_ = false;
+			btn_building_Carriere.setScale(0.5f, 0.5f);
+			btn_building_Chateau.build_on_ = false;
+			btn_building_Chateau.setScale(0.5f, 0.5f);
+		};
+
+	btn_building_Carriere.CreatButton(sf::Vector2f(550, 810), "Carriere", 20, sf::Color::Yellow);
 	btn_building_Carriere.setScale(0.5f, 0.5f);
 	btn_building_Carriere.call_back_ = [this]()
 		{
@@ -88,20 +112,42 @@ MainGame::MainGame()
 			btn_building_Menuiserie.setScale(0.5f, 0.5f);
 			btn_building_Ferme.build_on_ = false;
 			btn_building_Ferme.setScale(0.5f, 0.5f);
+			btn_building_Chateau.build_on_ = false;
+			btn_building_Chateau.setScale(0.5f, 0.5f);
 		};
 
-	btn_building_Menuiserie.CreatButton(sf::Vector2f(550, 810), "Menuiserie", 20, sf::Color::Yellow);
-	btn_building_Menuiserie.setScale(0.5f, 0.5f);
-	btn_building_Menuiserie.call_back_ = [this]()
+	btn_building_Chateau.CreatButton(sf::Vector2f(700, 810), "Chateau", 20, sf::Color::Yellow);
+	btn_building_Chateau.setScale(0.5f, 0.5f);
+	btn_building_Chateau.call_back_ = [this]()
 		{
-			btn_building_Menuiserie.setScale(0.8f, 0.8f);
-			build_ = Build::kMenuiserie;
+			btn_building_Chateau.setScale(0.8f, 0.8f);
+			build_ = Build::kChateau;
 			btn_building_Home.build_on_ = false;
 			btn_building_Home.setScale(0.5f, 0.5f);
 			btn_building_Ferme.build_on_ = false;
 			btn_building_Ferme.setScale(0.5f, 0.5f);
 			btn_building_Carriere.build_on_ = false;
 			btn_building_Carriere.setScale(0.5f, 0.5f);
+			btn_building_Menuiserie.build_on_ = false;
+			btn_building_Menuiserie.setScale(0.5f, 0.5f);
+		};
+
+	btn_activate_Destroyer.CreatButton(sf::Vector2f(850, 810), "Destroy", 20, sf::Color::Yellow);
+	btn_activate_Destroyer.setScale(0.5f, 0.5f);
+	btn_activate_Destroyer.call_back_ = [this]()
+		{
+			if (destroy_active_ == false)
+			{
+				destroy_active_ = true;
+				btn_activate_Destroyer.setScale(0.8f, 0.8f);
+				btn_activate_Destroyer.Set_Color_Sprite(sf::Color::Red);
+			}
+			else if (destroy_active_ == true)
+			{
+				destroy_active_ = false;
+				btn_activate_Destroyer.setScale(0.5f, 0.5f);
+				btn_activate_Destroyer.Set_Color_Sprite(sf::Color::White);
+			}
 		};
 
 	view_ = window_.getDefaultView();
@@ -200,94 +246,171 @@ void MainGame::ContrainteView()
 
 void MainGame::GameLoop()
 {
-	while (window_.isOpen())
+	while (resource_.game())
 	{
-#ifdef TRACY_ENABLE
-		ZoneNamedN(GameLoop, "GameLoop", true);
-#endif
-		//auto start = std::chrono::high_resolution_clock::now();
-		sf::Event event;
-		while (window_.pollEvent(event))
+		while (window_.isOpen())
 		{
-			if (event.type == sf::Event::Closed)
-				window_.close();
+#ifdef TRACY_ENABLE
+			ZoneNamedN(GameLoop, "GameLoop", true);
+#endif
+			//auto start = std::chrono::high_resolution_clock::now();
+			sf::Event event;
+			while (window_.pollEvent(event))
+			{
+				if (event.type == sf::Event::Closed)
+					window_.close();
 
-			mouse_on_btn = false;
+				mouse_on_btn = false;
 
+				if (!build_active_)
+				{
+					//mouse_on_btn = btn_generate.HandleEvent(event);
+				}
+
+				mouse_on_btn = btn_activate_building.HandleEvent(event);
+
+
+				if (btn_activate_Destroyer.HandleEvent(event))
+				{
+					mouse_on_btn = true;
+				}
+
+				if (btn_building_Home.HandleEvent(event))
+				{
+					mouse_on_btn = true;
+				}
+
+				if (btn_building_Ferme.HandleEvent(event))
+				{
+					mouse_on_btn = true;
+				}
+
+				if (btn_building_Menuiserie.HandleEvent(event))
+				{
+					mouse_on_btn = true;
+				}
+
+				if (btn_building_Carriere.HandleEvent(event))
+				{
+					mouse_on_btn = true;
+				}
+
+				if (btn_building_Chateau.HandleEvent(event))
+				{
+					mouse_on_btn = true;
+				}
+
+				if (resource_.gold() >= 100)
+				{
+					btn_building_Ferme.Set_Color_Sprite(sf::Color::White);
+					full_ressource_ = true;
+				}
+				else
+				{
+					btn_building_Ferme.Set_Color_Sprite(sf::Color::Black);
+					full_ressource_ = false;
+				}
+
+				if (resource_.food() >= 100 && resource_.gold() >= 200)
+				{
+					btn_building_Home.Set_Color_Sprite(sf::Color::White);
+					full_ressource_ = true;
+				}
+				else
+				{
+					btn_building_Home.Set_Color_Sprite(sf::Color::Black);
+					full_ressource_ = false;
+				}
+
+				if (resource_.food() >= 200 && resource_.gold() >= 300)
+				{
+					btn_building_Menuiserie.Set_Color_Sprite(sf::Color::White);
+					full_ressource_ = true;
+				}
+				else
+				{
+					btn_building_Menuiserie.Set_Color_Sprite(sf::Color::Black);
+					full_ressource_ = false;
+				}
+
+				if (resource_.food() >= 300 && resource_.gold() >= 400 && resource_.wood() >= 200)
+				{
+					btn_building_Carriere.Set_Color_Sprite(sf::Color::White);
+					full_ressource_ = true;
+				}
+				else
+				{
+					btn_building_Carriere.Set_Color_Sprite(sf::Color::Black);
+					full_ressource_ = false;
+				}
+
+				if (resource_.food() >= 25000 && resource_.gold() >= 50000
+					&& resource_.wood() >= 12500 && resource_.stone() >= 10000)
+				{
+					btn_building_Chateau.Set_Color_Sprite(sf::Color::White);
+					full_ressource_ = true;
+				}
+				else
+				{
+					btn_building_Chateau.Set_Color_Sprite(sf::Color::Black);
+					full_ressource_ = false;
+				}
+
+
+				if (destroy_active_)
+				{
+					tilemap_.ClickedTile_ = std::bind(&BuildingManager::SubBuilding, &building_manager_, std::placeholders::_1, &resource_);
+				}
+				else
+				{
+					tilemap_.ClickedTile_ = std::bind(&BuildingManager::AddBuilding, &building_manager_, std::placeholders::_1, build_, &resource_);
+				}
+
+				if (!mouse_on_btn && full_ressource_)
+				{
+					tilemap_.HandleEvent(event, window_, view_);
+				}
+
+				//tilemap_.Size_Offset(zoomFactor);
+
+
+				Zoom(event);
+
+				MoveCame(event);
+			}
+
+			resource_.AddRessource();
+			resource_.GameEnd();
+			resource_.PayTaxe();
+
+			ContrainteView();
+
+			window_.clear();
+			window_.setView(view_); // Set updated view
+			window_.draw(tilemap_);
+			window_.draw(building_manager_);
+			//window_.draw(btn_generate);
+			window_.setView(viewUi_);
+			window_.draw(btn_activate_building);
+			resource_.Draw(window_);
 			if (!build_active_)
 			{
-				mouse_on_btn = btn_generate.HandleEvent(event);
+				//window_.draw(btn_generate);
 			}
-
-			mouse_on_btn = btn_activate_building.HandleEvent(event);
-			if (!mouse_on_btn && build_active_)
+			if (build_active_)
 			{
-				mouse_on_btn = btn_building_Home.HandleEvent(event);
-				if (!mouse_on_btn)
-				{
-					mouse_on_btn = btn_building_Ferme.HandleEvent(event);
-					if (!mouse_on_btn)
-					{
-						mouse_on_btn = btn_building_Menuiserie.HandleEvent(event);
-						if (!mouse_on_btn)
-						{
-							mouse_on_btn = btn_building_Carriere.HandleEvent(event);
-						}
-					}
-				}
+				window_.draw(btn_activate_Destroyer);
+				window_.draw(btn_building_Home);
+				window_.draw(btn_building_Ferme);
+				window_.draw(btn_building_Carriere);
+				window_.draw(btn_building_Menuiserie);
+				window_.draw(btn_building_Chateau);
 			}
-
-
-			tilemap_.ClickedTile_ = std::bind(&BuildingManager::AddBuilding, &building_manager_, std::placeholders::_1, build_);
-
-			if (!mouse_on_btn)
-			{
-				tilemap_.HandleEvent(event, window_, view_);
-			}
-
-			//tilemap_.Size_Offset(zoomFactor);
-
-
-			Zoom(event);
-
-			MoveCame(event);
-		}
-
-		ContrainteView();
-
-		//// Débogage des informations de vue et de tilemap
-		//sf::Vector2f viewCenter = view_.getCenter();
-		//sf::Vector2f viewSize = view_.getSize();
-		//std::cout << "View Center: (" << viewCenter.x << ", " << viewCenter.y << ")\n";
-		//std::cout << "View Size: (" << viewSize.x << ", " << viewSize.y << ")\n";
-		//std::cout << "Scene Bounds: Left=" << sceneBounds.left << ", Top=" << sceneBounds.top
-		//	<< ", Width=" << sceneBounds.width << ", Height=" << sceneBounds.height << "\n";
-
-
-		window_.clear();
-		window_.setView(view_); // Set updated view
-		window_.draw(tilemap_);
-		window_.draw(building_manager_);
-		//window_.draw(btn_generate);
-		window_.setView(viewUi_);
-		window_.draw(btn_activate_building);
-		if (!build_active_)
-		{
-			window_.draw(btn_generate);
-		}
-		if (build_active_)
-		{
-			window_.draw(btn_building_Home);
-			window_.draw(btn_building_Ferme);
-			window_.draw(btn_building_Carriere);
-			window_.draw(btn_building_Menuiserie);
-		}
-		window_.display();
+			window_.display();
 
 #ifdef TRACY_ENABLE
-		FrameMark;
+			FrameMark;
 #endif
-		//auto end = std::chrono::high_resolution_clock::now();
-		//std::chrono::duration<double> totalDuration = end - start;
+		}
 	}
 }

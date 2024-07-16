@@ -1,0 +1,21 @@
+digraph { 
+
+    "Start Game" -> 
+    "Time Start" -> "Home" -> "OR"
+    "OR" -> "Taxe" [label = "Tout les 120 second"] 
+    "Taxe" -> "Nombre de batiment de farme"
+    "Time Start" -> "Ferme" -> "Nourriture"
+    "Time Start" -> "Verger" -> "Boit"
+    "Time Start" -> "Cariere" -> "Pierre"
+    "Home" -> "+ Nombre de Home" 
+    "Ferme" -> "+ Nombre de ferme" 
+    "Verger" -> "+ Nombre de Verger" 
+    "Cariere" -> "+ Nombre de Cariere" 
+    "+ Nombre de Home" -> "Add Production"
+    "+ Nombre de ferme" -> "Add Production" 
+    "+ Nombre de Verger" -> "Add Production" 
+    "+ Nombre de Cariere" -> "Add Production" 
+    "Add Production" -> "1 second"
+    "1 second" -> "Time Start"
+    rankdir=LR
+ }

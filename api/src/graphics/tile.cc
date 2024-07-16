@@ -54,17 +54,36 @@ sf::Texture& Tile::GetFromType()
 		break;
 
 	case TileType::kHome:
-		return ResourceManager::Get().GetTexture(ResourceManager::Texture::kHome);
+		return ResourceManager::Get().GetTexture(ResourceManager::Texture::kGroundOcup);
+		break;
+
+	case TileType::kFerme:
+		return ResourceManager::Get().GetTexture(ResourceManager::Texture::kGroundOcup);
+		break;
+
+	case TileType::kVerger:
+		return ResourceManager::Get().GetTexture(ResourceManager::Texture::kGroundOcup);
+		break;
+
+	case TileType::kCarriere:
+		return ResourceManager::Get().GetTexture(ResourceManager::Texture::kGroundOcup);
+		break;
+	case TileType::kChateau:
+		return ResourceManager::Get().GetTexture(ResourceManager::Texture::kGroundOcup);
 		break;
 	}
-
-
-
 }
+
+
 
 void Tile::set_TileType(TileType type)
 {
 	type_ = type;
+}
+
+void Tile::set_TileSprite()
+{
+	sprite_.setTexture(GetFromType());
 }
 
 Tile::TileType Tile::type() const

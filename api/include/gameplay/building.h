@@ -6,20 +6,23 @@ enum class Build
 {
 	kHome,
 	kCarriere,
-	kMenuiserie,
-	kFerme
+	kVerger,
+	kFerme,
+	kChateau
 }; 
 
 class Building : public sf::Drawable{
 
 public:
 	Building(float x, float y, Build build);
+	sf::Vector2f Position() { return position_; }
 
 protected:
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
 private:
 	sf::Sprite shape_;
+	sf::Vector2f position_;
 
 };
 
