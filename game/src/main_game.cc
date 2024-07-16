@@ -270,10 +270,10 @@ void MainGame::GameLoop()
 				mouse_on_btn = btn_activate_building.HandleEvent(event);
 
 
-				if (btn_activate_Destroyer.HandleEvent(event))
+				/*if (btn_activate_Destroyer.HandleEvent(event))
 				{
 					mouse_on_btn = true;
-				}
+				}*/
 
 				if (btn_building_Home.HandleEvent(event))
 				{
@@ -399,7 +399,7 @@ void MainGame::GameLoop()
 			}
 			if (build_active_)
 			{
-				window_.draw(btn_activate_Destroyer);
+				//window_.draw(btn_activate_Destroyer);
 				window_.draw(btn_building_Home);
 				window_.draw(btn_building_Ferme);
 				window_.draw(btn_building_Carriere);
