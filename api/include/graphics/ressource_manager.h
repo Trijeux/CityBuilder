@@ -39,7 +39,6 @@ private:
 
 	
 	void LoadCursors();
-	//void LoadTexture();
 
 public:
 	ResourceManager();
@@ -56,4 +55,4 @@ public:
 	sf::Image& GetCursor(CursorImage cursor_id);
 };
 
-#endif
+#endif //API_GRAPHICS_RESOURCE_MANAGER_H

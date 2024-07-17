@@ -1,6 +1,5 @@
 #include "gameplay/building_manager.h"
 
-#include <iostream>
 #include <random>
 
 #include "gameplay/change_cursor.h"
@@ -43,13 +42,11 @@ void BuildingManager::CreateFirstBuildingHome(std::vector<Tile>& tiles, GameReso
 	bool homeNotPlace = true;
 	std::random_device r;
 	std::default_random_engine e1(r());
-	int mean = 0;
 	do
 	{
 		std::uniform_int_distribution<int> uniform_dist(tiles.size() / 4, tiles.size() / 1.2);
-		mean = uniform_dist(e1);
 
-		if (tiles[mean].type() == Tile::TileType::kGround)
+		if (const int mean = uniform_dist(e1); tiles[mean].type() == Tile::TileType::kGround)
 		{
 			buildings_.emplace_back(tiles[mean].Position().x, tiles[mean].Position().y, Build::kHome);
 			resource->AddBuilding(Build::kHome);
@@ -67,12 +64,10 @@ void BuildingManager::AddBuilding(Tile& tile, const Build building, GameResource
 		return;
 	}
 
-	std::cout << "Tile clicked, can we finally add a house ? [" << tile.Position().x << ":" << tile.Position().y << "]" << std::endl;
-
 	if (tile.Type() == Tile::TileType::kGround)
 	{
 		Tile::TileType type;
-		//std::cout << &resource_ << std::endl;
+
 		switch (building)
 		{
 		case Build::kHome:
@@ -128,8 +123,6 @@ void BuildingManager::SubBuilding(Tile& tile, GameResource& resource)
 	{
 		return;
 	}
-
-	std::cout << "Tile clicked, can we finally sub a house ? [" << tile.Position().x << ":" << tile.Position().y << "]" << std::endl;
 
 
 	if (tile.Type() == Tile::TileType::kHome || tile.Type() == Tile::TileType::kFarm || tile.Type() == Tile::TileType::kOrchard

@@ -25,7 +25,6 @@ void Tile::draw(sf::RenderTarget& target, const sf::RenderStates states) const
 	target.draw(sprite_, states);
 
 	if (is_selected_) {
-		//std::cout << "draw selected tile [" << outline_.getPosition().x << ":" << outline_.getPosition().y << "]" << std::endl;
 		target.draw(outline_, states);
 	}
 }

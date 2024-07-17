@@ -1,6 +1,5 @@
 #include "graphics/tilemap.h"
 
-#include <iostream>
 #include <random>
 #include <SFML/Graphics/Sprite.hpp>
 
@@ -16,33 +15,23 @@ Tilemap::Tilemap(): tile_selected_(nullptr)
 void Tilemap::Setup(const sf::Vector2u playground_size_u)
 {
 	playground_size_u_ = playground_size_u;
-	//sprites_.reserve(playground_size_u_.x * playground_size_u_.y);
 	playground_tile_offset_u_.x = size_sprit_.x;
 	playground_tile_offset_u_.y = size_sprit_.y;
 }
 
-//void Tilemap::Size_Offset(float size_zoom)
-//{
-//	//playground_tile_offset_u_.x = playground_size_u_.x / (size_sprit_.x * size_zoom);
-//	//playground_tile_offset_u_.y = playground_size_u_.y / (size_sprit_.y * size_zoom);
-//}
 
 void Tilemap::HandleEvent(const sf::Event& event, const sf::RenderWindow& window, const sf::View& view)
 {
 	if (event.type == sf::Event::MouseMoved)
 	{
-		// Convertir la position de la souris en coordonnées du monde
+		// Convert mouse position to world coordinates
 		const sf::Vector2f mouse_world_position = window.mapPixelToCoords(sf::Mouse::getPosition(window), view);
 
-		// Ajuster la position de la souris en fonction de la taille des tuiles
+		// Adjust mouse position based on tile size
 		auto adjusted_mouse_position = sf::Vector2f(
 			std::round(mouse_world_position.x / playground_tile_offset_u_.x) * playground_tile_offset_u_.x,
 			std::round(mouse_world_position.y / playground_tile_offset_u_.y) * playground_tile_offset_u_.y
 		);
-
-		/*std::cout << "Mouse Window Position: (" << sf::Mouse::getPosition(window).x << ", " << sf::Mouse::getPosition(window).y << ")\n";
-		std::cout << "Mouse World Position: (" << mouseWorldPosition.x << ", " << mouseWorldPosition.y << ")\n";
-		std::cout << "Adjusted Mouse Position: (" << adjustedMousePosition.x << ", " << adjustedMousePosition.y << ")\n";*/
 
 		if (tile_selected_ != nullptr)
 		{
@@ -69,7 +58,7 @@ void Tilemap::HandleEvent(const sf::Event& event, const sf::RenderWindow& window
 			}
 			else
 			{
-				std::cout << "No callback defined...";
+				
 			}
 		}
 	}
@@ -104,7 +93,6 @@ void Tilemap::InitMap()
 			const int idx = x * playground_size_u_.y + y;
 
 			// Generate a noise value
-			
 			const float noise_value = noise.GetNoise(x * scale_x, y * scale_y);
 
 			sf::Sprite sprite;
@@ -134,8 +122,6 @@ void Tilemap::InitMap()
 		}
 	}
 
-	//std::cout << sprites_.size() / 4 << " /// " << sprites_.size() / 1.2 << std::endl;
-
 
 	tile_selected_ = nullptr;
 
@@ -154,7 +140,6 @@ std::vector<Tile>& Tilemap::tiles()
 
 void Tilemap::draw(sf::RenderTarget& target, const sf::RenderStates states) const
 {
-	//std::cout << tiles_.size() << "//" << tiles_.capacity() << std::endl;
 	for (const auto& tile : tiles_)
 	{
 		target.draw(tile, states);

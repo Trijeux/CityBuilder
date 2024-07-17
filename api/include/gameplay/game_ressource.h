@@ -69,4 +69,4 @@ public:
 	void Draw(sf::RenderWindow&) const;
 };
 
-#endif
+#endif //GAMEPLAY_GAME_RESOURCE_H

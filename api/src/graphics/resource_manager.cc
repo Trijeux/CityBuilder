@@ -5,10 +5,6 @@
 
 void ResourceManager::LoadAllTextures()
 {
-	//textures_.clear();
-	//textures_.resize(static_cast<int>(Texture::kMax));
-
-	// Textures -----------------
 	blank_texture_ = sf::Texture();
 	textures_.at(static_cast<int>(Texture::kGround)).loadFromFile("ressources/tile/Ground.png");
 	textures_.at(static_cast<int>(Texture::kStone)).loadFromFile("ressources/tile/Stone.png");
@@ -25,42 +21,23 @@ void ResourceManager::LoadAllTextures()
 void ResourceManager::LoadCursors()
 {
 
-	//cursor_images_.clear();
-	//cursor_images_.resize(static_cast<int>(CursorImage::kMax));
-
-	//cursors_.emplace_back();
 	cursor_images_.at(static_cast<int>(CursorImage::kBasic)).loadFromFile("ressources/cursore/PNG/Outline/Default/pointer_toon_b.png");
 	cursor_images_.at(static_cast<int>(CursorImage::kBuild)).loadFromFile("ressources/cursore/PNG/Outline/Default/tool_hammer.png");
 
 }
 
-//void ResourceManager::LoadTexture(std::string filename, )
-//{
-//	sf::Image image;
-//	image.loadFromFile(filename);
-//	texture.loadFromImage(image, area);
-//}
-
-
-//static ResourceManager* instance = nullptr;
 ResourceManager::ResourceManager()
 {
-	//instance = this;
 	LoadAllTextures();
 	LoadCursors();
 }
 
-//ResourceManager::~ResourceManager()
-//{
-//	instance = nullptr;
-//}
 
 ResourceManager& ResourceManager::Get()
 {
 
 	static ResourceManager instance;
 	return instance;
-	//return *instance_;
 
 }
 

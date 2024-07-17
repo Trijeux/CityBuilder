@@ -1,7 +1,5 @@
 #include "gameplay/game_ressource.h"
 
-#include <iostream>
-
 
 GameResource::GameResource()
 {
@@ -141,9 +139,6 @@ void GameResource::SubBuilding(const Tile::TileType type)
 	break;
 
 	case Tile::TileType::kCastle:
-	{
-		std::cout << "Error" << std::endl;
-	}
 	break;
 	default:;
 	}

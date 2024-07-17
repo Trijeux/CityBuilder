@@ -157,9 +157,6 @@ MainGame::MainGame()
 	view_ui_ = window_.getDefaultView();
 
 	scene_bounds_ = sf::FloatRect(0, 0, window_.getSize().x, window_.getSize().y);
-
-	//building_manager_.build(window_);
-
 }
 
 void MainGame::Zoom(const sf::Event& event)
@@ -187,11 +184,6 @@ void MainGame::Zoom(const sf::Event& event)
 
 		view_.setSize(window_.getDefaultView().getSize()); // Reset view size
 		view_.zoom(zoom_factor_); // Apply zoom factor
-
-		//// Print the zoom factor and view for debugging
-		//std::cout << "Zoom Factor: " << zoomFactor << std::endl;
-		//std::cout << "View Center: (" << view_.getCenter().x << ", " << view_.getCenter().y << ")\n";
-		//std::cout << "View Size: (" << view_.getSize().x << ", " << view_.getSize().y << ")\n";
 	}
 }
 
@@ -251,7 +243,6 @@ void MainGame::GameLoop()
 {
 	while (window_.isOpen())
 	{
-		//auto start = std::chrono::high_resolution_clock::now();
 		sf::Event event;
 		while (window_.pollEvent(event))
 		{
@@ -260,18 +251,17 @@ void MainGame::GameLoop()
 
 			mouse_on_btn_ = false;
 
-			if (!build_active_)
+			/*if (!build_active_)
 			{
-				//mouse_on_btn = btn_generate.HandleEvent(event);
-			}
+				mouse_on_btn_ = btn_generate_.HandleEvent(event);
+			}*/
+
+			/*if (btn_activate_destroyer_.HandleEvent(event))
+			{
+				mouse_on_btn_ = true;
+			}*/
 
 			mouse_on_btn_ = btn_activate_building_.HandleEvent(event);
-
-
-			/*if (btn_activate_Destroyer.HandleEvent(event))
-			{
-				mouse_on_btn = true;
-			}*/
 
 			if (resource_.food() >= 100 && resource_.gold() >= 200)
 			{
@@ -371,7 +361,7 @@ void MainGame::GameLoop()
 			}
 
 
-			if (destroy_active_)
+			/*if (destroy_active_)
 			{
 				tilemap_.clicked_tile_ = [this](Tile& tile)
 					{
@@ -385,7 +375,7 @@ void MainGame::GameLoop()
 					{
 						building_manager_.AddBuilding(tile, build_, resource_);
 					};
-			}
+			}*/
 
 			if (!mouse_on_btn_ && (full_resource_for_home_ || full_resource_for_farm_ || full_resource_for_orchard_ || full_resource_for_mine_ || full_resource_for_castle_))
 			{
@@ -396,9 +386,6 @@ void MainGame::GameLoop()
 			{
 				btn_quit_.HandleEvent(event);
 			}
-			
-			//tilemap_.Size_Offset(zoomFactor);
-
 
 			Zoom(event);
 
@@ -417,8 +404,8 @@ void MainGame::GameLoop()
 			window_.setView(view_); // Set updated view
 			window_.draw(tilemap_);
 			window_.draw(building_manager_);
-			//window_.draw(btn_generate);
 			window_.setView(view_ui_);
+			//window_.draw(btn_generate);
 			window_.draw(btn_activate_building_);
 			resource_.Draw(window_);
 			if (!build_active_)
