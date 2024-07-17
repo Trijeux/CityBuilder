@@ -6,7 +6,7 @@
 #include "Building.h"
 #include "graphics/tile.h"
 
-class ResourceGame
+class GameRessource
 {
 
 	sf::Sprite sprite_Gold_;
@@ -48,7 +48,7 @@ class ResourceGame
 	std::chrono::time_point<std::chrono::steady_clock> TaxeSecondLast;
 
 public:
-	ResourceGame();
+	GameRessource();
 	void setUiPosistion(sf::RenderWindow&);
 
 	[[nodiscard]] int gold() const { return Gold; }

@@ -19,12 +19,12 @@ private:
 	bool GetActive() const;
 
 public :
-	void AddBuilding (Tile& tile, Build build, ResourceGame* resource_);
-	void SubBuilding(Tile& tile, ResourceGame* resource_);
+	void AddBuilding (Tile& tile, Build build, GameRessource& resource_);
+	void SubBuilding(Tile& tile, GameRessource& resource_);
 
 	void ClearMap();
 
-	void CreatFirstBuildingHome(std::vector<Tile>& tiles, ResourceGame* resource_);
+	void CreatFirstBuildingHome(std::vector<Tile>& tiles, GameRessource* resource_);
 
 	void build(sf::RenderWindow& window);
 

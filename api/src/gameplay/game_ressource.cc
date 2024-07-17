@@ -3,7 +3,7 @@
 #include <iostream>
 
 
-ResourceGame::ResourceGame()
+GameRessource::GameRessource()
 {
 	if (!font_.loadFromFile("ressources/fonts/kenvector_future.ttf")) {
 		// Gérer l'erreur : impossible de charger la police
@@ -66,7 +66,7 @@ ResourceGame::ResourceGame()
 	TaxeSecondLast = OneSecondLast;
 }
 
-void ResourceGame::setUiPosistion(sf::RenderWindow& window)
+void GameRessource::setUiPosistion(sf::RenderWindow& window)
 {
 	sprite_Taxe_.setPosition(100, 50);
 	sprite_Gold_.setPosition(window.getSize().x - 600, 50);
@@ -81,7 +81,7 @@ void ResourceGame::setUiPosistion(sf::RenderWindow& window)
 	text_Stone_.setPosition(sprite_Stone_.getPosition().x + 50, 50);
 }
 
-void ResourceGame::AddBatiment(const Build type)
+void GameRessource::AddBatiment(const Build type)
 {
 	switch (type)
 	{
@@ -115,7 +115,7 @@ void ResourceGame::AddBatiment(const Build type)
 
 }
 
-void ResourceGame::SubBatiment(Tile::TileType type)
+void GameRessource::SubBatiment(Tile::TileType type)
 {
 	switch (type)
 	{
@@ -149,7 +149,7 @@ void ResourceGame::SubBatiment(Tile::TileType type)
 	}
 }
 
-void ResourceGame::AddRessource()
+void GameRessource::AddRessource()
 {
 	auto currentTime = std::chrono::high_resolution_clock::now();
 	std::chrono::duration<double> OneSecond = currentTime - OneSecondLast;
@@ -173,7 +173,7 @@ void ResourceGame::AddRessource()
 	}
 }
 
-void ResourceGame::PayBatiment(Build type)
+void GameRessource::PayBatiment(Build type)
 {
 	switch (type)
 	{
@@ -213,7 +213,7 @@ void ResourceGame::PayBatiment(Build type)
 	}
 }
 
-void ResourceGame::PayTaxe()
+void GameRessource::PayTaxe()
 {
 	Taxe = (Carriere * 4 + Verger * 3 + Ferme * 2 + Home) * 15;
 	text_Taxe_.setString(std::to_string(Taxe));
@@ -226,7 +226,7 @@ void ResourceGame::PayTaxe()
 	}
 }
 
-void ResourceGame::GameEnd()
+void GameRessource::GameEnd()
 {
 	if (Chateau >= 1)
 	{
@@ -235,7 +235,7 @@ void ResourceGame::GameEnd()
 }
 
 
-void ResourceGame::Draw(sf::RenderWindow& window)
+void GameRessource::Draw(sf::RenderWindow& window)
 {
 	window.draw(sprite_Gold_);
 	window.draw(text_Gold_);

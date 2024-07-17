@@ -25,7 +25,10 @@ MainGame::MainGame()
 
 	resource_.setUiPosistion(window_);
 
-	tilemap_.ClickedTile_ = std::bind(&BuildingManager::AddBuilding, &building_manager_, std::placeholders::_1, build_, &resource_);
+	tilemap_.ClickedTile_ = [this](Tile& tile)
+		{
+			building_manager_.AddBuilding(tile, build_, resource_);
+		};
 
 	btn_generate.CreatButton(sf::Vector2f(50, 760), "Generate", 20, sf::Color::Yellow);
 	btn_generate.setScale(0.5f, 0.5f);
@@ -53,7 +56,7 @@ MainGame::MainGame()
 		};
 
 	btn_building_Home.CreatButton(sf::Vector2f(100, 810), "Home", 20, sf::Color::Yellow);
-	btn_building_Home.setScale(0.8f, 0.8f);
+	btn_building_Home.setScale(0.5f, 0.5f);
 	btn_building_Home.call_back_ = [this]()
 		{
 			btn_building_Home.setScale(0.8f, 0.8f);
@@ -69,7 +72,7 @@ MainGame::MainGame()
 		};
 
 	btn_building_Ferme.CreatButton(sf::Vector2f(250, 810), "Ferme", 20, sf::Color::Yellow);
-	btn_building_Ferme.setScale(0.5f, 0.5f);
+	btn_building_Ferme.setScale(0.8f, 0.8f);
 	btn_building_Ferme.call_back_ = [this]()
 		{
 			btn_building_Ferme.setScale(0.8f, 0.8f);
@@ -280,98 +283,121 @@ void MainGame::GameLoop()
 				mouse_on_btn = true;
 			}*/
 
-			if (btn_building_Home.HandleEvent(event))
+			if (resource_.food() >= 100 && resource_.gold() >= 200)
 			{
-				mouse_on_btn = true;
+				if (btn_building_Home.HandleEvent(event))
+				{
+					mouse_on_btn = true;
+				}
 			}
 
-			if (btn_building_Ferme.HandleEvent(event))
+			if (resource_.gold() >= 100)
 			{
-				mouse_on_btn = true;
+				if (btn_building_Ferme.HandleEvent(event))
+				{
+					mouse_on_btn = true;
+				}
 			}
 
-			if (btn_building_Menuiserie.HandleEvent(event))
+			if (resource_.food() >= 200 && resource_.gold() >= 300)
 			{
-				mouse_on_btn = true;
+				if (btn_building_Menuiserie.HandleEvent(event))
+				{
+					mouse_on_btn = true;
+				}
 			}
 
-			if (btn_building_Carriere.HandleEvent(event))
+			if (resource_.food() >= 300 && resource_.gold() >= 400 && resource_.wood() >= 200)
 			{
-				mouse_on_btn = true;
+				if (btn_building_Carriere.HandleEvent(event))
+				{
+					mouse_on_btn = true;
+				}
 			}
 
-			if (btn_building_Chateau.HandleEvent(event))
+			if (resource_.food() >= 25000 && resource_.gold() >= 50000
+				&& resource_.wood() >= 12500 && resource_.stone() >= 10000)
 			{
-				mouse_on_btn = true;
+				if (btn_building_Chateau.HandleEvent(event))
+				{
+					mouse_on_btn = true;
+				}
 			}
 
 			if (resource_.gold() >= 100)
 			{
 				btn_building_Ferme.Set_Color_Sprite(sf::Color::White);
-				full_ressource_ = true;
+				full_ressource_for_ferme_ = true;
 			}
 			else
 			{
 				btn_building_Ferme.Set_Color_Sprite(sf::Color::Black);
-				full_ressource_ = false;
+				full_ressource_for_ferme_ = false;
 			}
 
 			if (resource_.food() >= 100 && resource_.gold() >= 200)
 			{
 				btn_building_Home.Set_Color_Sprite(sf::Color::White);
-				full_ressource_ = true;
+				full_ressource_for_home_ = true;
 			}
 			else
 			{
 				btn_building_Home.Set_Color_Sprite(sf::Color::Black);
-				full_ressource_ = false;
+				full_ressource_for_home_ = false;
 			}
 
 			if (resource_.food() >= 200 && resource_.gold() >= 300)
 			{
 				btn_building_Menuiserie.Set_Color_Sprite(sf::Color::White);
-				full_ressource_ = true;
+				full_ressource_for_verger_ = true;
 			}
 			else
 			{
 				btn_building_Menuiserie.Set_Color_Sprite(sf::Color::Black);
-				full_ressource_ = false;
+				full_ressource_for_verger_ = false;
 			}
 
 			if (resource_.food() >= 300 && resource_.gold() >= 400 && resource_.wood() >= 200)
 			{
 				btn_building_Carriere.Set_Color_Sprite(sf::Color::White);
-				full_ressource_ = true;
+				full_ressource_for_mine_ = true;
 			}
 			else
 			{
 				btn_building_Carriere.Set_Color_Sprite(sf::Color::Black);
-				full_ressource_ = false;
+				full_ressource_for_mine_ = false;
 			}
 
 			if (resource_.food() >= 25000 && resource_.gold() >= 50000
 				&& resource_.wood() >= 12500 && resource_.stone() >= 10000)
 			{
 				btn_building_Chateau.Set_Color_Sprite(sf::Color::White);
-				full_ressource_ = true;
+				full_ressource_for_chateau_ = true;
 			}
 			else
 			{
 				btn_building_Chateau.Set_Color_Sprite(sf::Color::Black);
-				full_ressource_ = false;
+				full_ressource_for_chateau_ = false;
 			}
 
 
 			if (destroy_active_)
 			{
-				tilemap_.ClickedTile_ = std::bind(&BuildingManager::SubBuilding, &building_manager_, std::placeholders::_1, &resource_);
+				tilemap_.ClickedTile_ = [this](Tile& tile)
+					{
+						building_manager_.SubBuilding(tile, resource_);
+					};
+				
 			}
 			else
 			{
-				tilemap_.ClickedTile_ = std::bind(&BuildingManager::AddBuilding, &building_manager_, std::placeholders::_1, build_, &resource_);
+				tilemap_.ClickedTile_ = [this](Tile& tile)
+					{
+						building_manager_.AddBuilding(tile, build_, resource_);
+					};
 			}
 
-			if (!mouse_on_btn && full_ressource_)
+			if (!mouse_on_btn && (full_ressource_for_home_ || full_ressource_for_ferme_ || full_ressource_for_verger_ || full_ressource_for_mine_ || full_ressource_for_chateau_))
 			{
 				tilemap_.HandleEvent(event, window_, view_);
 			}

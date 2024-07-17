@@ -35,7 +35,7 @@ class MainGame
 
 	sf::RenderWindow window_;
 
-	ResourceGame resource_;
+	GameRessource resource_;
 
 	sf::View view_;
 	sf::View viewUi_;
@@ -44,11 +44,15 @@ class MainGame
 	bool isPanning = false;
 	sf::Vector2f oldPos;
 	sf::Vector2f newPos;
-	Build build_ = Build::kHome;
+	Build build_ = Build::kFerme;
 	bool build_active_ = false;
 	bool destroy_active_ = false;
 	bool mouse_on_btn;
-	bool full_ressource_ = false;
+	bool full_ressource_for_home_ = false;
+	bool full_ressource_for_ferme_ = false;
+	bool full_ressource_for_verger_ = false;
+	bool full_ressource_for_mine_ = false;
+	bool full_ressource_for_chateau_ = false;
 
 	const int gridWidth = tilemap_.playground_size_u_.x;
 	const int gridHeight = tilemap_.playground_size_u_.y;

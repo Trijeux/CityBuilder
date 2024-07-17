@@ -39,7 +39,7 @@ void BuildingManager::draw(sf::RenderTarget& target, sf::RenderStates states) co
 	}
 }
 
-void BuildingManager::CreatFirstBuildingHome(std::vector<Tile>& tiles, ResourceGame* resource_)
+void BuildingManager::CreatFirstBuildingHome(std::vector<Tile>& tiles, GameRessource* resource_)
 {
 	bool homeNotPlace = true;
 	std::random_device r;
@@ -61,7 +61,7 @@ void BuildingManager::CreatFirstBuildingHome(std::vector<Tile>& tiles, ResourceG
 	} while (homeNotPlace);
 }
 
-void BuildingManager::AddBuilding(Tile& tile, Build building, ResourceGame* resource_)
+void BuildingManager::AddBuilding(Tile& tile, Build building, GameRessource& resource_)
 {
 	Tile::TileType type;
 
@@ -80,40 +80,40 @@ void BuildingManager::AddBuilding(Tile& tile, Build building, ResourceGame* reso
 		case Build::kHome:
 		{
 			buildings_.emplace_back(tile.Position().x, tile.Position().y, Build::kHome);
-			resource_->AddBatiment(Build::kHome);
-			resource_->PayBatiment(Build::kHome);
+			resource_.AddBatiment(Build::kHome);
+			resource_.PayBatiment(Build::kHome);
 			type = Tile::TileType::kHome;
 		}
 		break;
 		case Build::kFerme:
 		{
 			buildings_.emplace_back(tile.Position().x, tile.Position().y, Build::kFerme);
-			resource_->AddBatiment(Build::kFerme);
-			resource_->PayBatiment(Build::kFerme);
+			resource_.AddBatiment(Build::kFerme);
+			resource_.PayBatiment(Build::kFerme);
 			type = Tile::TileType::kFerme;
 		}
 		break;
 		case Build::kVerger:
 		{
 			buildings_.emplace_back(tile.Position().x, tile.Position().y, Build::kVerger);
-			resource_->AddBatiment(Build::kVerger);
-			resource_->PayBatiment(Build::kVerger);
+			resource_.AddBatiment(Build::kVerger);
+			resource_.PayBatiment(Build::kVerger);
 			type = Tile::TileType::kVerger;
 		}
 		break;
 		case Build::kCarriere:
 		{
 			buildings_.emplace_back(tile.Position().x, tile.Position().y, Build::kCarriere);
-			resource_->AddBatiment(Build::kCarriere);
-			resource_->PayBatiment(Build::kCarriere);
+			resource_.AddBatiment(Build::kCarriere);
+			resource_.PayBatiment(Build::kCarriere);
 			type = Tile::TileType::kCarriere;
 		}
 		break;
 		case Build::kChateau:
 		{
 			buildings_.emplace_back(tile.Position().x, tile.Position().y, Build::kChateau);
-			resource_->AddBatiment(Build::kChateau);
-			resource_->PayBatiment(Build::kChateau);
+			resource_.AddBatiment(Build::kChateau);
+			resource_.PayBatiment(Build::kChateau);
 			type = Tile::TileType::kChateau;
 		}
 		break;
@@ -124,7 +124,7 @@ void BuildingManager::AddBuilding(Tile& tile, Build building, ResourceGame* reso
 	}
 }
 
-void BuildingManager::SubBuilding(Tile& tile, ResourceGame* resource_)
+void BuildingManager::SubBuilding(Tile& tile, GameRessource& resource_)
 {
 	if (!is_active_)
 	{
@@ -141,7 +141,7 @@ void BuildingManager::SubBuilding(Tile& tile, ResourceGame* resource_)
 			return b.Position() == tile.Position(); });
 
 		buildings_.erase(it);
-		resource_->SubBatiment(tile.Type());
+		resource_.SubBatiment(tile.Type());
 	}
 
 
