@@ -211,7 +211,7 @@ void GameResource::PayTax()
 void GameResource::GameEnd()
 {
     // End the game if at least one castle has been built
-    if (castle_ >= 1)
+    if (castle_ >= 1 || gold_ <= -1)
     {
         game_ = false;
     }
