@@ -150,6 +150,13 @@ MainGame::MainGame()
 			}
 		};
 
+	btn_quit.CreatButton(sf::Vector2f(window_.getSize().x - 100, window_.getSize().y - 100), "Quit", 20, sf::Color::Yellow);
+	btn_quit.setScale(0.5f, 0.5f);
+	btn_quit.call_back_ = [this]()
+		{
+			window_.close();
+		};
+
 	view_ = window_.getDefaultView();
 	viewUi_ = window_.getDefaultView();
 
@@ -246,146 +253,151 @@ void MainGame::ContrainteView()
 
 void MainGame::GameLoop()
 {
-	while (resource_.game())
+	while (window_.isOpen())
 	{
-		while (window_.isOpen())
-		{
 #ifdef TRACY_ENABLE
-			ZoneNamedN(GameLoop, "GameLoop", true);
+		ZoneNamedN(GameLoop, "GameLoop", true);
 #endif
-			//auto start = std::chrono::high_resolution_clock::now();
-			sf::Event event;
-			while (window_.pollEvent(event))
+		//auto start = std::chrono::high_resolution_clock::now();
+		sf::Event event;
+		while (window_.pollEvent(event))
+		{
+			if (event.type == sf::Event::Closed)
+				window_.close();
+
+			mouse_on_btn = false;
+
+			if (!build_active_)
 			{
-				if (event.type == sf::Event::Closed)
-					window_.close();
-
-				mouse_on_btn = false;
-
-				if (!build_active_)
-				{
-					//mouse_on_btn = btn_generate.HandleEvent(event);
-				}
-
-				mouse_on_btn = btn_activate_building.HandleEvent(event);
-
-
-				/*if (btn_activate_Destroyer.HandleEvent(event))
-				{
-					mouse_on_btn = true;
-				}*/
-
-				if (btn_building_Home.HandleEvent(event))
-				{
-					mouse_on_btn = true;
-				}
-
-				if (btn_building_Ferme.HandleEvent(event))
-				{
-					mouse_on_btn = true;
-				}
-
-				if (btn_building_Menuiserie.HandleEvent(event))
-				{
-					mouse_on_btn = true;
-				}
-
-				if (btn_building_Carriere.HandleEvent(event))
-				{
-					mouse_on_btn = true;
-				}
-
-				if (btn_building_Chateau.HandleEvent(event))
-				{
-					mouse_on_btn = true;
-				}
-
-				if (resource_.gold() >= 100)
-				{
-					btn_building_Ferme.Set_Color_Sprite(sf::Color::White);
-					full_ressource_ = true;
-				}
-				else
-				{
-					btn_building_Ferme.Set_Color_Sprite(sf::Color::Black);
-					full_ressource_ = false;
-				}
-
-				if (resource_.food() >= 100 && resource_.gold() >= 200)
-				{
-					btn_building_Home.Set_Color_Sprite(sf::Color::White);
-					full_ressource_ = true;
-				}
-				else
-				{
-					btn_building_Home.Set_Color_Sprite(sf::Color::Black);
-					full_ressource_ = false;
-				}
-
-				if (resource_.food() >= 200 && resource_.gold() >= 300)
-				{
-					btn_building_Menuiserie.Set_Color_Sprite(sf::Color::White);
-					full_ressource_ = true;
-				}
-				else
-				{
-					btn_building_Menuiserie.Set_Color_Sprite(sf::Color::Black);
-					full_ressource_ = false;
-				}
-
-				if (resource_.food() >= 300 && resource_.gold() >= 400 && resource_.wood() >= 200)
-				{
-					btn_building_Carriere.Set_Color_Sprite(sf::Color::White);
-					full_ressource_ = true;
-				}
-				else
-				{
-					btn_building_Carriere.Set_Color_Sprite(sf::Color::Black);
-					full_ressource_ = false;
-				}
-
-				if (resource_.food() >= 25000 && resource_.gold() >= 50000
-					&& resource_.wood() >= 12500 && resource_.stone() >= 10000)
-				{
-					btn_building_Chateau.Set_Color_Sprite(sf::Color::White);
-					full_ressource_ = true;
-				}
-				else
-				{
-					btn_building_Chateau.Set_Color_Sprite(sf::Color::Black);
-					full_ressource_ = false;
-				}
-
-
-				if (destroy_active_)
-				{
-					tilemap_.ClickedTile_ = std::bind(&BuildingManager::SubBuilding, &building_manager_, std::placeholders::_1, &resource_);
-				}
-				else
-				{
-					tilemap_.ClickedTile_ = std::bind(&BuildingManager::AddBuilding, &building_manager_, std::placeholders::_1, build_, &resource_);
-				}
-
-				if (!mouse_on_btn && full_ressource_)
-				{
-					tilemap_.HandleEvent(event, window_, view_);
-				}
-
-				//tilemap_.Size_Offset(zoomFactor);
-
-
-				Zoom(event);
-
-				MoveCame(event);
+				//mouse_on_btn = btn_generate.HandleEvent(event);
 			}
 
-			resource_.AddRessource();
-			resource_.GameEnd();
-			resource_.PayTaxe();
+			mouse_on_btn = btn_activate_building.HandleEvent(event);
 
-			ContrainteView();
 
-			window_.clear();
+			/*if (btn_activate_Destroyer.HandleEvent(event))
+			{
+				mouse_on_btn = true;
+			}*/
+
+			if (btn_building_Home.HandleEvent(event))
+			{
+				mouse_on_btn = true;
+			}
+
+			if (btn_building_Ferme.HandleEvent(event))
+			{
+				mouse_on_btn = true;
+			}
+
+			if (btn_building_Menuiserie.HandleEvent(event))
+			{
+				mouse_on_btn = true;
+			}
+
+			if (btn_building_Carriere.HandleEvent(event))
+			{
+				mouse_on_btn = true;
+			}
+
+			if (btn_building_Chateau.HandleEvent(event))
+			{
+				mouse_on_btn = true;
+			}
+
+			if (resource_.gold() >= 100)
+			{
+				btn_building_Ferme.Set_Color_Sprite(sf::Color::White);
+				full_ressource_ = true;
+			}
+			else
+			{
+				btn_building_Ferme.Set_Color_Sprite(sf::Color::Black);
+				full_ressource_ = false;
+			}
+
+			if (resource_.food() >= 100 && resource_.gold() >= 200)
+			{
+				btn_building_Home.Set_Color_Sprite(sf::Color::White);
+				full_ressource_ = true;
+			}
+			else
+			{
+				btn_building_Home.Set_Color_Sprite(sf::Color::Black);
+				full_ressource_ = false;
+			}
+
+			if (resource_.food() >= 200 && resource_.gold() >= 300)
+			{
+				btn_building_Menuiserie.Set_Color_Sprite(sf::Color::White);
+				full_ressource_ = true;
+			}
+			else
+			{
+				btn_building_Menuiserie.Set_Color_Sprite(sf::Color::Black);
+				full_ressource_ = false;
+			}
+
+			if (resource_.food() >= 300 && resource_.gold() >= 400 && resource_.wood() >= 200)
+			{
+				btn_building_Carriere.Set_Color_Sprite(sf::Color::White);
+				full_ressource_ = true;
+			}
+			else
+			{
+				btn_building_Carriere.Set_Color_Sprite(sf::Color::Black);
+				full_ressource_ = false;
+			}
+
+			if (resource_.food() >= 25000 && resource_.gold() >= 50000
+				&& resource_.wood() >= 12500 && resource_.stone() >= 10000)
+			{
+				btn_building_Chateau.Set_Color_Sprite(sf::Color::White);
+				full_ressource_ = true;
+			}
+			else
+			{
+				btn_building_Chateau.Set_Color_Sprite(sf::Color::Black);
+				full_ressource_ = false;
+			}
+
+
+			if (destroy_active_)
+			{
+				tilemap_.ClickedTile_ = std::bind(&BuildingManager::SubBuilding, &building_manager_, std::placeholders::_1, &resource_);
+			}
+			else
+			{
+				tilemap_.ClickedTile_ = std::bind(&BuildingManager::AddBuilding, &building_manager_, std::placeholders::_1, build_, &resource_);
+			}
+
+			if (!mouse_on_btn && full_ressource_)
+			{
+				tilemap_.HandleEvent(event, window_, view_);
+			}
+
+			if (!resource_.game())
+			{
+				btn_quit.HandleEvent(event);
+			}
+			
+			//tilemap_.Size_Offset(zoomFactor);
+
+
+			Zoom(event);
+
+			MoveCame(event);
+		}
+
+		resource_.AddRessource();
+		resource_.PayTaxe();
+		resource_.GameEnd();
+
+		ContrainteView();
+
+		window_.clear();
+		if (resource_.game())
+		{
 			window_.setView(view_); // Set updated view
 			window_.draw(tilemap_);
 			window_.draw(building_manager_);
@@ -406,11 +418,50 @@ void MainGame::GameLoop()
 				window_.draw(btn_building_Menuiserie);
 				window_.draw(btn_building_Chateau);
 			}
-			window_.display();
+		}
 
 #ifdef TRACY_ENABLE
-			FrameMark;
+		FrameMark;
 #endif
+
+		if (!resource_.game())
+		{
+			sf::Font font;
+			sf::Text text;
+			sf::Text quitText;
+
+			if (!font.loadFromFile("ressources/fonts/kenvector_future.ttf")) {
+				// Gérer l'erreur : impossible de charger la police
+			}
+
+			text.setFont(font);
+			quitText.setFont(font);
+
+			if (resource_.gold() <= -1)
+			{
+				text.setString("Game Over");
+			}
+			else
+			{
+				text.setString("Win");
+			}
+
+			text.setColor(sf::Color::Red);
+			quitText.setColor(sf::Color::Red);
+
+			text.setOrigin(text.getGlobalBounds().width / 2.0f, text.getGlobalBounds().height / 2.0f);
+			quitText.setOrigin(quitText.getGlobalBounds().width / 2.0f, quitText.getGlobalBounds().height / 2.0f);
+
+			quitText.setString("Tap button to quit");
+
+			text.setPosition(window_.getSize().x / 2, window_.getSize().y / 2);
+
+			quitText.setPosition((window_.getSize().x / 2) - 150, text.getPosition().y + 100);
+
+			window_.draw(text);
+			window_.draw(quitText);
+			window_.draw(btn_quit);
 		}
+		window_.display();
 	}
 }

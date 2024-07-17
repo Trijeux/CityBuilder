@@ -31,6 +31,8 @@ class MainGame
 
 	UiButton btn_building_Chateau;
 
+	UiButton btn_quit;
+
 	sf::RenderWindow window_;
 
 	ResourceGame resource_;
