@@ -1,13 +1,12 @@
+#include "gameplay/building_manager.h"
 
 #include <iostream>
 #include <random>
 
-#include <gameplay/building_manager.h>
-
 #include "gameplay/change_cursor.h"
-#include "graphics/tilemap.h"
 
-void BuildingManager::SetActive(bool active)
+
+void BuildingManager::SetActive(const bool active)
 {
 	is_active_ = active;
 }
@@ -31,7 +30,7 @@ void BuildingManager::build(sf::RenderWindow& window)
 }
 
 
-void BuildingManager::draw(sf::RenderTarget& target, sf::RenderStates states) const
+void BuildingManager::draw(sf::RenderTarget& target, const sf::RenderStates states) const
 {
 	for (const auto& b : buildings_)
 	{
@@ -39,7 +38,7 @@ void BuildingManager::draw(sf::RenderTarget& target, sf::RenderStates states) co
 	}
 }
 
-void BuildingManager::CreatFirstBuildingHome(std::vector<Tile>& tiles, GameRessource* resource_)
+void BuildingManager::CreateFirstBuildingHome(std::vector<Tile>& tiles, GameResource* resource)
 {
 	bool homeNotPlace = true;
 	std::random_device r;
@@ -53,18 +52,16 @@ void BuildingManager::CreatFirstBuildingHome(std::vector<Tile>& tiles, GameResso
 		if (tiles[mean].type() == Tile::TileType::kGround)
 		{
 			buildings_.emplace_back(tiles[mean].Position().x, tiles[mean].Position().y, Build::kHome);
-			resource_->AddBatiment(Build::kHome);
-			tiles[mean].set_TileType(Tile::TileType::kHome);
-			tiles[mean].set_TileSprite();
+			resource->AddBuilding(Build::kHome);
+			tiles[mean].SetTileType(Tile::TileType::kHome);
+			tiles[mean].SetTileSprite();
 			homeNotPlace = false;
 		}
 	} while (homeNotPlace);
 }
 
-void BuildingManager::AddBuilding(Tile& tile, Build building, GameRessource& resource_)
+void BuildingManager::AddBuilding(Tile& tile, const Build building, GameResource& resource)
 {
-	Tile::TileType type;
-
 	if (!is_active_)
 	{
 		return;
@@ -74,57 +71,58 @@ void BuildingManager::AddBuilding(Tile& tile, Build building, GameRessource& res
 
 	if (tile.Type() == Tile::TileType::kGround)
 	{
+		Tile::TileType type;
 		//std::cout << &resource_ << std::endl;
 		switch (building)
 		{
 		case Build::kHome:
 		{
 			buildings_.emplace_back(tile.Position().x, tile.Position().y, Build::kHome);
-			resource_.AddBatiment(Build::kHome);
-			resource_.PayBatiment(Build::kHome);
+			resource.AddBuilding(Build::kHome);
+			resource.PayBuilding(Build::kHome);
 			type = Tile::TileType::kHome;
 		}
 		break;
-		case Build::kFerme:
+		case Build::kFarm:
 		{
-			buildings_.emplace_back(tile.Position().x, tile.Position().y, Build::kFerme);
-			resource_.AddBatiment(Build::kFerme);
-			resource_.PayBatiment(Build::kFerme);
-			type = Tile::TileType::kFerme;
+			buildings_.emplace_back(tile.Position().x, tile.Position().y, Build::kFarm);
+			resource.AddBuilding(Build::kFarm);
+			resource.PayBuilding(Build::kFarm);
+			type = Tile::TileType::kFarm;
 		}
 		break;
-		case Build::kVerger:
+		case Build::kOrchard:
 		{
-			buildings_.emplace_back(tile.Position().x, tile.Position().y, Build::kVerger);
-			resource_.AddBatiment(Build::kVerger);
-			resource_.PayBatiment(Build::kVerger);
-			type = Tile::TileType::kVerger;
+			buildings_.emplace_back(tile.Position().x, tile.Position().y, Build::kOrchard);
+			resource.AddBuilding(Build::kOrchard);
+			resource.PayBuilding(Build::kOrchard);
+			type = Tile::TileType::kOrchard;
 		}
 		break;
-		case Build::kCarriere:
+		case Build::kMine:
 		{
-			buildings_.emplace_back(tile.Position().x, tile.Position().y, Build::kCarriere);
-			resource_.AddBatiment(Build::kCarriere);
-			resource_.PayBatiment(Build::kCarriere);
-			type = Tile::TileType::kCarriere;
+			buildings_.emplace_back(tile.Position().x, tile.Position().y, Build::kMine);
+			resource.AddBuilding(Build::kMine);
+			resource.PayBuilding(Build::kMine);
+			type = Tile::TileType::kMine;
 		}
 		break;
-		case Build::kChateau:
+		case Build::kCastle:
 		{
-			buildings_.emplace_back(tile.Position().x, tile.Position().y, Build::kChateau);
-			resource_.AddBatiment(Build::kChateau);
-			resource_.PayBatiment(Build::kChateau);
-			type = Tile::TileType::kChateau;
+			buildings_.emplace_back(tile.Position().x, tile.Position().y, Build::kCastle);
+			resource.AddBuilding(Build::kCastle);
+			resource.PayBuilding(Build::kCastle);
+			type = Tile::TileType::kCastle;
 		}
 		break;
 		}
 
-		tile.set_TileType(type);
-		tile.set_TileSprite();
+		tile.SetTileType(type);
+		tile.SetTileSprite();
 	}
 }
 
-void BuildingManager::SubBuilding(Tile& tile, GameRessource& resource_)
+void BuildingManager::SubBuilding(Tile& tile, GameResource& resource)
 {
 	if (!is_active_)
 	{
@@ -134,19 +132,19 @@ void BuildingManager::SubBuilding(Tile& tile, GameRessource& resource_)
 	std::cout << "Tile clicked, can we finally sub a house ? [" << tile.Position().x << ":" << tile.Position().y << "]" << std::endl;
 
 
-	if (tile.Type() == Tile::TileType::kHome || tile.Type() == Tile::TileType::kFerme || tile.Type() == Tile::TileType::kVerger
-		|| tile.Type() == Tile::TileType::kCarriere || tile.Type() == Tile::TileType::kChateau)
+	if (tile.Type() == Tile::TileType::kHome || tile.Type() == Tile::TileType::kFarm || tile.Type() == Tile::TileType::kOrchard
+		|| tile.Type() == Tile::TileType::kMine || tile.Type() == Tile::TileType::kCastle)
 	{
-		auto it = std::find_if(buildings_.begin(), buildings_.end(), [&tile](Building& b) {
+		const auto it = std::ranges::find_if(buildings_, [&tile](Building& b) {
 			return b.Position() == tile.Position(); });
 
 		buildings_.erase(it);
-		resource_.SubBatiment(tile.Type());
+		resource.SubBuilding(tile.Type());
 	}
 
 
-	tile.set_TileType(Tile::TileType::kGround);
-	tile.set_TileSprite();
+	tile.SetTileType(Tile::TileType::kGround);
+	tile.SetTileSprite();
 }
 
 void BuildingManager::ClearMap()

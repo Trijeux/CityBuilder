@@ -1,71 +1,72 @@
-#ifndef GAMEPLAY_GAME_RESSOURCE_H_
-#define GAMEPLAY_GAME_RESSOURCE_H_
+#ifndef GAMEPLAY_GAME_RESOURCE_H
+#define GAMEPLAY_GAME_RESOURCE_H
 
 #include <chrono>
-#include <SFML/Graphics.hpp>
-#include "Building.h"
+
+#include "building.h"
 #include "graphics/tile.h"
 
-class GameRessource
+
+class GameResource
 {
 
-	sf::Sprite sprite_Gold_;
-	sf::Sprite sprite_Food_;
-	sf::Sprite sprite_Wood_;
-	sf::Sprite sprite_Stone_;
-	sf::Sprite sprite_Taxe_;
-	sf::Texture texture_Gold_;
-	sf::Texture texture_Food_;
-	sf::Texture texture_Wood_;
-	sf::Texture texture_Stone_;
-	sf::Texture texture_Taxe_;
-	sf::Text text_Gold_;
-	sf::Text text_Food_;
-	sf::Text text_Wood_;
-	sf::Text text_Stone_;
-	sf::Text text_Taxe_;
+	sf::Sprite sprite_gold_;
+	sf::Sprite sprite_food_;
+	sf::Sprite sprite_wood_;
+	sf::Sprite sprite_stone_;
+	sf::Sprite sprite_tax_;
+	sf::Texture texture_gold_;
+	sf::Texture texture_food_;
+	sf::Texture texture_wood_;
+	sf::Texture texture_stone_;
+	sf::Texture texture_tax_;
+	sf::Text text_gold_;
+	sf::Text text_food_;
+	sf::Text text_wood_;
+	sf::Text text_stone_;
+	sf::Text text_tax_;
 	sf::Font font_;
 
-	int Home = 0;
-	int Gold = 0;
+	int home_ = 0;
+	int gold_ = 0;
 
-	int Ferme = 0;
-	int Food = 0;
+	int farm_ = 0;
+	int food_ = 0;
 
-	int Verger = 0;
-	int Wood = 0;
+	int orchard_ = 0;
+	int wood_ = 0;
 
-	int Carriere = 0;
-	int Stone = 0;
+	int mine_ = 0;
+	int stone_ = 0;
 
-	int Chateau = 0;
+	int castle_ = 0;
 
-	int Taxe = 0;
+	int tax_ = 0;
 
-	bool Game = true;
+	bool game_ = true;
 
-	std::chrono::time_point<std::chrono::steady_clock> OneSecondLast;
-	std::chrono::time_point<std::chrono::steady_clock> TaxeSecondLast;
+	std::chrono::time_point<std::chrono::steady_clock> one_second_last_;
+	std::chrono::time_point<std::chrono::steady_clock> tax_second_last_;
 
 public:
-	GameRessource();
-	void setUiPosistion(sf::RenderWindow&);
+	GameResource();
+	void SetUiPosition(const sf::RenderWindow&);
 
-	[[nodiscard]] int gold() const { return Gold; }
-	[[nodiscard]] int food() const { return Food; }
-	[[nodiscard]] int wood() const { return Wood; }
-	[[nodiscard]] int stone() const { return Stone; }
-	[[nodiscard]] int taxe() const { return Taxe; }
-	[[nodiscard]] bool game() const { return Game; }
+	[[nodiscard]] int gold() const { return gold_; }
+	[[nodiscard]] int food() const { return food_; }
+	[[nodiscard]] int wood() const { return wood_; }
+	[[nodiscard]] int stone() const { return stone_; }
+	[[nodiscard]] int tax() const { return tax_; }
+	[[nodiscard]] bool game() const { return game_; }
 
-	void AddBatiment(Build);
-	void SubBatiment(Tile::TileType);
-	void AddRessource();
-	void PayBatiment(Build);
-	void PayTaxe();
+	void AddBuilding(Build);
+	void SubBuilding(Tile::TileType);
+	void AddResource();
+	void PayBuilding(Build);
+	void PayTax();
 	void GameEnd();
 
-	void Draw(sf::RenderWindow&);
+	void Draw(sf::RenderWindow&) const;
 };
 
 #endif

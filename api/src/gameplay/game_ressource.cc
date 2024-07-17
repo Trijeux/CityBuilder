@@ -3,111 +3,111 @@
 #include <iostream>
 
 
-GameRessource::GameRessource()
+GameResource::GameResource()
 {
 	if (!font_.loadFromFile("ressources/fonts/kenvector_future.ttf")) {
-		// Gérer l'erreur : impossible de charger la police
+		// Handle error: Unable to load font
 	}
 
-	text_Gold_.setFont(font_);
-	text_Food_.setFont(font_);
-	text_Wood_.setFont(font_);
-	text_Stone_.setFont(font_);
-	text_Taxe_.setFont(font_);
-	text_Gold_.setString(std::to_string(Gold));
-	text_Food_.setString(std::to_string(Food));
-	text_Wood_.setString(std::to_string(Wood));
-	text_Stone_.setString(std::to_string(Stone));
-	text_Taxe_.setString(std::to_string(Taxe));
+	text_gold_.setFont(font_);
+	text_food_.setFont(font_);
+	text_wood_.setFont(font_);
+	text_stone_.setFont(font_);
+	text_tax_.setFont(font_);
+	text_gold_.setString(std::to_string(gold_));
+	text_food_.setString(std::to_string(food_));
+	text_wood_.setString(std::to_string(wood_));
+	text_stone_.setString(std::to_string(stone_));
+	text_tax_.setString(std::to_string(tax_));
 
-	text_Gold_.setColor(sf::Color::Black);
-	text_Food_.setColor(sf::Color::Black);
-	text_Wood_.setColor(sf::Color::Black);
-	text_Stone_.setColor(sf::Color::Black);
-	text_Taxe_.setColor(sf::Color::Black);
+	text_gold_.setColor(sf::Color::Black);
+	text_food_.setColor(sf::Color::Black);
+	text_wood_.setColor(sf::Color::Black);
+	text_stone_.setColor(sf::Color::Black);
+	text_tax_.setColor(sf::Color::Black);
 
-	text_Gold_.setOrigin(text_Gold_.getGlobalBounds().width / 2.0f, text_Gold_.getGlobalBounds().height / 2.0f);
-	text_Food_.setOrigin(text_Food_.getGlobalBounds().width / 2.0f, text_Food_.getGlobalBounds().height / 2.0f);
-	text_Wood_.setOrigin(text_Wood_.getGlobalBounds().width / 2.0f, text_Wood_.getGlobalBounds().height / 2.0f);
-	text_Stone_.setOrigin(text_Stone_.getGlobalBounds().width / 2.0f, text_Stone_.getGlobalBounds().height / 2.0f);
-	text_Taxe_.setOrigin(text_Taxe_.getGlobalBounds().width / 2.0f, text_Taxe_.getGlobalBounds().height / 2.0f);
+	text_gold_.setOrigin(text_gold_.getGlobalBounds().width / 2.0f, text_gold_.getGlobalBounds().height / 2.0f);
+	text_food_.setOrigin(text_food_.getGlobalBounds().width / 2.0f, text_food_.getGlobalBounds().height / 2.0f);
+	text_wood_.setOrigin(text_wood_.getGlobalBounds().width / 2.0f, text_wood_.getGlobalBounds().height / 2.0f);
+	text_stone_.setOrigin(text_stone_.getGlobalBounds().width / 2.0f, text_stone_.getGlobalBounds().height / 2.0f);
+	text_tax_.setOrigin(text_tax_.getGlobalBounds().width / 2.0f, text_tax_.getGlobalBounds().height / 2.0f);
 
-	texture_Gold_.loadFromFile("ressources/tile/Ressource_Or.png");
-	sprite_Gold_.setTexture(texture_Gold_);
-	sprite_Gold_.setOrigin(sprite_Gold_.getGlobalBounds().width / 2.0f, sprite_Gold_.getGlobalBounds().height / 2.0f);
-	sprite_Gold_.setColor(sf::Color::White);
-	sprite_Gold_.setScale(2, 2);
+	texture_gold_.loadFromFile("ressources/tile/Ressource_Or.png");
+	sprite_gold_.setTexture(texture_gold_);
+	sprite_gold_.setOrigin(sprite_gold_.getGlobalBounds().width / 2.0f, sprite_gold_.getGlobalBounds().height / 2.0f);
+	sprite_gold_.setColor(sf::Color::White);
+	sprite_gold_.setScale(2, 2);
 
-	texture_Food_.loadFromFile("ressources/tile/Resource_nouriture.png");
-	sprite_Food_.setTexture(texture_Food_);
-	sprite_Food_.setOrigin(sprite_Food_.getGlobalBounds().width / 2.0f, sprite_Food_.getGlobalBounds().height / 2.0f);
-	sprite_Food_.setColor(sf::Color::White);
-	sprite_Food_.setScale(2, 2);
+	texture_food_.loadFromFile("ressources/tile/Resource_nouriture.png");
+	sprite_food_.setTexture(texture_food_);
+	sprite_food_.setOrigin(sprite_food_.getGlobalBounds().width / 2.0f, sprite_food_.getGlobalBounds().height / 2.0f);
+	sprite_food_.setColor(sf::Color::White);
+	sprite_food_.setScale(2, 2);
 
-	texture_Wood_.loadFromFile("ressources/tile/Resource_boit.png");
-	sprite_Wood_.setTexture(texture_Wood_);
-	sprite_Wood_.setOrigin(sprite_Wood_.getGlobalBounds().width / 2.0f, sprite_Wood_.getGlobalBounds().height / 2.0f);
-	sprite_Wood_.setColor(sf::Color::White);
-	sprite_Wood_.setScale(2, 2);
+	texture_wood_.loadFromFile("ressources/tile/Resource_boit.png");
+	sprite_wood_.setTexture(texture_wood_);
+	sprite_wood_.setOrigin(sprite_wood_.getGlobalBounds().width / 2.0f, sprite_wood_.getGlobalBounds().height / 2.0f);
+	sprite_wood_.setColor(sf::Color::White);
+	sprite_wood_.setScale(2, 2);
 
-	texture_Stone_.loadFromFile("ressources/tile/Resource_pierre.png");
-	sprite_Stone_.setTexture(texture_Stone_);
-	sprite_Stone_.setOrigin(sprite_Stone_.getGlobalBounds().width / 2.0f, sprite_Stone_.getGlobalBounds().height / 2.0f);
-	sprite_Stone_.setColor(sf::Color::White);
-	sprite_Stone_.setScale(2, 2);
+	texture_stone_.loadFromFile("ressources/tile/Resource_pierre.png");
+	sprite_stone_.setTexture(texture_stone_);
+	sprite_stone_.setOrigin(sprite_stone_.getGlobalBounds().width / 2.0f, sprite_stone_.getGlobalBounds().height / 2.0f);
+	sprite_stone_.setColor(sf::Color::White);
+	sprite_stone_.setScale(2, 2);
 
-	texture_Taxe_.loadFromFile("ressources/tile/Taxe.png");
-	sprite_Taxe_.setTexture(texture_Taxe_);
-	sprite_Taxe_.setOrigin(sprite_Taxe_.getGlobalBounds().width / 2.0f, sprite_Taxe_.getGlobalBounds().height / 2.0f);
-	sprite_Taxe_.setColor(sf::Color::White);
-	sprite_Taxe_.setScale(4, 4);
+	texture_tax_.loadFromFile("ressources/tile/Taxe.png");
+	sprite_tax_.setTexture(texture_tax_);
+	sprite_tax_.setOrigin(sprite_tax_.getGlobalBounds().width / 2.0f, sprite_tax_.getGlobalBounds().height / 2.0f);
+	sprite_tax_.setColor(sf::Color::White);
+	sprite_tax_.setScale(4, 4);
 
-	OneSecondLast = std::chrono::high_resolution_clock::now();
-	TaxeSecondLast = OneSecondLast;
+	one_second_last_ = std::chrono::high_resolution_clock::now();
+	tax_second_last_ = one_second_last_;
 }
 
-void GameRessource::setUiPosistion(sf::RenderWindow& window)
+void GameResource::SetUiPosition(const sf::RenderWindow& window)
 {
-	sprite_Taxe_.setPosition(100, 50);
-	sprite_Gold_.setPosition(window.getSize().x - 600, 50);
-	sprite_Food_.setPosition(window.getSize().x - 450, 50);
-	sprite_Wood_.setPosition(window.getSize().x - 300, 50);
-	sprite_Stone_.setPosition(window.getSize().x - 150, 50);
+	sprite_tax_.setPosition(100, 50);
+	sprite_gold_.setPosition(window.getSize().x - 600, 50);
+	sprite_food_.setPosition(window.getSize().x - 450, 50);
+	sprite_wood_.setPosition(window.getSize().x - 300, 50);
+	sprite_stone_.setPosition(window.getSize().x - 150, 50);
 
-	text_Taxe_.setPosition(sprite_Taxe_.getPosition().x + 50, 50);
-	text_Gold_.setPosition(sprite_Gold_.getPosition().x + 50, 50);
-	text_Food_.setPosition(sprite_Food_.getPosition().x + 50, 50);
-	text_Wood_.setPosition(sprite_Wood_.getPosition().x + 50, 50);
-	text_Stone_.setPosition(sprite_Stone_.getPosition().x + 50, 50);
+	text_tax_.setPosition(sprite_tax_.getPosition().x + 50, 50);
+	text_gold_.setPosition(sprite_gold_.getPosition().x + 50, 50);
+	text_food_.setPosition(sprite_food_.getPosition().x + 50, 50);
+	text_wood_.setPosition(sprite_wood_.getPosition().x + 50, 50);
+	text_stone_.setPosition(sprite_stone_.getPosition().x + 50, 50);
 }
 
-void GameRessource::AddBatiment(const Build type)
+void GameResource::AddBuilding(const Build type)
 {
 	switch (type)
 	{
 	case Build::kHome:
 	{
-		Home++;
+		home_++;
 	}
 	break;
-	case Build::kFerme:
+	case Build::kFarm:
 	{
-		Ferme++;
+		farm_++;
 	}
 	break;
-	case Build::kVerger:
+	case Build::kOrchard:
 	{
-		Verger++;
+		orchard_++;
 	}
 	break;
-	case Build::kCarriere:
+	case Build::kMine:
 	{
-		Carriere++;
+		mine_++;
 	}
 	break;
-	case Build::kChateau:
+	case Build::kCastle:
 	{
-		Chateau++;
+		castle_++;
 	}
 	break;
 	default:;
@@ -115,32 +115,32 @@ void GameRessource::AddBatiment(const Build type)
 
 }
 
-void GameRessource::SubBatiment(Tile::TileType type)
+void GameResource::SubBuilding(const Tile::TileType type)
 {
 	switch (type)
 	{
 	case Tile::TileType::kHome:
 	{
-		Home--;
+		home_--;
 	}
 	break;
-	case Tile::TileType::kFerme:
+	case Tile::TileType::kFarm:
 	{
-		Ferme--;
+		farm_--;
 	}
 	break;
-	case Tile::TileType::kVerger:
+	case Tile::TileType::kOrchard:
 	{
-		Verger--;
+		orchard_--;
 	}
 	break;
-	case Tile::TileType::kCarriere:
+	case Tile::TileType::kMine:
 	{
-		Carriere--;
+		mine_--;
 	}
 	break;
 
-	case Tile::TileType::kChateau:
+	case Tile::TileType::kCastle:
 	{
 		std::cout << "Error" << std::endl;
 	}
@@ -149,102 +149,100 @@ void GameRessource::SubBatiment(Tile::TileType type)
 	}
 }
 
-void GameRessource::AddRessource()
+void GameResource::AddResource()
 {
-	auto currentTime = std::chrono::high_resolution_clock::now();
-	std::chrono::duration<double> OneSecond = currentTime - OneSecondLast;
+	const auto current_time = std::chrono::high_resolution_clock::now();
 
-	//std::cout << OneSecond  << " " << Home << std::endl;
-
-	if (OneSecond.count() >= 1.0)
+	if (const std::chrono::duration<double> one_second = current_time - one_second_last_; one_second.count() >= 1.0)
 	{
 
-		OneSecondLast = currentTime;
+		one_second_last_ = current_time;
 
-		Gold += Home;
-		Food += Ferme;
-		Wood += Verger;
-		Stone += Carriere;
+		gold_ += home_;
+		food_ += farm_;
+		wood_ += orchard_;
+		stone_ += mine_;
 
-		text_Gold_.setString(std::to_string(Gold));
-		text_Food_.setString(std::to_string(Food));
-		text_Wood_.setString(std::to_string(Wood));
-		text_Stone_.setString(std::to_string(Stone));
+		text_gold_.setString(std::to_string(gold_));
+		text_food_.setString(std::to_string(food_));
+		text_wood_.setString(std::to_string(wood_));
+		text_stone_.setString(std::to_string(stone_));
 	}
 }
 
-void GameRessource::PayBatiment(Build type)
+void GameResource::PayBuilding(const Build type)
 {
 	switch (type)
 	{
 	case Build::kHome:
 	{
-		Gold -= 200;
-		Food -= 100;
+		gold_ -= 200;
+		food_ -= 100;
 	}
 	break;
-	case Build::kFerme:
+	case Build::kFarm:
 	{
-		Gold -= 100;
+		gold_ -= 100;
 	}
 	break;
-	case Build::kVerger:
+	case Build::kOrchard:
 	{
-		Gold -= 300;
-		Food -= 200;
+		gold_ -= 300;
+		food_ -= 200;
 	}
 	break;
-	case Build::kCarriere:
+	case Build::kMine:
 	{
-		Gold -= 400;
-		Wood -= 200;
-		Food -= 300;
+		gold_ -= 400;
+		wood_ -= 200;
+		food_ -= 300;
 	}
 	break;
-	case Build::kChateau:
+	case Build::kCastle:
 	{
-		Gold -= 50000;
-		Wood -= 12500;
-		Food -= 25000;
-		Stone -= 10000;
+		gold_ -= 50000;
+		wood_ -= 12500;
+		food_ -= 25000;
+		stone_ -= 10000;
 	}
 	break;
 	default:;
 	}
 }
 
-void GameRessource::PayTaxe()
+void GameResource::PayTax()
 {
-	Taxe = (Carriere * 4 + Verger * 3 + Ferme * 2 + Home) * 15;
-	text_Taxe_.setString(std::to_string(Taxe));
-	auto currentTime = std::chrono::high_resolution_clock::now();
-	std::chrono::duration<double> TaxeSecond = currentTime - TaxeSecondLast;
-	if (TaxeSecond.count() >= 300.0)
+	tax_ = (mine_ * 4 + orchard_ * 3 + farm_ * 2 + home_) * 15;
+	text_tax_.setString(std::to_string(tax_));
+
+	const auto current_time = std::chrono::high_resolution_clock::now();
+
+	if (const std::chrono::duration<double> tax_second = current_time - tax_second_last_; tax_second.count() >= 300.0)
 	{
-		TaxeSecondLast = currentTime;
-		Gold -= Taxe;
+		tax_second_last_ = current_time;
+		gold_ -= tax_;
 	}
 }
 
-void GameRessource::GameEnd()
+void GameResource::GameEnd()
 {
-	if (Chateau >= 1)
+	if (castle_ >= 1)
 	{
-		Game = false;
+		game_ = false;
 	}
 }
 
 
-void GameRessource::Draw(sf::RenderWindow& window)
+void GameResource::Draw(sf::RenderWindow& window) const
 {
-	window.draw(sprite_Gold_);
-	window.draw(text_Gold_);
-	window.draw(sprite_Food_);
-	window.draw(text_Food_);
-	window.draw(sprite_Wood_);
-	window.draw(text_Wood_);
-	window.draw(sprite_Stone_);
-	window.draw(text_Stone_);
-	window.draw(sprite_Taxe_);
-	window.draw(text_Taxe_);
+	window.draw(sprite_gold_);
+	window.draw(text_gold_);
+	window.draw(sprite_food_);
+	window.draw(text_food_);
+	window.draw(sprite_wood_);
+	window.draw(text_wood_);
+	window.draw(sprite_stone_);
+	window.draw(text_stone_);
+	window.draw(sprite_tax_);
+	window.draw(text_tax_);
 }

@@ -1,10 +1,6 @@
-#include <iostream>
-#include <SFML/Graphics/CircleShape.hpp>
-#include <SFML/Graphics/RectangleShape.hpp>
-#include <SFML/Graphics/RenderTarget.hpp>
-#include <ui/UIButton.h>
+#include "ui/ui_button.h"
 
-#include "gameplay/Building.h"
+#include <iostream>
 
 void UiButton::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
@@ -71,12 +67,16 @@ bool UiButton::HandleEvent(const sf::Event& event)
 	{
 		return true;
 	}
+	else
+	{
+		return false;
+	}
 }
 
-void UiButton::CreatButton(sf::Vector2f pos, std::string text, int character_size, sf::Color color_text)
+void UiButton::CreateButton(const sf::Vector2f pos, const std::string& text, const int character_size, const sf::Color color_text)
 {
 	if (!font_.loadFromFile("ressources/fonts/kenvector_future.ttf")) {
-		// Gérer l'erreur : impossible de charger la police
+		// Handle error: Unable to load font
 	}
 
 	button_text_.setFont(font_);

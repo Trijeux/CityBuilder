@@ -1,11 +1,8 @@
 #ifndef CURSOR_H
 #define CURSOR_H
 
-#include <SFML/Graphics/Image.hpp>
-#include <SFML/Window/Cursor.hpp>
-#include <SFML/Window/Window.hpp>
+#include "graphics/ressource_manager.h"
 
-#include "graphics/RessourceManager.h"
 
 class ChangeCursor
 {

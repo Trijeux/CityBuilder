@@ -1,12 +1,11 @@
 #ifndef API_IA_TREE_H
 #define API_IA_TREE_H
 
-#include <SFML/Graphics/Drawable.hpp>
-#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics.hpp>
 
-#include "graphics/RessourceManager.h"
 
-class Tile : public sf::Drawable
+
+class Tile final : public sf::Drawable
 {
 public:
 	enum class TileType
@@ -15,25 +14,25 @@ public:
 		kWood,
 		kStone,
 		kHome,
-		kFerme,
-		kVerger,
-		kCarriere,
-		kChateau,
+		kFarm,
+		kOrchard,
+		kMine,
+		kCastle,
 	};
 
 
-	Tile(TileType type_, float x, float y, bool is_walkable);
+	Tile(TileType type, float x, float y, bool is_walkable);
 
-	bool Walkable() const { return isWalkable_; }
+	bool Walkable() const { return is_walkable_; }
 	sf::Vector2f Position() const { return sprite_.getPosition(); }
 	TileType Type() const { return type_; }
 
 	void Select();
 	void Unselect();
-	sf::Texture& GetFromType();
+	sf::Texture& GetFromType() const;
 
-	void set_TileType(TileType);
-	void set_TileSprite();
+	void SetTileType(TileType);
+	void SetTileSprite();
 	TileType type() const;
 
 protected:
@@ -42,10 +41,10 @@ protected:
 
 private:
 	sf::Sprite sprite_;
-	sf::RectangleShape outline;
+	sf::RectangleShape outline_;
 
-	bool isWalkable_;
-	bool isSelected_ = false;
+	bool is_walkable_;
+	bool is_selected_ = false;
 
 	TileType type_;
 };

@@ -1,10 +1,10 @@
+#include "gameplay/building.h"
 
-#include <SFML/Graphics/RenderTarget.hpp>
 
-#include "gameplay/Building.h"
-#include "graphics/RessourceManager.h"
+#include "graphics/ressource_manager.h"
 
-Building::Building(float x, float y, Build build)
+
+Building::Building(const float x, const float y, const Build build)
 {
 	switch (build)
 	{
@@ -13,24 +13,24 @@ Building::Building(float x, float y, Build build)
 		shape_.setTexture(ResourceManager::Get().GetTexture(ResourceManager::Texture::kHome));
 	}
 	break;
-	case Build::kCarriere:
+	case Build::kMine:
 	{
-		shape_.setTexture(ResourceManager::Get().GetTexture(ResourceManager::Texture::kCarriere));
+		shape_.setTexture(ResourceManager::Get().GetTexture(ResourceManager::Texture::kMine));
 	}
 	break;
-	case Build::kVerger:
+	case Build::kOrchard:
 	{
-		shape_.setTexture(ResourceManager::Get().GetTexture(ResourceManager::Texture::kVerger));
+		shape_.setTexture(ResourceManager::Get().GetTexture(ResourceManager::Texture::kOrchard));
 	}
 	break;
-	case Build::kFerme:
+	case Build::kFarm:
 	{
-		shape_.setTexture(ResourceManager::Get().GetTexture(ResourceManager::Texture::kFerme));
+		shape_.setTexture(ResourceManager::Get().GetTexture(ResourceManager::Texture::kFarm));
 	}
 	break;
-	case Build::kChateau:
+	case Build::kCastle:
 	{
-		shape_.setTexture(ResourceManager::Get().GetTexture(ResourceManager::Texture::kChateau));
+		shape_.setTexture(ResourceManager::Get().GetTexture(ResourceManager::Texture::kCastle));
 	}
 	break;
 	}
@@ -40,7 +40,7 @@ Building::Building(float x, float y, Build build)
 	shape_.setPosition(x, y);
 }
 
-void Building::draw(sf::RenderTarget& target, sf::RenderStates states) const
+void Building::draw(sf::RenderTarget& target, const sf::RenderStates states) const
 {
 	target.draw(shape_, states);
 }

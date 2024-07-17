@@ -1,4 +1,7 @@
-#include "graphics/RessourceManager.h"
+#include <SFML/Graphics/Texture.hpp>
+#include "graphics/ressource_manager.h"
+
+
 
 void ResourceManager::LoadAllTextures()
 {
@@ -6,16 +9,16 @@ void ResourceManager::LoadAllTextures()
 	//textures_.resize(static_cast<int>(Texture::kMax));
 
 	// Textures -----------------
-	blankTexture_ = sf::Texture();
+	blank_texture_ = sf::Texture();
 	textures_.at(static_cast<int>(Texture::kGround)).loadFromFile("ressources/tile/Ground.png");
 	textures_.at(static_cast<int>(Texture::kStone)).loadFromFile("ressources/tile/Stone.png");
 	textures_.at(static_cast<int>(Texture::kWood)).loadFromFile("ressources/tile/Wood.png");
 	textures_.at(static_cast<int>(Texture::kHome)).loadFromFile("ressources/tile/home.png");
-	textures_.at(static_cast<int>(Texture::kFerme)).loadFromFile("ressources/tile/ferme.png");
-	textures_.at(static_cast<int>(Texture::kCarriere)).loadFromFile("ressources/tile/carriere.png");
-	textures_.at(static_cast<int>(Texture::kVerger)).loadFromFile("ressources/tile/menuiserie.png");
-	textures_.at(static_cast<int>(Texture::kGroundOcup)).loadFromFile("ressources/tile/Ground_Ocupper.png");
-	textures_.at(static_cast<int>(Texture::kChateau)).loadFromFile("ressources/tile/King_Castle.png");
+	textures_.at(static_cast<int>(Texture::kFarm)).loadFromFile("ressources/tile/ferme.png");
+	textures_.at(static_cast<int>(Texture::kMine)).loadFromFile("ressources/tile/carriere.png");
+	textures_.at(static_cast<int>(Texture::kOrchard)).loadFromFile("ressources/tile/menuiserie.png");
+	textures_.at(static_cast<int>(Texture::kGroundToOccupy)).loadFromFile("ressources/tile/Ground_Ocupper.png");
+	textures_.at(static_cast<int>(Texture::kCastle)).loadFromFile("ressources/tile/King_Castle.png");
 	
 }
 
@@ -55,20 +58,20 @@ ResourceManager::ResourceManager()
 ResourceManager& ResourceManager::Get()
 {
 
-	static ResourceManager instance_;
-	return instance_;
+	static ResourceManager instance;
+	return instance;
 	//return *instance_;
 
 }
 
-sf::Texture& ResourceManager::GetTexture(Texture resourceId) {
+sf::Texture& ResourceManager::GetTexture(Texture resource_id) {
 
-	if (static_cast<int>(resourceId) < textures_.size()) {
-		return textures_.at(static_cast<int>(resourceId));
+	if (static_cast<int>(resource_id) < textures_.size()) {
+		return textures_.at(static_cast<int>(resource_id));
 	}
 	else
 	{
-		return blankTexture_;
+		return blank_texture_;
 	}
 }
 

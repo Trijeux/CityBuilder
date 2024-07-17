@@ -1,11 +1,12 @@
-#ifndef GAME_MAINGAME_H_
-#define GAME_MAINGAME_H_
-#include <SFML/Graphics/RenderWindow.hpp>
-#include <graphics/Tilemap.h>
-#include <ui/UIButton.h>
+#ifndef GAME_MAIN_GAME_H
+#define GAME_MAIN_GAME_H
 
+#include "gameplay/building.h"
 #include "gameplay/building_manager.h"
 #include "gameplay/change_cursor.h"
+#include "gameplay/game_ressource.h"
+#include "graphics/tilemap.h"
+#include "ui/ui_button.h"
 
 class MainGame
 {
@@ -15,69 +16,67 @@ class MainGame
 
 	Tilemap tilemap_;
 
-	UiButton btn_generate;
+	UiButton btn_generate_;
 
-	UiButton btn_activate_building;
+	UiButton btn_activate_building_;
 
-	UiButton btn_activate_Destroyer;
+	UiButton btn_activate_destroyer_;
 
-	UiButton btn_building_Home;
+	UiButton btn_building_home_;
 
-	UiButton btn_building_Menuiserie;
+	UiButton btn_building_orchard_;
 
-	UiButton btn_building_Ferme;
+	UiButton btn_building_farm_;
 
-	UiButton btn_building_Carriere;
+	UiButton btn_building_mine_;
 
-	UiButton btn_building_Chateau;
+	UiButton btn_building_castle_;
 
-	UiButton btn_quit;
+	UiButton btn_quit_;
 
 	sf::RenderWindow window_;
 
-	GameRessource resource_;
+	GameResource resource_;
 
 	sf::View view_;
-	sf::View viewUi_;
+	sf::View view_ui_;
 
-	float zoomFactor = 1.0f;
-	bool isPanning = false;
-	sf::Vector2f oldPos;
-	sf::Vector2f newPos;
-	Build build_ = Build::kFerme;
+	float zoom_factor_ = 1.0f;
+	bool is_panning_ = false;
+	sf::Vector2f old_pos_;
+	sf::Vector2f new_pos_;
+	Build build_ = Build::kFarm;
 	bool build_active_ = false;
 	bool destroy_active_ = false;
-	bool mouse_on_btn;
-	bool full_ressource_for_home_ = false;
-	bool full_ressource_for_ferme_ = false;
-	bool full_ressource_for_verger_ = false;
-	bool full_ressource_for_mine_ = false;
-	bool full_ressource_for_chateau_ = false;
+	bool mouse_on_btn_ = false;
+	bool full_resource_for_home_ = false;
+	bool full_resource_for_farm_ = false;
+	bool full_resource_for_orchard_ = false;
+	bool full_resource_for_mine_ = false;
+	bool full_resource_for_castle_ = false;
 
-	const int gridWidth = tilemap_.playground_size_u_.x;
-	const int gridHeight = tilemap_.playground_size_u_.y;
-	const int spriteSizeX = tilemap_.SpritSize().x;
-	const int spriteSizeY = tilemap_.SpritSize().y;
+	const int grid_width_ = tilemap_.playground_size_u_.x;
+	const int grid_height_ = tilemap_.playground_size_u_.y;
+	const int sprite_size_x_ = tilemap_.SpritSize().x;
+	const int sprite_size_y_ = tilemap_.SpritSize().y;
 
-	sf::FloatRect sceneBounds;
+	sf::FloatRect scene_bounds_;
 
-	sf::Vector2f minViewSize = {
-		std::min(window_.getDefaultView().getSize().x, sceneBounds.width),
-		std::min(window_.getDefaultView().getSize().y, sceneBounds.height) };
+	sf::Vector2f min_view_size_ = {
+		std::min(window_.getDefaultView().getSize().x, scene_bounds_.width),
+		std::min(window_.getDefaultView().getSize().y, scene_bounds_.height) };
 
 public:
 
 	MainGame();
-	void Zoom(sf::Event event);
-	void MoveCame(sf::Event event);
-	void ContrainteView();
+	void Zoom(const sf::Event& event);
+	void MoveCame(const sf::Event& event);
+	void ConstraintsView();
 
 	void GameLoop();
-
-	void GameTemp();
 };
 
 
 
 
-#endif // GAME_MAINGAME_H_
+#endif // GAME_MAIN_GAME_H

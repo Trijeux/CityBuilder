@@ -1,7 +1,9 @@
-#include "graphics/Tile.h"
-#include <iostream>
+#include "graphics/tile.h"
 
-Tile::Tile(TileType type, float x = 0, float y = 0, bool is_walkable = true)
+#include "graphics/ressource_manager.h"
+
+
+Tile::Tile(const TileType type, const float x = 0, const float y = 0, const bool is_walkable = true)
 {
 
 	type_ = type;
@@ -9,35 +11,35 @@ Tile::Tile(TileType type, float x = 0, float y = 0, bool is_walkable = true)
 	sprite_.setTexture(GetFromType());
 	sprite_.setPosition(x, y);
 
-	outline.setSize(sf::Vector2f(sprite_.getTexture()->getSize()));
-	outline.setPosition(x, y);
-	outline.setFillColor(sf::Color(255, 255, 255, 0));
-	outline.setOutlineColor(sf::Color::White);
-	outline.setOutlineThickness(-1);
+	outline_.setSize(sf::Vector2f(sprite_.getTexture()->getSize()));
+	outline_.setPosition(x, y);
+	outline_.setFillColor(sf::Color(255, 255, 255, 0));
+	outline_.setOutlineColor(sf::Color::White);
+	outline_.setOutlineThickness(-1);
 
-	isWalkable_ = is_walkable;
+	is_walkable_ = is_walkable;
 }
 
-void Tile::draw(sf::RenderTarget& target, sf::RenderStates states) const
+void Tile::draw(sf::RenderTarget& target, const sf::RenderStates states) const
 {
 	target.draw(sprite_, states);
 
-	if (isSelected_) {
+	if (is_selected_) {
 		//std::cout << "draw selected tile [" << outline_.getPosition().x << ":" << outline_.getPosition().y << "]" << std::endl;
-		target.draw(outline, states);
+		target.draw(outline_, states);
 	}
 }
 
 void Tile::Select()
 {
-	isSelected_ = true;
+	is_selected_ = true;
 }
 void Tile::Unselect()
 {
-	isSelected_ = false;
+	is_selected_ = false;
 }
 
-sf::Texture& Tile::GetFromType()
+sf::Texture& Tile::GetFromType() const
 {
 	switch (type_)
 	{
@@ -54,34 +56,36 @@ sf::Texture& Tile::GetFromType()
 		break;
 
 	case TileType::kHome:
-		return ResourceManager::Get().GetTexture(ResourceManager::Texture::kGroundOcup);
+		return ResourceManager::Get().GetTexture(ResourceManager::Texture::kGroundToOccupy);
 		break;
 
-	case TileType::kFerme:
-		return ResourceManager::Get().GetTexture(ResourceManager::Texture::kGroundOcup);
+	case TileType::kFarm:
+		return ResourceManager::Get().GetTexture(ResourceManager::Texture::kGroundToOccupy);
 		break;
 
-	case TileType::kVerger:
-		return ResourceManager::Get().GetTexture(ResourceManager::Texture::kGroundOcup);
+	case TileType::kOrchard:
+		return ResourceManager::Get().GetTexture(ResourceManager::Texture::kGroundToOccupy);
 		break;
 
-	case TileType::kCarriere:
-		return ResourceManager::Get().GetTexture(ResourceManager::Texture::kGroundOcup);
+	case TileType::kMine:
+		return ResourceManager::Get().GetTexture(ResourceManager::Texture::kGroundToOccupy);
 		break;
-	case TileType::kChateau:
-		return ResourceManager::Get().GetTexture(ResourceManager::Texture::kGroundOcup);
+	case TileType::kCastle:
+		return ResourceManager::Get().GetTexture(ResourceManager::Texture::kGroundToOccupy);
+		break;
+	default: 
+		return { ResourceManager::Get().GetTexture(ResourceManager::Texture::kMax) };
 		break;
 	}
 }
 
 
-
-void Tile::set_TileType(TileType type)
+void Tile::SetTileType(const TileType type)
 {
 	type_ = type;
 }
 
-void Tile::set_TileSprite()
+void Tile::SetTileSprite()
 {
 	sprite_.setTexture(GetFromType());
 }

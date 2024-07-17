@@ -1,9 +1,7 @@
-#ifndef API_GRAPHICS_RESOURCEMANAGER_H
-#define API_GRAPHICS_RESOURCEMANAGER_H
-
+#ifndef API_GRAPHICS_RESOURCE_MANAGER_H
+#define API_GRAPHICS_RESOURCE_MANAGER_H
 #include <array>
-#include <SFML/Graphics.hpp>
-#include <unordered_map>
+
 
 class ResourceManager {
 
@@ -14,11 +12,11 @@ public:
 		kStone,
 		kWood,
 		kHome,
-		kVerger,
-		kCarriere,
-		kFerme,
-		kGroundOcup,
-		kChateau,
+		kOrchard,
+		kMine,
+		kFarm,
+		kGroundToOccupy,
+		kCastle,
 
 		kMax
 	};
@@ -36,7 +34,7 @@ private:
 	std::array<sf::Texture, static_cast<int>(Texture::kMax)> textures_;
 	std::array<sf::Image, static_cast<int>(CursorImage::kMax)> cursor_images_;
 
-	sf::Texture blankTexture_;
+	sf::Texture blank_texture_;
 	sf::Image blank_cursor_image_;
 
 	
@@ -45,7 +43,6 @@ private:
 
 public:
 	ResourceManager();
-	///~ResourceManager();
 
 	void LoadAllTextures();
 
