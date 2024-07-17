@@ -1,58 +1,73 @@
 #ifndef API_GRAPHICS_RESOURCE_MANAGER_H
 #define API_GRAPHICS_RESOURCE_MANAGER_H
-#include <array>
 
+#include <array> // Include for std::array
+
+// Forward declaration of sf::Texture and sf::Image
+namespace sf {
+    class Texture;
+    class Image;
+}
 
 class ResourceManager {
 
 public:
-	enum class Texture
-	{
-		kGround,
-		kStone,
-		kWood,
-		kHome,
-		kOrchard,
-		kMine,
-		kFarm,
-		kGroundToOccupy,
-		kCastle,
+    // Enum for different textures managed by the resource manager
+    enum class Texture
+    {
+        kGround,
+        kStone,
+        kWood,
+        kHome,
+        kOrchard,
+        kMine,
+        kFarm,
+        kGroundToOccupy,
+        kCastle,
 
-		kMax
-	};
+        kMax // Last value used to get the number of textures
+    };
 
-	enum class CursorImage
-	{
-		kBasic,
-		kBuild,
+    // Enum for different cursor images managed by the resource manager
+    enum class CursorImage
+    {
+        kBasic,
+        kBuild,
 
-		// Last value of enum used to get the number of resources
-		kMax
-	};
+        kMax // Last value used to get the number of cursor images
+    };
 
 private:
-	std::array<sf::Texture, static_cast<int>(Texture::kMax)> textures_;
-	std::array<sf::Image, static_cast<int>(CursorImage::kMax)> cursor_images_;
+    // Arrays to store textures and cursor images
+    std::array<sf::Texture, static_cast<int>(Texture::kMax)> textures_;
+    std::array<sf::Image, static_cast<int>(CursorImage::kMax)> cursor_images_;
 
-	sf::Texture blank_texture_;
-	sf::Image blank_cursor_image_;
+    // Default texture and cursor image
+    sf::Texture blank_texture_;
+    sf::Image blank_cursor_image_;
 
-	
-	void LoadCursors();
+    // Private method to load cursor images
+    void LoadCursors();
 
 public:
-	ResourceManager();
+    // Constructor
+    ResourceManager();
 
-	void LoadAllTextures();
+    // Method to load all textures
+    void LoadAllTextures();
 
-	static ResourceManager& Get();
+    // Static method to get the singleton instance of ResourceManager
+    static ResourceManager& Get();
 
+    // Deleted copy constructor and assignment operator to prevent copying
+    ResourceManager(const ResourceManager&) = delete;
+    ResourceManager& operator=(const ResourceManager&) = delete;
 
-	ResourceManager(const ResourceManager&) = delete;
-	ResourceManager& operator=(const ResourceManager&) = delete;
+    // Method to get a texture by its ID
+    sf::Texture& GetTexture(Texture resource_id);
 
-	sf::Texture& GetTexture(Texture resource_id);
-	sf::Image& GetCursor(CursorImage cursor_id);
+    // Method to get a cursor image by its ID
+    sf::Image& GetCursor(CursorImage cursor_id);
 };
 
 #endif //API_GRAPHICS_RESOURCE_MANAGER_H

@@ -10,20 +10,48 @@ MainGame::MainGame()
 
 	ChangeCursor::BasicCursor(window_);
 
+	CreateTilemap();
+
+	resource_.SetUiPosition(window_);
+
+	tilemap_.clicked_tile_ = [this](Tile& tile) { building_manager_.AddBuilding(tile, build_, resource_); };
+
+	CreateButtonGenerate(50, 760, "Generate", 20, sf::Color::Yellow);
+
+	CreateButtonActiveBuilding(200, 760, "Build", 20, sf::Color::Yellow);
+
+	CreateButtonBuildHome(100, 810, "Home", 20, sf::Color::Yellow);
+
+	CreateButtonBuildFarm(250, 810, "Farm", 20, sf::Color::Yellow);
+
+	CreateButtonBuildOrchard(400, 810, "Orchard", 20, sf::Color::Yellow);
+
+	CreateButtonBuildMine(550, 810, "Mine", 20, sf::Color::Yellow);
+
+	CreateButtonBuildCastle(700, 810, "Castle", 20, sf::Color::Yellow);
+
+	CreateButtonActiveDestroy(850, 810, "Destroy", 20, sf::Color::Yellow);
+
+	CreateButtonQuit(window_.getSize().x - 100, window_.getSize().y - 100, "Quit", 20, sf::Color::Yellow);
+
+	view_ = window_.getDefaultView();
+	view_ui_ = window_.getDefaultView();
+
+	scene_bounds_ = sf::FloatRect(0, 0, window_.getSize().x, window_.getSize().y);
+}
+
+void MainGame::CreateTilemap()
+{
 	tilemap_.Setup(sf::Vector2u(window_.getSize().x / tilemap_.SpritSize().x, window_.getSize().y / tilemap_.SpritSize().y));
 
 	tilemap_.InitMap();
 
 	building_manager_.CreateFirstBuildingHome(tilemap_.tiles(), &resource_);
+}
 
-	resource_.SetUiPosition(window_);
-
-	tilemap_.clicked_tile_ = [this](Tile& tile)
-		{
-			building_manager_.AddBuilding(tile, build_, resource_);
-		};
-
-	btn_generate_.CreateButton(sf::Vector2f(50, 760), "Generate", 20, sf::Color::Yellow);
+void MainGame::CreateButtonGenerate(const int x, const int y, const std::string& text, const int size, const sf::Color color_text)
+{
+	btn_generate_.CreateButton(sf::Vector2f(x, y), text, size, color_text);
 	btn_generate_.setScale(0.5f, 0.5f);
 	btn_generate_.call_back_ = [this]()
 		{
@@ -32,8 +60,11 @@ MainGame::MainGame()
 			building_manager_.CreateFirstBuildingHome(tilemap_.tiles(), &resource_);
 
 		};
+}
 
-	btn_activate_building_.CreateButton(sf::Vector2f(200, 760), "Build", 20, sf::Color::Yellow);
+void MainGame::CreateButtonActiveBuilding(const int x, const int y, const std::string& text, const int size, const sf::Color color_text)
+{
+	btn_activate_building_.CreateButton(sf::Vector2f(x, y), text, size, color_text);
 	btn_activate_building_.setScale(0.5f, 0.5f);
 	btn_activate_building_.call_back_ = [this]()
 		{
@@ -47,8 +78,11 @@ MainGame::MainGame()
 				build_active_ = false;
 			}
 		};
+}
 
-	btn_building_home_.CreateButton(sf::Vector2f(100, 810), "Home", 20, sf::Color::Yellow);
+void MainGame::CreateButtonBuildHome(const int x, const int y, const std::string& text, const int size, const sf::Color color_text)
+{
+	btn_building_home_.CreateButton(sf::Vector2f(x, y), text, size, color_text);
 	btn_building_home_.setScale(0.5f, 0.5f);
 	btn_building_home_.call_back_ = [this]()
 		{
@@ -63,8 +97,11 @@ MainGame::MainGame()
 			btn_building_castle_.build_on_ = false;
 			btn_building_castle_.setScale(0.5f, 0.5f);
 		};
+}
 
-	btn_building_farm_.CreateButton(sf::Vector2f(250, 810), "Farm", 20, sf::Color::Yellow);
+void MainGame::CreateButtonBuildFarm(const int x, const int y, const std::string& text, const int size, const sf::Color color_text)
+{
+	btn_building_farm_.CreateButton(sf::Vector2f(x, y), text, size, color_text);
 	btn_building_farm_.setScale(0.8f, 0.8f);
 	btn_building_farm_.call_back_ = [this]()
 		{
@@ -79,8 +116,11 @@ MainGame::MainGame()
 			btn_building_castle_.build_on_ = false;
 			btn_building_castle_.setScale(0.5f, 0.5f);
 		};
+}
 
-	btn_building_orchard_.CreateButton(sf::Vector2f(400, 810), "Orchard", 20, sf::Color::Yellow);
+void MainGame::CreateButtonBuildOrchard(const int x, const int y, const std::string& text, const int size, const sf::Color color_text)
+{
+	btn_building_orchard_.CreateButton(sf::Vector2f(x, y), text, size, color_text);
 	btn_building_orchard_.setScale(0.5f, 0.5f);
 	btn_building_orchard_.call_back_ = [this]()
 		{
@@ -95,8 +135,11 @@ MainGame::MainGame()
 			btn_building_castle_.build_on_ = false;
 			btn_building_castle_.setScale(0.5f, 0.5f);
 		};
+}
 
-	btn_building_mine_.CreateButton(sf::Vector2f(550, 810), "Mine", 20, sf::Color::Yellow);
+void MainGame::CreateButtonBuildMine(const int x, const int y, const std::string& text, const int size, const sf::Color color_text)
+{
+	btn_building_mine_.CreateButton(sf::Vector2f(x, y), text, size, color_text);
 	btn_building_mine_.setScale(0.5f, 0.5f);
 	btn_building_mine_.call_back_ = [this]()
 		{
@@ -111,8 +154,11 @@ MainGame::MainGame()
 			btn_building_castle_.build_on_ = false;
 			btn_building_castle_.setScale(0.5f, 0.5f);
 		};
+}
 
-	btn_building_castle_.CreateButton(sf::Vector2f(700, 810), "Castle", 20, sf::Color::Yellow);
+void MainGame::CreateButtonBuildCastle(const int x, const int y, const std::string& text, const int size, const sf::Color color_text)
+{
+	btn_building_castle_.CreateButton(sf::Vector2f(x, y), text, size, color_text);
 	btn_building_castle_.setScale(0.5f, 0.5f);
 	btn_building_castle_.call_back_ = [this]()
 		{
@@ -127,8 +173,11 @@ MainGame::MainGame()
 			btn_building_orchard_.build_on_ = false;
 			btn_building_orchard_.setScale(0.5f, 0.5f);
 		};
+}
 
-	btn_activate_destroyer_.CreateButton(sf::Vector2f(850, 810), "Destroy", 20, sf::Color::Yellow);
+void MainGame::CreateButtonActiveDestroy(const int x, const int y, const std::string& text, const int size, const sf::Color color_text)
+{
+	btn_activate_destroyer_.CreateButton(sf::Vector2f(x, y), text, size, color_text);
 	btn_activate_destroyer_.setScale(0.5f, 0.5f);
 	btn_activate_destroyer_.call_back_ = [this]()
 		{
@@ -145,18 +194,203 @@ MainGame::MainGame()
 				btn_activate_destroyer_.SetColorSprite(sf::Color::White);
 			}
 		};
+}
 
-	btn_quit_.CreateButton(sf::Vector2f(window_.getSize().x - 100, window_.getSize().y - 100), "Quit", 20, sf::Color::Yellow);
+void MainGame::CreateButtonQuit(const int x, const int y, const std::string& text, const int size, const sf::Color color_text)
+{
+	btn_quit_.CreateButton(sf::Vector2f(x, y), text, size, color_text);
 	btn_quit_.setScale(0.5f, 0.5f);
 	btn_quit_.call_back_ = [this]()
 		{
 			window_.close();
 		};
+}
 
-	view_ = window_.getDefaultView();
-	view_ui_ = window_.getDefaultView();
+void MainGame::GameLoop()
+{
+	while (window_.isOpen())
+	{
+		sf::Event event;
+		while (window_.pollEvent(event))
+		{
+			if (event.type == sf::Event::Closed)
+				window_.close();
 
-	scene_bounds_ = sf::FloatRect(0, 0, window_.getSize().x, window_.getSize().y);
+			ButtonEvent(event);
+
+			ConstraintsForBuild();
+
+			//SetupCallBackForTilemapClicked();
+
+			if (!mouse_on_btn_ && (full_resource_for_home_ || full_resource_for_farm_ || full_resource_for_orchard_ || full_resource_for_mine_ || full_resource_for_castle_))
+			{
+				tilemap_.HandleEvent(event, window_, view_);
+			}
+
+			if (!resource_.game())
+			{
+				btn_quit_.HandleEvent(event);
+			}
+
+			Zoom(event);
+
+			MoveCame(event);
+		}
+
+		resource_.AddResource();
+		resource_.PayTax();
+		resource_.GameEnd();
+
+		ConstraintsView();
+
+		window_.clear();
+		if (resource_.game())
+		{
+			Draw();
+		}
+
+
+		EndGame();
+
+		window_.display();
+	}
+}
+
+void MainGame::ButtonEvent(sf::Event event)
+{
+	mouse_on_btn_ = false;
+
+	// TODO : For DEBUG
+	/*if (!build_active_)
+			{
+				mouse_on_btn_ = btn_generate_.HandleEvent(event);
+			}*/
+
+			/*if (btn_activate_destroyer_.HandleEvent(event))
+					{
+						mouse_on_btn_ = true;
+					}*/
+
+	mouse_on_btn_ = btn_activate_building_.HandleEvent(event);
+
+	if (resource_.food() >= 100 && resource_.gold() >= 200)
+	{
+		if (btn_building_home_.HandleEvent(event))
+		{
+			mouse_on_btn_ = true;
+		}
+	}
+
+	if (resource_.gold() >= 100)
+	{
+		if (btn_building_farm_.HandleEvent(event))
+		{
+			mouse_on_btn_ = true;
+		}
+	}
+
+	if (resource_.food() >= 200 && resource_.gold() >= 300)
+	{
+		if (btn_building_orchard_.HandleEvent(event))
+		{
+			mouse_on_btn_ = true;
+		}
+	}
+
+	if (resource_.food() >= 300 && resource_.gold() >= 400 && resource_.wood() >= 200)
+	{
+		if (btn_building_mine_.HandleEvent(event))
+		{
+			mouse_on_btn_ = true;
+		}
+	}
+
+	if (resource_.food() >= 25000 && resource_.gold() >= 50000
+		&& resource_.wood() >= 12500 && resource_.stone() >= 10000)
+	{
+		if (btn_building_castle_.HandleEvent(event))
+		{
+			mouse_on_btn_ = true;
+		}
+	}
+}
+
+void MainGame::ConstraintsForBuild()
+{
+	if (resource_.gold() >= 100)
+	{
+		btn_building_farm_.SetColorSprite(sf::Color::White);
+		full_resource_for_farm_ = true;
+	}
+	else
+	{
+		btn_building_farm_.SetColorSprite(sf::Color::Black);
+		full_resource_for_farm_ = false;
+	}
+
+	if (resource_.food() >= 100 && resource_.gold() >= 200)
+	{
+		btn_building_home_.SetColorSprite(sf::Color::White);
+		full_resource_for_home_ = true;
+	}
+	else
+	{
+		btn_building_home_.SetColorSprite(sf::Color::Black);
+		full_resource_for_home_ = false;
+	}
+
+	if (resource_.food() >= 200 && resource_.gold() >= 300)
+	{
+		btn_building_orchard_.SetColorSprite(sf::Color::White);
+		full_resource_for_orchard_ = true;
+	}
+	else
+	{
+		btn_building_orchard_.SetColorSprite(sf::Color::Black);
+		full_resource_for_orchard_ = false;
+	}
+
+	if (resource_.food() >= 300 && resource_.gold() >= 400 && resource_.wood() >= 200)
+	{
+		btn_building_mine_.SetColorSprite(sf::Color::White);
+		full_resource_for_mine_ = true;
+	}
+	else
+	{
+		btn_building_mine_.SetColorSprite(sf::Color::Black);
+		full_resource_for_mine_ = false;
+	}
+
+	if (resource_.food() >= 25000 && resource_.gold() >= 50000
+		&& resource_.wood() >= 12500 && resource_.stone() >= 10000)
+	{
+		btn_building_castle_.SetColorSprite(sf::Color::White);
+		full_resource_for_castle_ = true;
+	}
+	else
+	{
+		btn_building_castle_.SetColorSprite(sf::Color::Black);
+		full_resource_for_castle_ = false;
+	}
+}
+
+void MainGame::SetupCallBackForTilemapClicked()
+{
+	if (destroy_active_)
+	{
+		tilemap_.clicked_tile_ = [this](Tile& tile)
+			{
+				building_manager_.SubBuilding(tile, resource_);
+			};
+
+	}
+	else
+	{
+		tilemap_.clicked_tile_ = [this](Tile& tile)
+			{
+				building_manager_.AddBuilding(tile, build_, resource_);
+			};
+	}
 }
 
 void MainGame::Zoom(const sf::Event& event)
@@ -186,8 +420,6 @@ void MainGame::Zoom(const sf::Event& event)
 		view_.zoom(zoom_factor_); // Apply zoom factor
 	}
 }
-
-
 
 void MainGame::MoveCame(const sf::Event& event)
 {
@@ -239,229 +471,68 @@ void MainGame::ConstraintsView()
 	view_.setCenter(view_center);
 }
 
-void MainGame::GameLoop()
+void MainGame::Draw()
 {
-	while (window_.isOpen())
+	window_.setView(view_); // Set updated view
+	window_.draw(tilemap_);
+	window_.draw(building_manager_);
+	window_.setView(view_ui_);
+	//window_.draw(btn_generate);
+	window_.draw(btn_activate_building_);
+	resource_.Draw(window_);
+	if (!build_active_)
 	{
-		sf::Event event;
-		while (window_.pollEvent(event))
-		{
-			if (event.type == sf::Event::Closed)
-				window_.close();
+		//window_.draw(btn_generate);
+	}
+	if (build_active_)
+	{
+		//window_.draw(btn_activate_Destroyer);
+		window_.draw(btn_building_home_);
+		window_.draw(btn_building_farm_);
+		window_.draw(btn_building_mine_);
+		window_.draw(btn_building_orchard_);
+		window_.draw(btn_building_castle_);
+	}
+}
 
-			mouse_on_btn_ = false;
+void MainGame::EndGame()
+{
+	if (!resource_.game())
+	{
+		sf::Font font;
+		sf::Text text;
+		sf::Text quit_text;
 
-			/*if (!build_active_)
-			{
-				mouse_on_btn_ = btn_generate_.HandleEvent(event);
-			}*/
-
-			/*if (btn_activate_destroyer_.HandleEvent(event))
-			{
-				mouse_on_btn_ = true;
-			}*/
-
-			mouse_on_btn_ = btn_activate_building_.HandleEvent(event);
-
-			if (resource_.food() >= 100 && resource_.gold() >= 200)
-			{
-				if (btn_building_home_.HandleEvent(event))
-				{
-					mouse_on_btn_ = true;
-				}
-			}
-
-			if (resource_.gold() >= 100)
-			{
-				if (btn_building_farm_.HandleEvent(event))
-				{
-					mouse_on_btn_ = true;
-				}
-			}
-
-			if (resource_.food() >= 200 && resource_.gold() >= 300)
-			{
-				if (btn_building_orchard_.HandleEvent(event))
-				{
-					mouse_on_btn_ = true;
-				}
-			}
-
-			if (resource_.food() >= 300 && resource_.gold() >= 400 && resource_.wood() >= 200)
-			{
-				if (btn_building_mine_.HandleEvent(event))
-				{
-					mouse_on_btn_ = true;
-				}
-			}
-
-			if (resource_.food() >= 25000 && resource_.gold() >= 50000
-				&& resource_.wood() >= 12500 && resource_.stone() >= 10000)
-			{
-				if (btn_building_castle_.HandleEvent(event))
-				{
-					mouse_on_btn_ = true;
-				}
-			}
-
-			if (resource_.gold() >= 100)
-			{
-				btn_building_farm_.SetColorSprite(sf::Color::White);
-				full_resource_for_farm_ = true;
-			}
-			else
-			{
-				btn_building_farm_.SetColorSprite(sf::Color::Black);
-				full_resource_for_farm_ = false;
-			}
-
-			if (resource_.food() >= 100 && resource_.gold() >= 200)
-			{
-				btn_building_home_.SetColorSprite(sf::Color::White);
-				full_resource_for_home_ = true;
-			}
-			else
-			{
-				btn_building_home_.SetColorSprite(sf::Color::Black);
-				full_resource_for_home_ = false;
-			}
-
-			if (resource_.food() >= 200 && resource_.gold() >= 300)
-			{
-				btn_building_orchard_.SetColorSprite(sf::Color::White);
-				full_resource_for_orchard_ = true;
-			}
-			else
-			{
-				btn_building_orchard_.SetColorSprite(sf::Color::Black);
-				full_resource_for_orchard_ = false;
-			}
-
-			if (resource_.food() >= 300 && resource_.gold() >= 400 && resource_.wood() >= 200)
-			{
-				btn_building_mine_.SetColorSprite(sf::Color::White);
-				full_resource_for_mine_ = true;
-			}
-			else
-			{
-				btn_building_mine_.SetColorSprite(sf::Color::Black);
-				full_resource_for_mine_ = false;
-			}
-
-			if (resource_.food() >= 25000 && resource_.gold() >= 50000
-				&& resource_.wood() >= 12500 && resource_.stone() >= 10000)
-			{
-				btn_building_castle_.SetColorSprite(sf::Color::White);
-				full_resource_for_castle_ = true;
-			}
-			else
-			{
-				btn_building_castle_.SetColorSprite(sf::Color::Black);
-				full_resource_for_castle_ = false;
-			}
-
-
-			/*if (destroy_active_)
-			{
-				tilemap_.clicked_tile_ = [this](Tile& tile)
-					{
-						building_manager_.SubBuilding(tile, resource_);
-					};
-				
-			}
-			else
-			{
-				tilemap_.clicked_tile_ = [this](Tile& tile)
-					{
-						building_manager_.AddBuilding(tile, build_, resource_);
-					};
-			}*/
-
-			if (!mouse_on_btn_ && (full_resource_for_home_ || full_resource_for_farm_ || full_resource_for_orchard_ || full_resource_for_mine_ || full_resource_for_castle_))
-			{
-				tilemap_.HandleEvent(event, window_, view_);
-			}
-
-			if (!resource_.game())
-			{
-				btn_quit_.HandleEvent(event);
-			}
-
-			Zoom(event);
-
-			MoveCame(event);
+		if (!font.loadFromFile("ressources/fonts/kenvector_future.ttf")) {
+			// Handle error: Unable to load font
 		}
 
-		resource_.AddResource();
-		resource_.PayTax();
-		resource_.GameEnd();
+		text.setFont(font);
+		quit_text.setFont(font);
 
-		ConstraintsView();
-
-		window_.clear();
-		if (resource_.game())
+		if (resource_.gold() <= -1)
 		{
-			window_.setView(view_); // Set updated view
-			window_.draw(tilemap_);
-			window_.draw(building_manager_);
-			window_.setView(view_ui_);
-			//window_.draw(btn_generate);
-			window_.draw(btn_activate_building_);
-			resource_.Draw(window_);
-			if (!build_active_)
-			{
-				//window_.draw(btn_generate);
-			}
-			if (build_active_)
-			{
-				//window_.draw(btn_activate_Destroyer);
-				window_.draw(btn_building_home_);
-				window_.draw(btn_building_farm_);
-				window_.draw(btn_building_mine_);
-				window_.draw(btn_building_orchard_);
-				window_.draw(btn_building_castle_);
-			}
+			text.setString("Game Over");
+		}
+		else
+		{
+			text.setString("Win");
 		}
 
+		text.setColor(sf::Color::Red);
+		quit_text.setColor(sf::Color::Red);
 
-		if (!resource_.game())
-		{
-			sf::Font font;
-			sf::Text text;
-			sf::Text quit_text;
+		text.setOrigin(text.getGlobalBounds().width / 2.0f, text.getGlobalBounds().height / 2.0f);
+		quit_text.setOrigin(quit_text.getGlobalBounds().width / 2.0f, quit_text.getGlobalBounds().height / 2.0f);
 
-			if (!font.loadFromFile("ressources/fonts/kenvector_future.ttf")) {
-				// Handle error: Unable to load font
-			}
+		quit_text.setString("Tap button to quit");
 
-			text.setFont(font);
-			quit_text.setFont(font);
+		text.setPosition(window_.getSize().x / 2, window_.getSize().y / 2);
 
-			if (resource_.gold() <= -1)
-			{
-				text.setString("Game Over");
-			}
-			else
-			{
-				text.setString("Win");
-			}
+		quit_text.setPosition((window_.getSize().x / 2) - 150, text.getPosition().y + 100);
 
-			text.setColor(sf::Color::Red);
-			quit_text.setColor(sf::Color::Red);
-
-			text.setOrigin(text.getGlobalBounds().width / 2.0f, text.getGlobalBounds().height / 2.0f);
-			quit_text.setOrigin(quit_text.getGlobalBounds().width / 2.0f, quit_text.getGlobalBounds().height / 2.0f);
-
-			quit_text.setString("Tap button to quit");
-
-			text.setPosition(window_.getSize().x / 2, window_.getSize().y / 2);
-
-			quit_text.setPosition((window_.getSize().x / 2) - 150, text.getPosition().y + 100);
-
-			window_.draw(text);
-			window_.draw(quit_text);
-			window_.draw(btn_quit_);
-		}
-		window_.display();
+		window_.draw(text);
+		window_.draw(quit_text);
+		window_.draw(btn_quit_);
 	}
 }
