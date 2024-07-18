@@ -26,6 +26,8 @@ class MainGame
 	UiButton btn_building_mine_;
 	UiButton btn_building_castle_;
 	UiButton btn_quit_;
+	UiButton btn_activate_tuto_;
+	UiButton btn_activate_price_;
 
 	// SFML window and views
 	sf::RenderWindow window_;
@@ -46,6 +48,8 @@ class MainGame
 	bool mouse_on_btn_ = false;
 	bool build_active_ = false;
 	bool destroy_active_ = false;
+	bool tuto_active_ = false;
+	bool price_active_ = false;
 
 	// Resource fullness flags for different buildings
 	bool full_resource_for_home_ = false;
@@ -84,7 +88,8 @@ public:
 	void CreateButtonBuildCastle(int x, int y, const std::string& text, int size, sf::Color color_text);
 	void CreateButtonActiveDestroy(int x, int y, const std::string& text, int size, sf::Color color_text);
 	void CreateButtonQuit(int x, int y, const std::string& text, int size, sf::Color color_text);
-	
+	void CreateButtonActiveTuto(int x, int y, const std::string& text, int size, sf::Color color_text);
+	void CreateButtonActivePrice(int x, int y, const std::string& text, int size, sf::Color color_text);
 
 
 	// Main game loop function

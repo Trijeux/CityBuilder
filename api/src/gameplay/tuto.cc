@@ -76,6 +76,109 @@ Tuto::Tuto()
 	tuto_pay_tax_time_.setColor(sf::Color::White);
 	tuto_pay_tax_time_.setScale(0.5f, 0.5f);
 	tuto_pay_tax_time_.setOrigin(tuto_tax_amount_.getGlobalBounds().width / 2, tuto_tax_amount_.getGlobalBounds().height / 2);
+
+	text_objective_.setFont(font_);
+	text_objective_.setString("Objective");
+	text_objective_.setColor(sf::Color::White);
+	text_objective_.setOrigin(text_objective_.getGlobalBounds().width / 2, text_objective_.getGlobalBounds().height / 2);
+	tuto_objective_.setFont(font_);
+	tuto_objective_.setString("Build a castle /      to win \nand manage to pay the tax");
+	tuto_objective_.setColor(sf::Color::White);
+	tuto_objective_.setScale(0.5f, 0.5f);
+	tuto_objective_.setOrigin(tuto_objective_.getGlobalBounds().width / 2, tuto_objective_.getGlobalBounds().height / 2);
+	tuto_castle_sprite_.setTexture(ResourceManager::Get().GetTexture(ResourceManager::Texture::kCastle));
+	tuto_castle_sprite_.setOrigin(tuto_castle_sprite_.getGlobalBounds().width / 2, tuto_castle_sprite_.getGlobalBounds().height / 2);
+
+	text_price_.setFont(font_);
+	text_price_.setString("Price");
+	text_price_.setColor(sf::Color::White);
+	text_price_.setOrigin(text_price_.getGlobalBounds().width / 2, text_price_.getGlobalBounds().height / 2);
+
+	text_home_.setFont(font_);
+	text_home_.setString("Home");
+	text_home_.setColor(sf::Color::White);
+	text_home_.setOrigin(text_home_.getGlobalBounds().width / 2, text_home_.getGlobalBounds().height / 2);
+	text_price_home_gold_.setFont(font_);
+	text_price_home_gold_.setString("200 Gold");
+	text_price_home_gold_.setColor(sf::Color::Yellow);
+	text_price_home_gold_.setScale(0.5f, 0.5f);
+	text_price_home_gold_.setOrigin(text_price_home_gold_.getGlobalBounds().width / 2, text_price_home_gold_.getGlobalBounds().height / 2);
+	text_price_home_food_.setFont(font_);
+	text_price_home_food_.setString("100 Food");
+	text_price_home_food_.setColor(sf::Color::Green);
+	text_price_home_food_.setScale(0.5f, 0.5f);
+	text_price_home_food_.setOrigin(text_price_home_food_.getGlobalBounds().width / 2, text_price_home_food_.getGlobalBounds().height / 2);
+
+	text_farm_.setFont(font_);
+	text_farm_.setString("Farm");
+	text_farm_.setColor(sf::Color::White);
+	text_farm_.setOrigin(text_farm_.getGlobalBounds().width / 2, text_farm_.getGlobalBounds().height / 2);
+	text_price_farm_gold_.setFont(font_);
+	text_price_farm_gold_.setString("100 Gold");
+	text_price_farm_gold_.setColor(sf::Color::Yellow);
+	text_price_farm_gold_.setScale(0.5f, 0.5f);
+	text_price_farm_gold_.setOrigin(text_price_farm_gold_.getGlobalBounds().width / 2, text_price_farm_gold_.getGlobalBounds().height / 2);
+
+	text_orchard_.setFont(font_);
+	text_orchard_.setString("Orchard");
+	text_orchard_.setColor(sf::Color::White);
+	text_orchard_.setOrigin(text_orchard_.getGlobalBounds().width / 2, text_orchard_.getGlobalBounds().height / 2);
+	text_price_orchard_gold_.setFont(font_);
+	text_price_orchard_gold_.setString("300 Gold");
+	text_price_orchard_gold_.setColor(sf::Color::Yellow);
+	text_price_orchard_gold_.setScale(0.5f, 0.5f);
+	text_price_orchard_gold_.setOrigin(text_price_orchard_gold_.getGlobalBounds().width / 2, text_price_orchard_gold_.getGlobalBounds().height / 2);
+	text_price_orchard_food_.setFont(font_);
+	text_price_orchard_food_.setString("200 Food");
+	text_price_orchard_food_.setColor(sf::Color::Green);
+	text_price_orchard_food_.setScale(0.5f, 0.5f);
+	text_price_orchard_food_.setOrigin(text_price_orchard_food_.getGlobalBounds().width / 2, text_price_orchard_food_.getGlobalBounds().height / 2);
+
+	text_mine_.setFont(font_);
+	text_mine_.setString("Mine");
+	text_mine_.setColor(sf::Color::White);
+	text_mine_.setOrigin(text_mine_.getGlobalBounds().width / 2, text_mine_.getGlobalBounds().height / 2);
+	text_price_mine_gold_.setFont(font_);
+	text_price_mine_gold_.setString("400 Gold");
+	text_price_mine_gold_.setColor(sf::Color::Yellow);
+	text_price_mine_gold_.setScale(0.5f, 0.5f);
+	text_price_mine_gold_.setOrigin(text_price_mine_gold_.getGlobalBounds().width / 2, text_price_mine_gold_.getGlobalBounds().height / 2);
+	text_price_mine_food_.setFont(font_);
+	text_price_mine_food_.setString("300 Food");
+	text_price_mine_food_.setColor(sf::Color::Green);
+	text_price_mine_food_.setScale(0.5f, 0.5f);
+	text_price_mine_food_.setOrigin(text_price_mine_food_.getGlobalBounds().width / 2, text_price_mine_food_.getGlobalBounds().height / 2);
+	text_price_mine_wood_.setFont(font_);
+	text_price_mine_wood_.setString("100 Wood");
+	text_price_mine_wood_.setColor(sf::Color(222,134,17));
+	text_price_mine_wood_.setScale(0.5f, 0.5f);
+	text_price_mine_wood_.setOrigin(text_price_mine_wood_.getGlobalBounds().width / 2, text_price_mine_wood_.getGlobalBounds().height / 2);
+
+
+	text_castle_.setFont(font_);
+	text_castle_.setString("Castle");
+	text_castle_.setColor(sf::Color::White);
+	text_castle_.setOrigin(text_castle_.getGlobalBounds().width / 2, text_castle_.getGlobalBounds().height / 2);
+	text_price_castle_gold_.setFont(font_);
+	text_price_castle_gold_.setString("50'000 Gold");
+	text_price_castle_gold_.setColor(sf::Color::Yellow);
+	text_price_castle_gold_.setScale(0.5f, 0.5f);
+	text_price_castle_gold_.setOrigin(text_price_castle_gold_.getGlobalBounds().width / 2, text_price_castle_gold_.getGlobalBounds().height / 2);
+	text_price_castle_food_.setFont(font_);
+	text_price_castle_food_.setString("25'000 Food");
+	text_price_castle_food_.setColor(sf::Color::Green);
+	text_price_castle_food_.setScale(0.5f, 0.5f);
+	text_price_castle_food_.setOrigin(text_price_castle_food_.getGlobalBounds().width / 2, text_price_castle_food_.getGlobalBounds().height / 2);
+	text_price_castle_wood_.setFont(font_);
+	text_price_castle_wood_.setString("12'500 Wood");
+	text_price_castle_wood_.setColor(sf::Color(222, 134, 17));
+	text_price_castle_wood_.setScale(0.5f, 0.5f);
+	text_price_castle_wood_.setOrigin(text_price_castle_wood_.getGlobalBounds().width / 2, text_price_castle_wood_.getGlobalBounds().height / 2);
+	text_price_castle_stone_.setFont(font_);
+	text_price_castle_stone_.setString("10'000 Stone");
+	text_price_castle_stone_.setColor(sf::Color(182,182,182));
+	text_price_castle_stone_.setScale(0.5f, 0.5f);
+	text_price_castle_stone_.setOrigin(text_price_castle_stone_.getGlobalBounds().width / 2, text_price_castle_stone_.getGlobalBounds().height / 2);
 }
 
 void Tuto::SetupBox(const sf::RenderWindow& window)
@@ -110,6 +213,34 @@ void Tuto::SetupTextInBox(const sf::RenderWindow& window)
 	tuto_tax_sprite_.setPosition(window.getSize().x - (box_.getSize().x - 185), window.getSize().y - (box_.getSize().y - 204));
 
 	tuto_pay_tax_time_.setPosition(window.getSize().x - (box_.getSize().x - 62), window.getSize().y - (box_.getSize().y - 220));
+
+	text_objective_.setPosition(window.getSize().x - (box_.getSize().x / 2), window.getSize().y - (box_.getSize().y - 300));
+	tuto_objective_.setPosition(window.getSize().x - ((box_.getSize().x / 2) + 55), window.getSize().y - (box_.getSize().y - 350));
+	tuto_castle_sprite_.setPosition(window.getSize().x - ((box_.getSize().x / 2 ) - 50), window.getSize().y - (box_.getSize().y - 352));
+
+	text_price_.setPosition(window.getSize().x - (box_.getSize().x / 2), window.getSize().y - (box_.getSize().y - 20));
+
+	text_home_.setPosition(window.getSize().x - (box_.getSize().x - 75), window.getSize().y - (box_.getSize().y - 75));
+	text_price_home_gold_.setPosition(window.getSize().x - (box_.getSize().x - 54), window.getSize().y - (box_.getSize().y - 100));
+	text_price_home_food_.setPosition(window.getSize().x - (box_.getSize().x - 54), window.getSize().y - (box_.getSize().y - 115));
+
+	text_farm_.setPosition(window.getSize().x - (box_.getSize().x - 300), window.getSize().y - (box_.getSize().y - 72));
+	text_price_farm_gold_.setPosition(window.getSize().x - (box_.getSize().x - 276), window.getSize().y - (box_.getSize().y - 97));
+
+	text_orchard_.setPosition(window.getSize().x - (box_.getSize().x - 90), window.getSize().y - (box_.getSize().y - 200));
+	text_price_orchard_gold_.setPosition(window.getSize().x - (box_.getSize().x - 65), window.getSize().y - (box_.getSize().y - 225));
+	text_price_orchard_food_.setPosition(window.getSize().x - (box_.getSize().x - 65), window.getSize().y - (box_.getSize().y - 240));
+
+	text_mine_.setPosition(window.getSize().x - (box_.getSize().x - 300), window.getSize().y - (box_.getSize().y - 197));
+	text_price_mine_gold_.setPosition(window.getSize().x - (box_.getSize().x - 276), window.getSize().y - (box_.getSize().y - 225));
+	text_price_mine_food_.setPosition(window.getSize().x - (box_.getSize().x - 276), window.getSize().y - (box_.getSize().y - 240));
+	text_price_mine_wood_.setPosition(window.getSize().x - (box_.getSize().x - 276), window.getSize().y - (box_.getSize().y - 255));
+
+	text_castle_.setPosition(window.getSize().x - ((box_.getSize().x / 2) + 5), window.getSize().y - (box_.getSize().y - 300));
+	text_price_castle_gold_.setPosition(window.getSize().x - (box_.getSize().x - 60), window.getSize().y - (box_.getSize().y - 335));
+	text_price_castle_food_.setPosition(window.getSize().x - (box_.getSize().x - 60), window.getSize().y - (box_.getSize().y - 355));
+	text_price_castle_wood_.setPosition(window.getSize().x - (box_.getSize().x - 260), window.getSize().y - (box_.getSize().y - 335));
+	text_price_castle_stone_.setPosition(window.getSize().x - (box_.getSize().x - 260), window.getSize().y - (box_.getSize().y - 355));
 }
 
 void Tuto::Draw(sf::RenderWindow& window, const TypeTuto type) const
@@ -141,11 +272,37 @@ void Tuto::Draw(sf::RenderWindow& window, const TypeTuto type) const
 		window.draw(tuto_tax_sprite_);
 
 		window.draw(tuto_pay_tax_time_);
+
+		window.draw(text_objective_);
+		window.draw(tuto_objective_);
+		window.draw(tuto_castle_sprite_);
 	}
 	break;
 	case TypeTuto::kPrice:
 	{
+		window.draw(text_price_);
 
+		window.draw(text_home_);
+		window.draw(text_price_home_gold_);
+		window.draw(text_price_home_food_);
+
+		window.draw(text_farm_);
+		window.draw(text_price_farm_gold_);
+
+		window.draw(text_orchard_);
+		window.draw(text_price_orchard_gold_);
+		window.draw(text_price_orchard_food_);
+
+		window.draw(text_mine_);
+		window.draw(text_price_mine_gold_);
+		window.draw(text_price_mine_food_);
+		window.draw(text_price_mine_wood_);
+
+		window.draw(text_castle_);
+		window.draw(text_price_castle_gold_);
+		window.draw(text_price_castle_food_);
+		window.draw(text_price_castle_wood_);
+		window.draw(text_price_castle_stone_);
 	}
 	break;
 	}

@@ -30,7 +30,7 @@ class GameResource
 
     // Counts of different buildings and resources
     int home_ = 0;
-    int gold_ = 0;
+    int gold_ = 100;
     int farm_ = 0;
     int food_ = 0;
     int orchard_ = 0;

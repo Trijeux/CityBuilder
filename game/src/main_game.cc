@@ -32,6 +32,10 @@ MainGame::MainGame()
 
 	CreateButtonActiveDestroy(850, 810, "Destroy", 20, sf::Color::Yellow);
 
+	CreateButtonActiveTuto(350, 760, "Tuto", 20, sf::Color::Yellow);
+
+	CreateButtonActivePrice(500, 760, "Price", 20, sf::Color::Yellow);
+
 	CreateButtonQuit(window_.getSize().x - 100, window_.getSize().y - 100, "Quit", 20, sf::Color::Yellow);
 
 	view_ = window_.getDefaultView();
@@ -209,6 +213,48 @@ void MainGame::CreateButtonQuit(const int x, const int y, const std::string& tex
 		};
 }
 
+void MainGame::CreateButtonActiveTuto(int x, int y, const std::string& text, int size, sf::Color color_text)
+{
+	btn_activate_tuto_.CreateButton(sf::Vector2f(x, y), text, size, color_text);
+	btn_activate_tuto_.setScale(0.5f, 0.5f);
+	btn_activate_tuto_.call_back_ = [this]()
+		{
+			if (tuto_active_ == false)
+			{
+				tuto_active_ = true;
+				btn_activate_tuto_.setScale(0.8f, 0.8f);
+				btn_activate_tuto_.SetColorSprite(sf::Color::Red);
+			}
+			else if (tuto_active_ == true)
+			{
+				tuto_active_ = false;
+				btn_activate_tuto_.setScale(0.5f, 0.5f);
+				btn_activate_tuto_.SetColorSprite(sf::Color::White);
+			}
+		};
+}
+
+void MainGame::CreateButtonActivePrice(int x, int y, const std::string& text, int size, sf::Color color_text)
+{
+	btn_activate_price_.CreateButton(sf::Vector2f(x, y), text, size, color_text);
+	btn_activate_price_.setScale(0.5f, 0.5f);
+	btn_activate_price_.call_back_ = [this]()
+		{
+			if (price_active_ == false)
+			{
+				price_active_ = true;
+				btn_activate_price_.setScale(0.8f, 0.8f);
+				btn_activate_price_.SetColorSprite(sf::Color::Red);
+			}
+			else if (price_active_ == true)
+			{
+				price_active_ = false;
+				btn_activate_price_.setScale(0.5f, 0.5f);
+				btn_activate_price_.SetColorSprite(sf::Color::White);
+			}
+		};
+}
+
 void MainGame::GameLoop()
 {
 	while (window_.isOpen())
@@ -269,10 +315,26 @@ void MainGame::ButtonEvent(sf::Event event)
 				mouse_on_btn_ = btn_generate_.HandleEvent(event);
 			}*/
 
-			/*if (btn_activate_destroyer_.HandleEvent(event))
-					{
-						mouse_on_btn_ = true;
-					}*/
+	/*if (btn_activate_destroyer_.HandleEvent(event))
+			{
+				mouse_on_btn_ = true;
+			}*/
+
+	if (!price_active_)
+	{
+		if (btn_activate_tuto_.HandleEvent(event))
+		{
+			mouse_on_btn_ = true;
+		}
+	}
+
+	if (!tuto_active_)
+	{
+		if (btn_activate_price_.HandleEvent(event))
+		{
+			mouse_on_btn_ = true;
+		}
+	}
 
 	mouse_on_btn_ = btn_activate_building_.HandleEvent(event);
 
@@ -479,13 +541,25 @@ void MainGame::Draw()
 	window_.setView(view_); // Set updated view
 	window_.draw(tilemap_);
 	window_.draw(building_manager_);
+
 	window_.setView(view_ui_);
 	//window_.draw(btn_generate);
 	window_.draw(btn_activate_building_);
+	window_.draw(btn_activate_tuto_);
+	window_.draw(btn_activate_price_);
 	resource_.Draw(window_);
 
 
-	tuto_.Draw(window_, Tuto::TypeTuto::kTuto);
+	if (tuto_active_ && !price_active_)
+	{
+		tuto_.Draw(window_, Tuto::TypeTuto::kTuto);
+	}
+
+
+	if (price_active_ && !tuto_active_)
+	{
+		tuto_.Draw(window_, Tuto::TypeTuto::kPrice);
+	}
 
 
 	if (!build_active_)

@@ -62,19 +62,26 @@ private:
 	sf::Text text_price_;
 
 	sf::Text text_home_;
-	sf::Text text_price_home_;
+	sf::Text text_price_home_gold_;
+	sf::Text text_price_home_food_;
 
 	sf::Text text_farm_;
-	sf::Text text_price_farm_;
+	sf::Text text_price_farm_gold_;
 
 	sf::Text text_orchard_;
-	sf::Text text_price_orchard_;
+	sf::Text text_price_orchard_gold_;
+	sf::Text text_price_orchard_food_;
 
 	sf::Text text_mine_;
-	sf::Text text_price_mine_;
+	sf::Text text_price_mine_gold_;
+	sf::Text text_price_mine_food_;
+	sf::Text text_price_mine_wood_;
 
 	sf::Text text_castle_;
-	sf::Text text_price_castle_;
+	sf::Text text_price_castle_gold_;
+	sf::Text text_price_castle_food_;
+	sf::Text text_price_castle_wood_;
+	sf::Text text_price_castle_stone_;
 };
 
 #endif // GAMEPLAY_TUTO_H
