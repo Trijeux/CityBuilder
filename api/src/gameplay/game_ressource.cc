@@ -13,6 +13,7 @@ GameResource::GameResource()
     text_wood_.setFont(font_);
     text_stone_.setFont(font_);
     text_tax_.setFont(font_);
+    text_temp_for_tax_.setFont(font_);
 
     // Initialize text values with initial resource counts
     text_gold_.setString(std::to_string(gold_));
@@ -27,6 +28,7 @@ GameResource::GameResource()
     text_wood_.setColor(sf::Color::Black);
     text_stone_.setColor(sf::Color::Black);
     text_tax_.setColor(sf::Color::Black);
+    text_temp_for_tax_.setColor(sf::Color::Red);
 
     // Set origins for text elements to center them properly
     text_gold_.setOrigin(text_gold_.getGlobalBounds().width / 2.0f, text_gold_.getGlobalBounds().height / 2.0f);
@@ -34,6 +36,7 @@ GameResource::GameResource()
     text_wood_.setOrigin(text_wood_.getGlobalBounds().width / 2.0f, text_wood_.getGlobalBounds().height / 2.0f);
     text_stone_.setOrigin(text_stone_.getGlobalBounds().width / 2.0f, text_stone_.getGlobalBounds().height / 2.0f);
     text_tax_.setOrigin(text_tax_.getGlobalBounds().width / 2.0f, text_tax_.getGlobalBounds().height / 2.0f);
+    text_temp_for_tax_.setOrigin(text_temp_for_tax_.getGlobalBounds().width / 2.0f, text_temp_for_tax_.getGlobalBounds().height / 2.0f);
 
     // Load textures for resource sprites
     texture_gold_.loadFromFile("ressources/tile/Ressource_Or.png");
@@ -84,6 +87,7 @@ void GameResource::SetUiPosition(const sf::RenderWindow& window)
 
     // Set positions for text elements relative to their corresponding sprites
     text_tax_.setPosition(sprite_tax_.getPosition().x + 50, 50);
+    text_temp_for_tax_.setPosition(window.getSize().x / 4, 20);
     text_gold_.setPosition(sprite_gold_.getPosition().x + 50, 50);
     text_food_.setPosition(sprite_food_.getPosition().x + 50, 50);
     text_wood_.setPosition(sprite_wood_.getPosition().x + 50, 50);
@@ -151,6 +155,7 @@ void GameResource::AddResource()
         food_ += farm_;
         wood_ += orchard_;
         stone_ += mine_;
+        time_for_tax_++;
 
         // Update text strings with new resource counts
         text_gold_.setString(std::to_string(gold_));
@@ -197,13 +202,16 @@ void GameResource::PayTax()
     // Calculate tax based on the number of each type of building
     tax_ = (mine_ * 4 + orchard_ * 3 + farm_ * 2 + home_) * 15;
     text_tax_.setString(std::to_string(tax_)); // Update tax text string
+    text_temp_for_tax_.setString("Time For Pay Tax :" + std::to_string(time_for_tax_));
 
     // Calculate elapsed time since last tax payment
     const auto current_time = std::chrono::high_resolution_clock::now();
+
     if (const std::chrono::duration<double> tax_second = current_time - tax_second_last_; tax_second.count() >= 300.0)
     {
         // Pay tax every 300 seconds
         tax_second_last_ = current_time;
+        time_for_tax_ = 0;
         gold_ -= tax_;
     }
 }
@@ -230,4 +238,5 @@ void GameResource::Draw(sf::RenderWindow& window) const
     window.draw(text_stone_);
     window.draw(sprite_tax_);
     window.draw(text_tax_);
+    window.draw(text_temp_for_tax_);
 }

@@ -25,6 +25,7 @@ class GameResource
     sf::Text text_wood_;
     sf::Text text_stone_;
     sf::Text text_tax_;
+    sf::Text text_temp_for_tax_;
     sf::Font font_;
 
     // Counts of different buildings and resources
@@ -38,6 +39,7 @@ class GameResource
     int stone_ = 0;
     int castle_ = 0;
     int tax_ = 0;
+    int time_for_tax_;
 
     // Game state flags and time points
     bool game_ = true;
