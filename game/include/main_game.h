@@ -5,6 +5,7 @@
 #include "gameplay/building_manager.h"
 #include "gameplay/change_cursor.h"
 #include "gameplay/game_ressource.h"
+#include "gameplay/tuto.h"
 #include "graphics/tilemap.h"
 #include "ui/ui_button.h"
 
@@ -61,6 +62,8 @@ class MainGame
 
 	sf::FloatRect scene_bounds_;
 	sf::Vector2f min_view_size_;
+
+	Tuto tuto_;
 
 public:
 	

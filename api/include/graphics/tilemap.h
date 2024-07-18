@@ -1,4 +1,3 @@
-// ReSharper disable IdentifierTypo
 #ifndef API_GRAPHICS_TILEMAP_H
 #define API_GRAPHICS_TILEMAP_H
 

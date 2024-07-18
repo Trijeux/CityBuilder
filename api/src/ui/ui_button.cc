@@ -84,7 +84,7 @@ void UiButton::CreateButton(const sf::Vector2f pos, const std::string& text, con
     // Set the origin of the text to its center
     const sf::FloatRect text_rect = button_text_.getLocalBounds();
     const sf::FloatRect shape_rect = sprite_.getGlobalBounds();
-    button_text_.setOrigin(text_rect.left + text_rect.width / 2.0f, text_rect.top + text_rect.height / 2.0f);
+	button_text_.setOrigin(text_rect.left + text_rect.width / 2.0f, text_rect.top + text_rect.height / 2.0f);
     button_text_.setPosition(shape_rect.left + shape_rect.width / 2.0f, shape_rect.top + shape_rect.height / 2.0f);
 
     // Load the button's texture

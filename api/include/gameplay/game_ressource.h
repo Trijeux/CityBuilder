@@ -39,7 +39,7 @@ class GameResource
     int stone_ = 0;
     int castle_ = 0;
     int tax_ = 0;
-    int time_for_tax_;
+    int time_for_tax_ = 0;
 
     // Game state flags and time points
     bool game_ = true;

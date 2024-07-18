@@ -38,6 +38,9 @@ MainGame::MainGame()
 	view_ui_ = window_.getDefaultView();
 
 	scene_bounds_ = sf::FloatRect(0, 0, window_.getSize().x, window_.getSize().y);
+
+	tuto_.SetupBox(window_);
+	tuto_.SetupTextInBox(window_);
 }
 
 void MainGame::CreateTilemap()
@@ -480,6 +483,11 @@ void MainGame::Draw()
 	//window_.draw(btn_generate);
 	window_.draw(btn_activate_building_);
 	resource_.Draw(window_);
+
+
+	tuto_.Draw(window_, Tuto::TypeTuto::kTuto);
+
+
 	if (!build_active_)
 	{
 		//window_.draw(btn_generate);
