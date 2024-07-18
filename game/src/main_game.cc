@@ -222,8 +222,11 @@ void MainGame::CreateButtonActiveTuto(int x, int y, const std::string& text, int
 			if (tuto_active_ == false)
 			{
 				tuto_active_ = true;
+				price_active_ = false;
 				btn_activate_tuto_.setScale(0.8f, 0.8f);
 				btn_activate_tuto_.SetColorSprite(sf::Color::Red);
+				btn_activate_price_.setScale(0.5f, 0.5f);
+				btn_activate_price_.SetColorSprite(sf::Color::White);
 			}
 			else if (tuto_active_ == true)
 			{
@@ -243,8 +246,11 @@ void MainGame::CreateButtonActivePrice(int x, int y, const std::string& text, in
 			if (price_active_ == false)
 			{
 				price_active_ = true;
+				tuto_active_ = false;
 				btn_activate_price_.setScale(0.8f, 0.8f);
 				btn_activate_price_.SetColorSprite(sf::Color::Red);
+				btn_activate_tuto_.setScale(0.5f, 0.5f);
+				btn_activate_tuto_.SetColorSprite(sf::Color::White);
 			}
 			else if (price_active_ == true)
 			{
@@ -271,7 +277,7 @@ void MainGame::GameLoop()
 
 			//SetupCallBackForTilemapClicked();
 
-			if (!mouse_on_btn_ && (full_resource_for_home_ || full_resource_for_farm_ || full_resource_for_orchard_ || full_resource_for_mine_ || full_resource_for_castle_))
+			if (!mouse_on_btn_ && build_active_ && (full_resource_for_home_ || full_resource_for_farm_ || full_resource_for_orchard_ || full_resource_for_mine_ || full_resource_for_castle_))
 			{
 				tilemap_.HandleEvent(event, window_, view_);
 			}
@@ -286,8 +292,11 @@ void MainGame::GameLoop()
 			MoveCame(event);
 		}
 
-		resource_.AddResource();
-		resource_.PayTax();
+		if (resource_.game() >= 0)
+		{
+			resource_.AddResource();
+			resource_.PayTax();
+		}
 		resource_.GameEnd();
 
 		ConstraintsView();
@@ -302,38 +311,34 @@ void MainGame::GameLoop()
 		EndGame();
 
 		window_.display();
+
+		mouse_on_btn_ = false;
 	}
 }
 
 void MainGame::ButtonEvent(sf::Event event)
 {
-	mouse_on_btn_ = false;
-
 	// TODO : For DEBUG
 	/*if (!build_active_)
 			{
 				mouse_on_btn_ = btn_generate_.HandleEvent(event);
 			}*/
 
-	/*if (btn_activate_destroyer_.HandleEvent(event))
-			{
-				mouse_on_btn_ = true;
-			}*/
+			/*if (btn_activate_destroyer_.HandleEvent(event))
+					{
+						mouse_on_btn_ = true;
+					}*/
 
-	if (!price_active_)
+
+	if (btn_activate_tuto_.HandleEvent(event))
 	{
-		if (btn_activate_tuto_.HandleEvent(event))
-		{
-			mouse_on_btn_ = true;
-		}
+		mouse_on_btn_ = true;
 	}
 
-	if (!tuto_active_)
+
+	if (btn_activate_price_.HandleEvent(event))
 	{
-		if (btn_activate_price_.HandleEvent(event))
-		{
-			mouse_on_btn_ = true;
-		}
+		mouse_on_btn_ = true;
 	}
 
 	mouse_on_btn_ = btn_activate_building_.HandleEvent(event);
