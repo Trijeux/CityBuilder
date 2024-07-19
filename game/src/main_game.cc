@@ -94,7 +94,14 @@ void MainGame::CreateButtonBuildHome(const int x, const int y, const std::string
 	btn_building_home_.call_back_ = [this]()
 		{
 			btn_building_home_.setScale(0.8f, 0.8f);
-			build_ = Build::kHome;
+			if (resource_.gold() >= 200 && resource_.food() >= 100)
+			{
+				build_ = Build::kHome;
+			}
+			else
+			{
+				build_ = Build::kNothing;
+			}
 			btn_building_farm_.build_on_ = false;
 			btn_building_farm_.setScale(0.5f, 0.5f);
 			btn_building_orchard_.build_on_ = false;
@@ -113,7 +120,14 @@ void MainGame::CreateButtonBuildFarm(const int x, const int y, const std::string
 	btn_building_farm_.call_back_ = [this]()
 		{
 			btn_building_farm_.setScale(0.8f, 0.8f);
-			build_ = Build::kFarm;
+			if (resource_.gold() >= 100)
+			{
+				build_ = Build::kFarm;
+			}
+			else
+			{
+				build_ = Build::kNothing;
+			}
 			btn_building_home_.build_on_ = false;
 			btn_building_home_.setScale(0.5f, 0.5f);
 			btn_building_orchard_.build_on_ = false;
@@ -132,7 +146,14 @@ void MainGame::CreateButtonBuildOrchard(const int x, const int y, const std::str
 	btn_building_orchard_.call_back_ = [this]()
 		{
 			btn_building_orchard_.setScale(0.8f, 0.8f);
-			build_ = Build::kOrchard;
+			if (resource_.food() >= 200 && resource_.gold() >= 300)
+			{
+				build_ = Build::kOrchard;
+			}
+			else
+			{
+				build_ = Build::kNothing;
+			}
 			btn_building_home_.build_on_ = false;
 			btn_building_home_.setScale(0.5f, 0.5f);
 			btn_building_farm_.build_on_ = false;
@@ -151,7 +172,15 @@ void MainGame::CreateButtonBuildMine(const int x, const int y, const std::string
 	btn_building_mine_.call_back_ = [this]()
 		{
 			btn_building_mine_.setScale(0.8f, 0.8f);
-			build_ = Build::kMine;
+
+			if (resource_.food() >= 300 && resource_.gold() >= 400 && resource_.wood() >= 200)
+			{
+				build_ = Build::kMine;
+			}
+			else
+			{
+				build_ = Build::kNothing;
+			}
 			btn_building_home_.build_on_ = false;
 			btn_building_home_.setScale(0.5f, 0.5f);
 			btn_building_orchard_.build_on_ = false;
@@ -170,7 +199,15 @@ void MainGame::CreateButtonBuildCastle(const int x, const int y, const std::stri
 	btn_building_castle_.call_back_ = [this]()
 		{
 			btn_building_castle_.setScale(0.8f, 0.8f);
-			build_ = Build::kCastle;
+			if (resource_.food() >= 25000 && resource_.gold() >= 50000
+				&& resource_.wood() >= 12500 && resource_.stone() >= 10000)
+			{
+				build_ = Build::kCastle;
+			}
+			else
+			{
+				build_ = Build::kNothing;
+			}
 			btn_building_home_.build_on_ = false;
 			btn_building_home_.setScale(0.5f, 0.5f);
 			btn_building_farm_.build_on_ = false;
@@ -343,46 +380,36 @@ void MainGame::ButtonEvent(sf::Event event)
 
 	mouse_on_btn_ = btn_activate_building_.HandleEvent(event);
 
-	if (resource_.food() >= 100 && resource_.gold() >= 200)
+
+	if (btn_building_home_.HandleEvent(event))
 	{
-		if (btn_building_home_.HandleEvent(event))
-		{
-			mouse_on_btn_ = true;
-		}
+		mouse_on_btn_ = true;
 	}
 
-	if (resource_.gold() >= 100)
+
+	if (btn_building_farm_.HandleEvent(event))
 	{
-		if (btn_building_farm_.HandleEvent(event))
-		{
-			mouse_on_btn_ = true;
-		}
+		mouse_on_btn_ = true;
 	}
 
-	if (resource_.food() >= 200 && resource_.gold() >= 300)
+
+	if (btn_building_orchard_.HandleEvent(event))
 	{
-		if (btn_building_orchard_.HandleEvent(event))
-		{
-			mouse_on_btn_ = true;
-		}
+		mouse_on_btn_ = true;
 	}
 
-	if (resource_.food() >= 300 && resource_.gold() >= 400 && resource_.wood() >= 200)
+
+	if (btn_building_mine_.HandleEvent(event))
 	{
-		if (btn_building_mine_.HandleEvent(event))
-		{
-			mouse_on_btn_ = true;
-		}
+		mouse_on_btn_ = true;
 	}
 
-	if (resource_.food() >= 25000 && resource_.gold() >= 50000
-		&& resource_.wood() >= 12500 && resource_.stone() >= 10000)
+
+	if (btn_building_castle_.HandleEvent(event))
 	{
-		if (btn_building_castle_.HandleEvent(event))
-		{
-			mouse_on_btn_ = true;
-		}
+		mouse_on_btn_ = true;
 	}
+
 }
 
 void MainGame::ConstraintsForBuild()

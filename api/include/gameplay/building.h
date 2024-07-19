@@ -10,7 +10,8 @@ enum class Build
     kMine,
     kOrchard,
     kFarm,
-    kCastle
+    kCastle,
+    kNothing
 };
 
 // Class representing a Building that inherits from sf::Drawable
